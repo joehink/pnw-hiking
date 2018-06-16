@@ -8,18 +8,19 @@ class Map extends React.Component {
     return (
       <MapView style={styles.container}>
         { 
-          this.props.markers.map((marker) => {
-            console.log(marker);
-            return <MapView.Marker
+        //   this.props.markers.map((marker) => {
+            // return 
+            <MapView.Marker
               coordinate={{
                 latitude: 47.0248,
                 longitude: -120.9406
               }}
+              key={ 47.0248 }
               image={require('../images/hiker.png')}
-              title={ marker.title }
-              description={ marker.desc }
+            //   title={ marker.title }
+            //   description={ marker.desc }
             />
-          })
+        //   })
         }
       </MapView>
     );

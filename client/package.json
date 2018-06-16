@@ -13,6 +13,7 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
+    "react-devtools": "react-devtools",
     "test": "jest"
   },
   "jest": {
@@ -23,9 +24,12 @@
     "expo": "^27.0.1",
     "npm-install-missing": "^0.1.4",
     "react": "16.3.1",
+    "react-devtools": "^3.2.3",
     "react-dom": "^16.4.1",
     "react-native": "~0.55",
+    "react-native-elements": "^0.19.1",
     "react-native-maps": "^0.21.0",
-    "react-native-web": "^0.8.4"
+    "react-native-web": "^0.8.4",
+    "react-navigation": "^2.3.1"
   }
 }
