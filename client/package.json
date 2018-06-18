@@ -20,6 +20,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "create-react-native-app": "^1.0.0",
     "expo": "^27.0.1",
     "npm-install-missing": "^0.1.4",
@@ -30,6 +31,9 @@
     "react-native-elements": "^0.19.1",
     "react-native-maps": "^0.21.0",
     "react-native-web": "^0.8.4",
-    "react-navigation": "^2.3.1"
+    "react-navigation": "^2.3.1",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   }
 }
