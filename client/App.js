@@ -3,19 +3,20 @@ import { StyleSheet, Text, View } from 'react-native';
 
 // import Map from './src/components/Map';
 import TabNavigation from './src/components/TabNavigation';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import ReduxThunk from 'redux-thunk';
+import reducers from './src/reducers';
 
 export default class App extends React.Component {
-
-    getUserLocation () {
-
-    }
-
     render() {
         return (
-        <View style={styles.container}>
-            {/* <TopBar text='Discover New Trails' /> */}
-            <TabNavigation />
-        </View>
+            <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
+                <View style={styles.container}>
+                    {/* <TopBar text='Discover New Trails' /> */}
+                    <TabNavigation />
+                </View>
+            </Provider>
         );
     }
 }

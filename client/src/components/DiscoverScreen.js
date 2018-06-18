@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
-
+import { connect } from 'react-redux';
+import { findHikes, searchRadiusChange, setUserLocation } from '../actions/index';
 import { Slider } from 'react-native-elements';
 
 class DiscoverScreen extends React.Component {
@@ -11,20 +12,16 @@ class DiscoverScreen extends React.Component {
         }
     }
 
-    componentDidMount () {
-
-    }
-
-    getUserLocation() {
+    componentDidMount() {
         navigator.geolocation.getCurrentPosition(position => {
-            this.props.navigation.navigate('Results', position);
+            this.props.setUserLocation(position)
+            // this.props.navigation.navigate('Results', position);
         }, err => console.log(err));
     }
-
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.buttonHike} onPress={() => this.getUserLocation()} >
+                <TouchableOpacity style={styles.buttonHike} >
                     <Text style={styles.buttonHikeText}>
                         Hike
                     </Text>
@@ -32,13 +29,13 @@ class DiscoverScreen extends React.Component {
                 <Slider
                     // animateTransitions={true}
                     minimumValue={1}
-                    maximumValue={100}
+                    maximumValue={200}
                     thumbTintColor={'black'}
                     step={1}
                     style={styles.sliderHike}
-                    value={this.state.value}
-                    onValueChange={(value) => this.setState({value})} />
-                <Text>How Far Away: {this.state.value} miles</Text>
+                    value={this.props.searchRadius}
+                    onValueChange={value => this.props.searchRadiusChange(value)} />
+                <Text>How Far Away: {this.props.searchRadius} miles</Text>
             </View>
         );
     }
@@ -85,4 +82,9 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DiscoverScreen;
+const mapStateToProps = state => {
+    console.log(state);
+    return { searchRadius: state.searchRadius }
+}
+
+export default connect(mapStateToProps, { findHikes, searchRadiusChange, setUserLocation })(DiscoverScreen);
