@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 18,
         backgroundColor: '#fff',
     },
+    
     buttonHike: {
         margin: 'auto',
         height: 200,

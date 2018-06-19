@@ -9,8 +9,8 @@ class DiscoverResults extends React.Component {
     render() {
         return (
             <Card>
-                <Map currLocation={this.props.userLocation} height={{height: '40%'}}/>
-                <HikeList />
+                <Map currLocation={this.props.userLocation} hikes={this.props.navigation.hikes} height={{height: '40%'}}/>
+                <HikeList navigation={this.props.navigation} />
             </Card>
         );
     }

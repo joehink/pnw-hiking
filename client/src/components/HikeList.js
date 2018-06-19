@@ -3,7 +3,12 @@ import { ListView} from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { connect } from 'react-redux';
 
-const HikeList = ({ hikes }) => {
+const HikeList = ({ hikes, navigation }) => {
+
+    displayTrail = hike => {
+        navigation.navigate('Trail', { ...hike })
+    }
+
     return (
         <ListView 
             enableEmptySections
@@ -13,6 +18,7 @@ const HikeList = ({ hikes }) => {
                                                 title={hike.name}
                                                 subtitle={`${hike.length} mi`}
                                                 avatar={{uri:hike.imgSqSmall}}
+                                                onPress={() => displayTrail(hike)}
                                             />}
         />
     )

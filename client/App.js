@@ -13,7 +13,6 @@ export default class App extends React.Component {
         return (
             <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
                 <View style={styles.container}>
-                    {/* <TopBar text='Discover New Trails' /> */}
                     <TabNavigation />
                 </View>
             </Provider>

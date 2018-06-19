@@ -30,7 +30,7 @@ export const DiscoverStack = createStackNavigator({
     Results: {
         screen: DiscoverResults,
         navigationOptions: {
-            title: 'Hiking Locations',
+            title: 'Trails',
             headerTintColor: 'white',
             headerStyle: {
                 backgroundColor: '#2cb42c',
@@ -48,8 +48,8 @@ export const DiscoverStack = createStackNavigator({
     },
     Trail: {
         screen: TrailScreen,
-        navigationOptions: {
-            title: 'Trail',
+        navigationOptions: ({navigation }) => ({
+            title: `${navigation.state.params.name}`,
             headerTintColor: 'white',
             headerStyle: {
                 backgroundColor: '#2cb42c',
@@ -63,7 +63,7 @@ export const DiscoverStack = createStackNavigator({
                 fontSize: 22,
                 fontFamily: 'Avenir'
             }
-        },
+        })
     },
 }, {
     headerMode: 'screen',
