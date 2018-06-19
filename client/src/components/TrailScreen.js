@@ -1,19 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
-import openMap from 'react-native-open-maps';
+import { connect } from 'react-redux';
+// import getDirections from 'react-native-google-maps-directions';
+import { Popup } from 'react-native-map-link';
 
 class TrailScreen extends React.Component {
+    state = {}
 
-    getDirections = () => {
-        openMap({ latitude: this.props.navigation.state.params.latitude, longitude: this.props.navigation.state.params.longitude });
+    mapDirections = () => {
+        this.setState({
+            isVisible: true,
+        })
     }
 
     render() {
-        console.log(this.props);
         const { ascent, conditionDetails, conditionStatus, difficulty, imgMedium, location, 
                     latitude, longitude, summary, name, length } = this.props.navigation.state.params;
-        console.log(imgMedium);
         return (
             <ScrollView style={styles.container}>
                 <Image
@@ -51,12 +54,30 @@ class TrailScreen extends React.Component {
                 <Text style={styles.trailConditions}>Trail Conditions: {conditionDetails}</Text>
                 <Text style={styles.trailConditions}>Status: {conditionStatus}</Text>
                 <View style={{justifyContent: 'center', alignItems: 'center', marginTop: '5%'}}>
-                    <TouchableOpacity style={styles.buttonDirections} onPress={() => this.getDirections()}>
+                    <TouchableOpacity style={styles.buttonDirections} onPress={() => this.mapDirections()}>
                         <Text style={styles.directionText}>
                             Get Directions
                         </Text>
                     </TouchableOpacity>
                 </View>
+                <Popup
+                    isVisible={this.state.isVisible}
+                    onCancelPressed={() => this.setState({ isVisible: false })}
+                    onAppPressed={() => this.setState({ isVisible: false })}
+                    onBackButtonPressed={() => this.setState({ isVisible: false })}
+                    modalProps={{ 
+                        animationIn: 'slideInUp'
+                    }}
+                    options={{
+                        latitude: latitude,
+                        longitude: longitude,
+                        sourceLatitude: this.props.userLocation.coords.latitude, 
+                        sourceLongitude: this.props.userLocation.coords.longitude, 
+                        dialogTitle: 'Open in Maps', 
+                        dialogMessage: 'What app would you like to use?', 
+                        cancelText: 'Cancel', 
+                    }}
+                />
             </ScrollView>
         );
     }
@@ -132,4 +153,8 @@ const styles = StyleSheet.create({
 
 });
 
-export default TrailScreen;
+const mapStateToProps = state => {
+    return { userLocation: state.userLocation }
+}
+
+export default connect(mapStateToProps)(TrailScreen);
