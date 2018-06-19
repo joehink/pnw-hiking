@@ -24,15 +24,15 @@ class Map extends React.Component {
                         // description={ marker.desc }
                     />
                     { 
-                        this.props.hikes.map((hike, i) => { 
+                        this.props.trails.map((trail, i) => { 
                             return <MapView.Marker
                                         coordinate={{
-                                            latitude: hike.latitude,
-                                            longitude: hike.longitude
+                                            latitude: trail.latitude,
+                                            longitude: trail.longitude
                                         }}
                                         key={ i }
-                                        title={ hike.name }
-                                        description={ hike.location }
+                                        title={ trail.name }
+                                        description={ trail.location }
                                     >
                                         <Image source={require('../images/hiker.png')} style={{ width: 20, height: 20 }} />
                                     </MapView.Marker>

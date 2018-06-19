@@ -9,7 +9,7 @@ import Map from './Map';
 class DiscoverResults extends Component {
     renderTrailList() {
         if (this.props.trails.length > 0) {
-            return <TrailList />
+            return <TrailList navigation={this.props.navigation}/>
         } else {
             return (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -21,7 +21,7 @@ class DiscoverResults extends Component {
     render() {
         return (
             <Card>
-                <Map currLocation={this.props.userLocation} height={{height: '40%'}}/>
+                <Map currLocation={this.props.userLocation} height={{height: '40%'}} trails={this.props.trails}/>
                 {this.renderTrailList()}
             </Card>
         );

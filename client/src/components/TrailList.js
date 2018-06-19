@@ -4,6 +4,9 @@ import { ListItem } from 'react-native-elements'
 import { connect } from 'react-redux';
 
 class TrailList extends Component {
+    displayTrail = trail => {
+        this.props.navigation.navigate('Trail', { ...trail })
+    }
     render() {
         return (
             <ListView 
@@ -14,6 +17,7 @@ class TrailList extends Component {
                                                     title={trail.name}
                                                     subtitle={`${trail.distanceFromUser} miles away`}
                                                     avatar={trail.imgSqSmall ? {uri: trail.imgSqSmall } : require('../images/graySquare.png')}
+                                                    onPress={() => this.displayTrail(trail)}
                                                 />}
             />
         )

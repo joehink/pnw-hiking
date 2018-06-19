@@ -3,11 +3,9 @@ import { ListView} from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { connect } from 'react-redux';
 
-const HikeList = ({ hikes, navigation }) => {
+const HikeList = ({ hikes }) => {
 
-    displayTrail = hike => {
-        navigation.navigate('Trail', { ...hike })
-    }
+    
 
     return (
         <ListView 
@@ -18,7 +16,6 @@ const HikeList = ({ hikes, navigation }) => {
                                                 title={hike.name}
                                                 subtitle={`${hike.length} mi`}
                                                 avatar={{uri:hike.imgSqSmall}}
-                                                onPress={() => displayTrail(hike)}
                                             />}
         />
     )
