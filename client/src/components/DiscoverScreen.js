@@ -5,23 +5,17 @@ import { findHikes, searchRadiusChange, setUserLocation } from '../actions/index
 import { Slider } from 'react-native-elements';
 
 class DiscoverScreen extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-
-        }
-    }
-
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(position => {
             this.props.setUserLocation(position)
-            // this.props.navigation.navigate('Results', position);
         }, err => console.log(err));
     }
     render() {
+        console.log(this.props);
+        const { userLocation, searchRadius, navigation } = this.props;
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.buttonHike} >
+                <TouchableOpacity style={styles.buttonHike} onPress={() => this.props.findHikes(userLocation, searchRadius, navigation)} >
                     <Text style={styles.buttonHikeText}>
                         Hike
                     </Text>
@@ -50,7 +44,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 18,
         backgroundColor: '#fff',
     },
-
     buttonHike: {
         margin: 'auto',
         height: 200,
@@ -83,8 +76,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    console.log(state);
-    return { searchRadius: state.searchRadius }
+    return { hikeList: state.hikeList, searchRadius: state.searchRadius, userLocation: state.userLocation }
 }
 
 export default connect(mapStateToProps, { findHikes, searchRadiusChange, setUserLocation })(DiscoverScreen);

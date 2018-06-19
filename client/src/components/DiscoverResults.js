@@ -1,31 +1,23 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import Card from './common/Card'
+import HikeList from './HikeList';
+import { connect } from 'react-redux';
 
 import Map from './Map';
 
 class DiscoverResults extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
-            <View style={styles.container}>
-                <Map currLocation={this.props.navigation.state.params.coords} />
-            </View>
+            <Card>
+                <Map currLocation={this.props.userLocation} height={{height: '40%'}}/>
+                <HikeList />
+            </Card>
         );
     }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    height: '100%',
-    width: '100%',
-    backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
-});
+const mapStateToProps = state => {
+    return { userLocation: state.userLocation.coords }
+}
 
-export default DiscoverResults;
+export default connect(mapStateToProps)(DiscoverResults);
