@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import DiscoverScreen from './DiscoverScreen';
 import ProfileScreen from './ProfileScreen';
 import DiscoverResults from './DiscoverResults';
+import TrailScreen from './TrailScreen';
 
 export const DiscoverStack = createStackNavigator({
     Discover: {
@@ -29,7 +30,7 @@ export const DiscoverStack = createStackNavigator({
     Results: {
         screen: DiscoverResults,
         navigationOptions: {
-            title: 'Hiking Locations',
+            title: 'Trails',
             headerTintColor: 'white',
             headerStyle: {
                 backgroundColor: '#2cb42c',
@@ -44,6 +45,25 @@ export const DiscoverStack = createStackNavigator({
                 fontFamily: 'Avenir'
             }
         },
+    },
+    Trail: {
+        screen: TrailScreen,
+        navigationOptions: ({navigation }) => ({
+            title: `${navigation.state.params.name}`,
+            headerTintColor: 'white',
+            headerStyle: {
+                backgroundColor: '#2cb42c',
+                paddingBottom: '1%',
+                shadowColor: 'transparent',
+                borderBottomColor:'transparent',
+                borderBottomWidth: 0 
+            },
+            headerTitleStyle: {
+                color: '#fff',
+                fontSize: 22,
+                fontFamily: 'Avenir'
+            }
+        })
     },
 }, {
     headerMode: 'screen',

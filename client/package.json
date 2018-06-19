@@ -29,6 +29,7 @@
     "react-dom": "^16.4.1",
     "react-native": "~0.55",
     "react-native-elements": "^0.19.1",
+    "react-native-map-link": "^2.0.4",
     "react-native-maps": "^0.21.0",
     "react-native-web": "^0.8.4",
     "react-navigation": "^2.3.1",

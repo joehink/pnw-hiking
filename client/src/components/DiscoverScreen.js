@@ -10,8 +10,8 @@ class DiscoverScreen extends React.Component {
             this.props.setUserLocation(position)
         }, err => console.log(err));
     }
+
     render() {
-        console.log(this.props);
         const { userLocation, searchRadius, navigation } = this.props;
         return (
             <View style={styles.container}>
@@ -21,7 +21,6 @@ class DiscoverScreen extends React.Component {
                     </Text>
                 </TouchableOpacity>
                 <Slider
-                    // animateTransitions={true}
                     minimumValue={1}
                     maximumValue={200}
                     thumbTintColor={'black'}
@@ -44,6 +43,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 18,
         backgroundColor: '#fff',
     },
+
     buttonHike: {
         margin: 'auto',
         height: 200,

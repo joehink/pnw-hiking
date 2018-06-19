@@ -1,5 +1,6 @@
 import React from 'react';
 import MapView from 'react-native-maps';
+import { Image } from 'react-native';
 
 class Map extends React.Component {
     render() {
@@ -22,21 +23,21 @@ class Map extends React.Component {
                         title={ 'Current Location' }
                         // description={ marker.desc }
                     />
-                {/* { 
-                this.props.markers.map((marker) => {
-                    return  */}
-                    <MapView.Marker
-                        coordinate={{
-                            latitude: 47.0248,
-                            longitude: -120.9406
-                        }}
-                        key={ 47.0248 }
-                        image={require('../images/hiker.png')}
-                        //   title={ marker.title }
-                        //   description={ marker.desc }
-                    />
-                {/* })
-                } */}
+                    { 
+                        this.props.hikes.map((hike, i) => { 
+                            return <MapView.Marker
+                                        coordinate={{
+                                            latitude: hike.latitude,
+                                            longitude: hike.longitude
+                                        }}
+                                        key={ i }
+                                        title={ hike.name }
+                                        description={ hike.location }
+                                    >
+                                        <Image source={require('../images/hiker.png')} style={{ width: 20, height: 20 }} />
+                                    </MapView.Marker>
+                        })
+                    }
             </MapView>
         );
     }
