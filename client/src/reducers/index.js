@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import hikeListReducer from './hikeListReducer';
+import trailListReducer from './trailListReducer';
 import searchRadiusReducer from './searchRadiusReducer';
 import userLocationReducer from './userLocationReducer'
 
 export default combineReducers({
-    hikeList: hikeListReducer,
+    trailList: trailListReducer,
     searchRadius: searchRadiusReducer,
     userLocation: userLocationReducer
 });

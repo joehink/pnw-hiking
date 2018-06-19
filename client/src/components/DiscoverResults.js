@@ -1,23 +1,35 @@
-import React from 'react';
-import Card from './common/Card'
-import HikeList from './HikeList';
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import Card from './reusable/Card';
+import TrailList from './TrailList';
 import { connect } from 'react-redux';
 
 import Map from './Map';
 
-class DiscoverResults extends React.Component {
+class DiscoverResults extends Component {
+    renderTrailList() {
+        if (this.props.trails.length > 0) {
+            return <TrailList />
+        } else {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>Sorry, no trails nearby</Text>
+                </View>
+            )
+        }
+    }
     render() {
         return (
             <Card>
                 <Map currLocation={this.props.userLocation} height={{height: '40%'}}/>
-                <HikeList />
+                {this.renderTrailList()}
             </Card>
         );
     }
 }
 
 const mapStateToProps = state => {
-    return { userLocation: state.userLocation.coords }
+    return { userLocation: state.userLocation.coords, trails: state.trailList.results }
 }
 
 export default connect(mapStateToProps)(DiscoverResults);
