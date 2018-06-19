@@ -12,6 +12,7 @@ class DiscoverScreen extends React.Component {
             this.props.setUserLocation(position)
         }, err => console.log(err));
     }
+
     render() {
         const { userLocation, searchRadius, navigation } = this.props;
         return (
