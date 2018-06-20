@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 import DiscoverScreen from './DiscoverScreen';
@@ -8,10 +8,11 @@ import ProfileScreen from './ProfileScreen';
 import DiscoverResults from './DiscoverResults';
 import TrailScreen from './TrailScreen';
 import LogIn from './LogIn';
+import SignUp from './SignUp';
 
 export const DiscoverStack = createStackNavigator({
     Discover: {
-        screen: LogIn,
+        screen: DiscoverScreen,
         navigationOptions: {
             title: 'Discover',
             headerStyle: {
@@ -71,7 +72,7 @@ export const DiscoverStack = createStackNavigator({
     cardStyle:{ backgroundColor:'#2cb42c'}
 });
   
-export const ProfileStack = createStackNavigator({
+const ProfileStack = createStackNavigator({
     Profile: {
         screen: ProfileScreen,
         navigationOptions: {
@@ -90,10 +91,9 @@ export const ProfileStack = createStackNavigator({
             }
         },
     },
-    // Details: DetailsScreen,
 });
 
-const TabNavigation =  createBottomTabNavigator(
+export const TabNavigation =  createBottomTabNavigator(
     {
         Discover: DiscoverStack,
         Profile: ProfileStack,
@@ -117,6 +117,39 @@ const TabNavigation =  createBottomTabNavigator(
             inactiveTintColor: 'gray',
         },
     }
-  );
+);
 
-export default TabNavigation;
+const SignUpStack = createStackNavigator({
+    SignUp: {
+      screen: SignUp,
+      navigationOptions: {
+        title: "Sign Up",
+      }
+    },
+});
+
+const LogInStack = createStackNavigator({
+    LogIn: {
+      screen: LogIn,
+      navigationOptions: {
+        title: "Log In",
+      }
+    },
+});
+
+export const UserAuth = createSwitchNavigator({
+    SignUp: {
+      screen: SignUpStack
+    },
+    LogIn: {
+      screen: LogInStack
+    },
+    LoggedInApp: {
+        screen: TabNavigation,
+    },
+    SignOutApp: {
+        screen: DiscoverStack
+    }
+});
+
+export default UserAuth;
