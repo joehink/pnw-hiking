@@ -7,10 +7,11 @@ import DiscoverScreen from './DiscoverScreen';
 import ProfileScreen from './ProfileScreen';
 import DiscoverResults from './DiscoverResults';
 import TrailScreen from './TrailScreen';
+import LogIn from './LogIn';
 
 export const DiscoverStack = createStackNavigator({
     Discover: {
-        screen: DiscoverScreen,
+        screen: LogIn,
         navigationOptions: {
             title: 'Discover',
             headerStyle: {
