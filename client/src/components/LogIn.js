@@ -18,10 +18,10 @@ class LogIn extends React.Component {
             <View style={styles.container}>
                 <FormLabel>Email</FormLabel>
                 <FormInput placeholder="Email address..." />
-                <FormValidationMessage>Error message</FormValidationMessage>
+                {/* <FormValidationMessage>Error message</FormValidationMessage> */}
                 <FormLabel>Password</FormLabel>
                 <FormInput secureTextEntry placeholder="Password..." />
-                <FormValidationMessage>Error message</FormValidationMessage>
+                {/* <FormValidationMessage>Error message</FormValidationMessage> */}
                 <View style={styles.logInContainer}> 
                     <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.logIn()}>
                         <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
@@ -33,6 +33,13 @@ class LogIn extends React.Component {
                     Don't have an account yet?
                     <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("SignUp")}> Sign Up</Text>
                 </Text>
+                <View style={styles.logInContainer}> 
+                    <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.props.navigation.navigate("SignedOutApp")}>
+                        <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
+                            Proceed without logging in
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }

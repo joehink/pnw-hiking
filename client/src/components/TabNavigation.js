@@ -9,8 +9,9 @@ import DiscoverResults from './DiscoverResults';
 import TrailScreen from './TrailScreen';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
+// import firebase from '../firebase';
 
-export const DiscoverStack = createStackNavigator({
+const DiscoverStack = createStackNavigator({
     Discover: {
         screen: DiscoverScreen,
         navigationOptions: {
@@ -20,12 +21,16 @@ export const DiscoverStack = createStackNavigator({
                 paddingBottom: '1%',
                 shadowColor: 'transparent',
                 borderBottomColor:'transparent',
-                borderBottomWidth: 0 ,
+                borderBottomWidth: 0
             },
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
+<<<<<<< HEAD
                 // fontFamily: 'Avenir',
+=======
+                fontFamily: 'Avenir'
+>>>>>>> hook up firebase for account creation and logging in
             }
         },
     },
@@ -93,7 +98,7 @@ const ProfileStack = createStackNavigator({
     },
 });
 
-export const TabNavigation =  createBottomTabNavigator(
+const TabNavigation =  createBottomTabNavigator(
     {
         Discover: DiscoverStack,
         Profile: ProfileStack,
@@ -137,7 +142,7 @@ const LogInStack = createStackNavigator({
     },
 });
 
-export const UserAuth = createSwitchNavigator({
+const UserAuth = createSwitchNavigator({
     SignUp: {
       screen: SignUpStack
     },
@@ -147,9 +152,10 @@ export const UserAuth = createSwitchNavigator({
     LoggedInApp: {
         screen: TabNavigation,
     },
-    SignOutApp: {
+    SignedOutApp: {
         screen: DiscoverStack
-    }
+    },
+    initialRouteName: 'SignUp',
 });
 
 export default UserAuth;

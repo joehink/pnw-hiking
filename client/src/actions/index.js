@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { 
     FETCH_TRAILS_START,
     FETCH_TRAILS_SUCCESS,
@@ -5,7 +6,12 @@ import {
     SEARCH_RADIUS_CHANGE, 
     SET_USER_LOCATION 
 } from './types';
+=======
+import { FETCH_TRAILS_FAILURE, FETCH_TRAILS_SUCCESS, SEARCH_RADIUS_CHANGE, SET_USER_LOCATION, 
+            GET_CURR_USER_SUCCESS, GET_CURR_USER_FAILURE, USER_START_AUTHORIZING, USER_LOGGED_IN, USER_SIGNED_UP } from './types';
+>>>>>>> hook up firebase for account creation and logging in
 import axios from 'axios';
+import firebase from '../firebase';
 import geolib from 'geolib';
 
 export const findTrails = ({position, searchRadius, navigation}) => {
@@ -44,5 +50,50 @@ export const searchRadiusChange = value => {
 }
 
 export const setUserLocation = position => {
+<<<<<<< HEAD
     return { type: SET_USER_LOCATION, payload: position }
+=======
+    return { type: SET_USER_LOCATION, payload: position}
+}
+
+export const getCurrUser = (navigation) => {
+    return dispatch => {
+        firebase.auth().onAuthStateChanged(user => {
+            console.log(user);
+            if (user) {
+                dispatch({ type: GET_CURR_USER_SUCCESS, payload: user})
+                navigation.navigate('LoggedInApp')
+            } else {
+                dispatch({ type: GET_CURR_USER_FAILURE, payload: 'No user found'})
+                navigation.navigate('SignUp')
+            }
+        })
+    }
+}
+
+export const signUp = (email, password) => {
+    return dispatch => {
+        dispatch(authorizing());
+        firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((user) => {
+                dispatch({ type: USER_SIGNED_UP, payload: user })
+            });
+    }
+}
+
+export const logIn = (email, password) => {
+    return dispatch => {
+        dispatch(authorizing());
+        firebase.auth()
+            .signInAndRetrieveDataWithEmailAndPassword(email, password)
+            .then((user) => {
+                dispatch({ type: USER_LOGGED_IN, payload: user })
+            });
+    }
+}
+
+export const authorizing = () => {
+    return { type: USER_START_AUTHORIZING }
+>>>>>>> hook up firebase for account creation and logging in
 }
