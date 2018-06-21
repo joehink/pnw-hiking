@@ -1,15 +1,5 @@
-<<<<<<< HEAD
-import { 
-    FETCH_TRAILS_START,
-    FETCH_TRAILS_SUCCESS,
-    FETCH_TRAILS_FAILURE,  
-    SEARCH_RADIUS_CHANGE, 
-    SET_USER_LOCATION 
-} from './types';
-=======
 import { FETCH_TRAILS_FAILURE, FETCH_TRAILS_SUCCESS, SEARCH_RADIUS_CHANGE, SET_USER_LOCATION, 
-            GET_CURR_USER_SUCCESS, GET_CURR_USER_FAILURE, USER_START_AUTHORIZING, USER_LOGGED_IN, USER_SIGNED_UP } from './types';
->>>>>>> hook up firebase for account creation and logging in
+            GET_CURR_USER_SUCCESS, GET_CURR_USER_FAILURE, USER_START_AUTHORIZING, USER_LOGGED_IN, USER_SIGNED_UP, FETCH_TRAILS_START } from './types';
 import axios from 'axios';
 import firebase from '../firebase';
 import geolib from 'geolib';
@@ -50,9 +40,6 @@ export const searchRadiusChange = value => {
 }
 
 export const setUserLocation = position => {
-<<<<<<< HEAD
-    return { type: SET_USER_LOCATION, payload: position }
-=======
     return { type: SET_USER_LOCATION, payload: position}
 }
 
@@ -104,5 +91,4 @@ export const logIn = (email, password) => {
 
 export const authorizing = () => {
     return { type: USER_START_AUTHORIZING }
->>>>>>> hook up firebase for account creation and logging in
 }
