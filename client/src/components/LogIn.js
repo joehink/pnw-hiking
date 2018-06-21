@@ -1,27 +1,60 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
-
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { logIn } from '../actions';
 
 class LogIn extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            email: '',
+            password: '',
+            validationError: ''
+        }
+    }
 
-    testFunction() {
-
+    validate() {
+        if (!this.state.email || !this.state.password) {
+            this.setState({
+                validationError: 'Please fill out all of the fields listed below.'
+            })
+            return false;
+        } else if (!this.state.email.includes('@')) {
+            this.setState({
+                validationError: 'Please provide a valid email address.'
+            })
+            return false;
+        } else if (this.state.password.length < 6) {
+            this.setState({
+                validationError: 'Password must be at least 6 characters.'
+            })
+            return false;
+        } else { 
+            this.setState({
+                validationError: ''
+            })
+            return true;
+        }
     }
 
     logIn() {
-        //attempt log in
+        let validated = this.validate();
+        if (validated) {
+            this.props.logIn(this.state.email, this.state.password)
+        }
     }
 
     render() {
         return (
             <View style={styles.container}>
+                { this.state.validationError &&
+                    <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
+                }
                 <FormLabel>Email</FormLabel>
-                <FormInput placeholder="Email address..." />
-                {/* <FormValidationMessage>Error message</FormValidationMessage> */}
+                <FormInput value={ this.state.email } onChangeText={ (input) => this.setState({email: input})} placeholder="Email address..." />
                 <FormLabel>Password</FormLabel>
-                <FormInput secureTextEntry placeholder="Password..." />
-                {/* <FormValidationMessage>Error message</FormValidationMessage> */}
+                <FormInput value={ this.state.password } onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password..." />
                 <View style={styles.logInContainer}> 
                     <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.logIn()}>
                         <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
@@ -67,4 +100,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LogIn;
+export default connect(null, { logIn })(LogIn);

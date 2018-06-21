@@ -142,6 +142,7 @@ const LogInStack = createStackNavigator({
     },
 });
 
+
 const UserAuth = createSwitchNavigator({
     SignUp: {
       screen: SignUpStack

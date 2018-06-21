@@ -11,16 +11,43 @@ class SignUp extends React.Component {
         this.state = {
             email: '',
             password: '',
-            confPassword: ''
+            confPassword: '',
+            validationError: ''
         }
     }
 
-    testFunction() {
-
+    validate() {
+        if (!this.state.email || !this.state.password || !this.state.confPassword) {
+            this.setState({
+                validationError: 'Please fill out all of the fields listed below.'
+            })
+            return false;
+        } else if (!this.state.email.includes('@')) {
+            this.setState({
+                validationError: 'Please provide a valid email address.'
+            })
+            return false;
+        } else if (this.state.password !== this.state.confPassword) {
+            this.setState({
+                validationError: 'Passwords do not match.'
+            })
+            return false;
+        } else if (this.state.password.length < 6) {
+            this.setState({
+                validationError: 'Password must be at least 6 characters.'
+            })
+            return false;
+        } else { 
+            this.setState({
+                validationError: ''
+            })
+            return true;
+        }
     }
 
     signUp() {
-        if (this.state.password === this.state.confPassword) {
+        let validated = this.validate();
+        if (validated) {
             this.props.signUp(this.state.email, this.state.password)
         }
     }
@@ -29,15 +56,15 @@ class SignUp extends React.Component {
         console.log(this.state);
         return (
             <View style={styles.container}>
+                { this.state.validationError &&
+                    <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
+                }
                 <FormLabel>Email</FormLabel>
                 <FormInput value={ this.state.email } onChangeText={ (input) => this.setState({email: input})} placeholder="Email address..." />
-                {/* <FormValidationMessage>Error message</FormValidationMessage> */}
                 <FormLabel>Password</FormLabel>
                 <FormInput value={ this.state.password } onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password..." />
-                {/* <FormValidationMessage>Error message</FormValidationMessage> */}
                 <FormLabel>Confirm Password</FormLabel>
                 <FormInput value={ this.state.confPassword } onChangeText={ (input) => this.setState({confPassword: input})} secureTextEntry placeholder="Confirm Password..." />
-                {/* <FormValidationMessage>Error message</FormValidationMessage> */}
                 <View style={styles.logInContainer}> 
                     <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.signUp()}>
                         <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
