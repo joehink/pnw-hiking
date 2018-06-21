@@ -59,7 +59,6 @@ export const setUserLocation = position => {
 export const getCurrUser = (navigation) => {
     return dispatch => {
         firebase.auth().onAuthStateChanged(user => {
-            console.log(user);
             if (user) {
                 dispatch({ type: GET_CURR_USER_SUCCESS, payload: user})
                 navigation.navigate('LoggedInApp')
@@ -77,7 +76,17 @@ export const signUp = (email, password) => {
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
             .then((user) => {
-                dispatch({ type: USER_SIGNED_UP, payload: user })
+                let userID = user.user.uid;
+                let userEmail = user.user.email;
+                firebase.database()
+                            .ref()
+                            .child('users/' + userID)
+                            .set({
+                                email: userEmail
+                            })
+                            .then(() => {
+                                dispatch({ type: USER_SIGNED_UP, payload: user })
+                            })
             });
     }
 }

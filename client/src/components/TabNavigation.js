@@ -143,7 +143,7 @@ const LogInStack = createStackNavigator({
 });
 
 
-const UserAuth = createSwitchNavigator({
+export default UserAuth = createSwitchNavigator({
     SignUp: {
       screen: SignUpStack
     },
@@ -156,7 +156,20 @@ const UserAuth = createSwitchNavigator({
     SignedOutApp: {
         screen: DiscoverStack
     },
-    initialRouteName: 'SignUp',
+}, {
+    initialRouteName: 'SignedOutApp',
 });
+    
 
+<<<<<<< HEAD
 export default UserAuth;
+=======
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+>>>>>>> update firebase db with current user
