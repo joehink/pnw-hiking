@@ -23,7 +23,7 @@ export const DiscoverStack = createStackNavigator({
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
-                fontFamily: 'Avenir',
+                // fontFamily: 'Avenir',
             }
         },
     },
@@ -42,7 +42,7 @@ export const DiscoverStack = createStackNavigator({
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
-                fontFamily: 'Avenir'
+                // fontFamily: 'Avenir'
             }
         },
     },
@@ -61,7 +61,7 @@ export const DiscoverStack = createStackNavigator({
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
-                fontFamily: 'Avenir'
+                // fontFamily: 'Avenir'
             }
         })
     },
@@ -85,7 +85,7 @@ export const ProfileStack = createStackNavigator({
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
-                fontFamily: 'Avenir'
+                // fontFamily: 'Avenir'
             }
         },
     },
@@ -117,14 +117,5 @@ const TabNavigation =  createBottomTabNavigator(
         },
     }
   );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default TabNavigation;

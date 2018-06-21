@@ -4,21 +4,24 @@ import { ListItem } from 'react-native-elements'
 import { connect } from 'react-redux';
 
 class TrailList extends Component {
-    displayTrail = trail => {
-        this.props.navigation.navigate('Trail', { ...trail })
-    }
     render() {
+        const { navigation } = this.props;
         return (
             <ListView 
                 enableEmptySections
                 dataSource={this.props.trails}
-                renderRow={(trail, sectionID) => <ListItem
-                                                    key={sectionID}
-                                                    title={trail.name}
-                                                    subtitle={`${trail.distanceFromUser} miles away`}
-                                                    avatar={trail.imgSqSmall ? {uri: trail.imgSqSmall } : require('../images/graySquare.png')}
-                                                    onPress={() => this.displayTrail(trail)}
-                                                />}
+                renderRow={(trail, sectionID) => {
+                    return (
+                        <ListItem
+                            key={sectionID}
+                            title={trail.name}
+                            subtitle={`${trail.distanceFromUser} miles away`}
+                            avatar={trail.imgSqSmall ? {uri: trail.imgSqSmall } : require('../images/graySquare.png')}
+                            onPress={() => navigation.navigate('Trail', { ...trail })}
+                        />
+                    )
+                    
+                }}                            
             />
         )
     }

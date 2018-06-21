@@ -1,41 +1,72 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { Component } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import { connect } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
+AnimatedOpacity = Animatable.createAnimatableComponent(TouchableOpacity);
 
-const HikeButton = ({ onPress }) => {
-    const { buttonHike, buttonHikeText } = styles;
-    return (
-        <TouchableOpacity style={buttonHike} onPress={onPress} >
-            <Text style={buttonHikeText}>
-                Hike
-            </Text>
-        </TouchableOpacity>
-    )
+class HikeButton extends Component {
+    onLoading() {
+        if (this.props.loading) {
+            return (
+                <Animatable.Image 
+                    source={require('../../images/spinner.png')} 
+                    animation="rotate"
+                    iterationCount="infinite" 
+                    style={{ position: 'absolute' }}
+                />
+            )
+        }
+    }
+    render() {
+        const { buttonHike, buttonHikeText } = styles;
+        const pulsing = this.props.loading ? "" : "pulse";
+        return (
+            <View style={{height: 250, justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
+                {this.onLoading()}
+                <AnimatedOpacity 
+                    animation={pulsing} 
+                    iterationCount="infinite" 
+                    duration={3000}
+                    style={buttonHike} 
+                    onPress={this.props.onPress} 
+                >
+                    <Animatable.Text 
+                        animation={pulsing}
+                        iterationCount="infinite" 
+                        style={buttonHikeText}
+                        duration={3000}
+                    >
+                        Go!
+                    </Animatable.Text>
+                </AnimatedOpacity>   
+            </View>
+        )
+    }
 }
 
-const styles = StyleSheet.create({
+const styles = {
     buttonHike: {
-        margin: 'auto',
-        height: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
         width: 200,
+        height: 200,
         borderRadius: 300,
-        borderWidth: 2,
-        borderColor: '#CFB53B',
-        backgroundColor: '#2cb42c',
-        alignItems:'center',
-        justifyContent:'center',
-        marginBottom: '10%',
-        shadowOpacity: .75,
-        shadowRadius: 5,
+        backgroundColor: '#2CB42C',
+        shadowOpacity: .25,
+        shadowRadius: 15,
         shadowColor: 'black',
-        shadowOffset: {  width: 3,  height: 3,  }
+        shadowOffset: { width: 3,  height: 3 },
     },
     buttonHikeText: {
-        fontFamily: 'Avenir',
-        fontSize: 60,
+        // fontFamily: 'Avenir', 
         fontWeight: '300',
-        marginTop: '10%',
-        color: '#fff'
+        color: '#fff',
+        fontSize: 60
     }
-});
+};
 
-export default HikeButton;
+const mapStateToProps = state => {
+    return { loading: state.trailList.loading }
+}
+
+export default connect(mapStateToProps)(HikeButton);

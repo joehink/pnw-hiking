@@ -1,6 +1,6 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import { Image } from 'react-native';
+const hiker = require('../images/hiker.png');
 
 class Map extends React.Component {
     render() {
@@ -31,10 +31,10 @@ class Map extends React.Component {
                                             longitude: trail.longitude
                                         }}
                                         key={ i }
+                                        image={hiker}
                                         title={ trail.name }
                                         description={ trail.location }
                                     >
-                                        <Image source={require('../images/hiker.png')} style={{ width: 20, height: 20 }} />
                                     </MapView.Marker>
                         })
                     }
