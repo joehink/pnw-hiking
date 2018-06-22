@@ -8,6 +8,7 @@ import { findTrails, searchRadiusChange, setUserLocation } from '../actions';
 import { Slider } from 'react-native-elements';
 
 class DiscoverScreen extends React.Component {
+
     gpsAuthCheck() {
         const { searchRadius, navigation } = this.props;
 
@@ -51,6 +52,7 @@ class DiscoverScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
+    console.log(state);
     return { searchRadius: state.searchRadius, error: state.trailList.error }
 }
 

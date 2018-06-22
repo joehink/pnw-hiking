@@ -104,23 +104,19 @@ export const fetchFavoriteTrails = () => {
 }
 
 export const deleteFavoriteTrail = (trailID) => {
-    return function (dispatch) {
+    return dispatch => {
         let userID = firebase.auth().currentUser.uid;
         firebase.database().ref().child('users/' + userID + '/favorites/' + trailID).remove()
-
-        // dispatch(addTrailToFavorites(trail));
-    };
+    }
 };
 
 export const addFavoriteTrail = (trail) => {
-    return function (dispatch) {
+    return dispatch => {
         let userID = firebase.auth().currentUser.uid;
         const newTrailRef = firebase.database().ref().child('users/' + userID + '/favorites').push()
         trail.id = newTrailRef.key;
         newTrailRef.set(trail);
-
-        // dispatch(addTrailToFavorites(trail));
-    };
+    }
 };
 
 export const logIn = (email, password) => {

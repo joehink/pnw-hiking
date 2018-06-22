@@ -37,7 +37,6 @@ class TrailScreen extends React.Component {
     }
 
     isFavorited(name) {
-        console.log(this.props.user);
         if (this.props.user) {
             let favoriteTrails = this.props.user.favorites;
             for (let key in favoriteTrails) {
@@ -52,7 +51,6 @@ class TrailScreen extends React.Component {
     render() {
         const { ascent, conditionDetails, conditionStatus, difficulty, imgMedium, location, 
                     latitude, longitude, summary, name, length } = this.props.navigation.state.params;
-        console.log(this.isFavorited(name));
         return (
             <ScrollView style={styles.container}>
                 <Image
@@ -86,22 +84,22 @@ class TrailScreen extends React.Component {
                 <View style={styles.trailDetailsContainer}>
                     <View>  
                         <View style={styles.trailDetails}>
-                            <Text style={styles.detailsHeader}>Favorite Trail</Text>
+                            <Text style={styles.detailsHeader}>Favorite</Text>
                         </View>
                         { 
                             !this.isFavorited(name) &&
-                                <Icon type='ionicon' onPress={() => this.updateFavoriteTrail(this.props.navigation.state.params, name)} name='ios-star-outline' size={25}/>
+                                <Icon type='ionicon' onPress={() => this.updateFavoriteTrail(this.props.navigation.state.params, name)} name='ios-star-outline' size={30}/>
                         }
                         {
                             this.isFavorited(name) &&
-                                <Icon type='entypo' color='yellow' onPress={() => this.updateFavoriteTrail(this.props.navigation.state.params, name)} name='star' size={25}/>
+                                <Icon type='entypo' color='yellow' onPress={() => this.updateFavoriteTrail(this.props.navigation.state.params, name)} name='star' size={30}/>
                         }
                     </View>
                     <View>
                         <View style={styles.trailDetails}>
-                            <Text style={styles.detailsHeader}>Mark trail completed</Text>
+                            <Text style={styles.detailsHeader}>Trail Completed</Text>
                         </View>
-                        <Icon type='ionicon' color='red' name='ios-checkmark-circle-outline' size={25}/>
+                        <Icon type='ionicon' color='red' name='ios-checkmark-circle-outline' size={30}/>
                     </View>
                 </View>
                 <Text style={styles.trailSummary}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
@@ -9,7 +8,7 @@ import DiscoverResults from './DiscoverResults';
 import TrailScreen from './TrailScreen';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
-// import firebase from '../firebase';
+import FavoriteTrailsScreen from './FavoriteTrailsScreen';
 
 const DiscoverStack = createStackNavigator({
     Discover: {
@@ -92,12 +91,59 @@ const ProfileStack = createStackNavigator({
             }
         },
     },
+}, {
+    headerMode: 'screen',
+    cardStyle:{ backgroundColor:'#2cb42c'}
+});
+
+const FavoriteStack = createStackNavigator({
+    Favorites: {
+        screen: FavoriteTrailsScreen,
+        navigationOptions: {
+            title: 'Favorites',
+            headerStyle: {
+                backgroundColor: '#2cb42c',
+                paddingBottom: '1%',
+                shadowColor: 'transparent',
+                borderBottomColor:'transparent',
+                borderBottomWidth: 0 
+            },
+            headerTitleStyle: {
+                color: '#fff',
+                fontSize: 22,
+                // fontFamily: 'Avenir'
+            }
+        },
+    },
+    Trail: {
+        screen: TrailScreen,
+        navigationOptions: ({navigation }) => ({
+            title: `${navigation.state.params.name}`,
+            headerTintColor: 'white',
+            headerStyle: {
+                backgroundColor: '#2cb42c',
+                paddingBottom: '1%',
+                shadowColor: 'transparent',
+                borderBottomColor:'transparent',
+                borderBottomWidth: 0 
+            },
+            headerTitleStyle: {
+                color: '#fff',
+                fontSize: 22,
+                // fontFamily: 'Avenir'
+            }
+        })
+    },
+},{
+    headerMode: 'screen',
+    cardStyle:{ backgroundColor:'#2cb42c'}
 });
 
 const TabNavigation =  createBottomTabNavigator(
     {
         Discover: DiscoverStack,
-        Profile: ProfileStack,
+        Favorites: FavoriteStack,
+        Profile: ProfileStack
     },
     {
         navigationOptions: ({ navigation }) => ({
@@ -108,8 +154,9 @@ const TabNavigation =  createBottomTabNavigator(
                     iconName = `search${focused ? '' : ''}`;
                 } else if (routeName === 'Profile') {
                     iconName = `account-circle${focused ? '' : ''}`;
+                } else if (routeName === 'Favorites') {
+                    iconName = `star${focused ? '' : ''}`;
                 }
-    
                 return <Icon name={iconName} size={25} color={tintColor} />;
             },
         }),
@@ -153,7 +200,7 @@ const UserAuth = createSwitchNavigator({
         screen: DiscoverStack
     },
 }, {
-    initialRouteName: 'SignedOutApp',
+    initialRouteName: 'LoggedInApp',
 });
     
 
