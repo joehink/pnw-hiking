@@ -2,11 +2,16 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-// import getDirections from 'react-native-google-maps-directions';
+import { addFavoriteTrail, fetchFavoriteTrails, deleteFavoriteTrail } from '../actions';
 import { Popup } from 'react-native-map-link';
 
 class TrailScreen extends React.Component {
-    state = {}
+    constructor(props) {
+        super(props)
+        this.props.fetchFavoriteTrails();
+        this.state = {}
+    }
+
 
     mapDirections = () => {
         this.setState({
@@ -14,9 +19,40 @@ class TrailScreen extends React.Component {
         })
     }
 
+    updateFavoriteTrail(trail, name) {
+        if (this.props.user) {
+            let favoriteTrails = this.props.user.favorites;
+            let trailID = '';
+            for (let key in favoriteTrails) {
+                if (favoriteTrails[key].name === name) {
+                    trailID = key;
+                }
+            }
+            if (trailID) {
+                this.props.deleteFavoriteTrail(trailID)
+            } else {
+                this.props.addFavoriteTrail(trail);
+            }
+        }
+    }
+
+    isFavorited(name) {
+        console.log(this.props.user);
+        if (this.props.user) {
+            let favoriteTrails = this.props.user.favorites;
+            for (let key in favoriteTrails) {
+                if (favoriteTrails[key].name === name) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     render() {
         const { ascent, conditionDetails, conditionStatus, difficulty, imgMedium, location, 
                     latitude, longitude, summary, name, length } = this.props.navigation.state.params;
+        console.log(this.isFavorited(name));
         return (
             <ScrollView style={styles.container}>
                 <Image
@@ -45,6 +81,27 @@ class TrailScreen extends React.Component {
                             <Text style={styles.detailsHeader}>Ascent</Text>
                         </View>
                         <Text style={{textAlign:'center'}}>{ascent} ft.</Text>
+                    </View>
+                </View>
+                <View style={styles.trailDetailsContainer}>
+                    <View>  
+                        <View style={styles.trailDetails}>
+                            <Text style={styles.detailsHeader}>Favorite Trail</Text>
+                        </View>
+                        { 
+                            !this.isFavorited(name) &&
+                                <Icon type='ionicon' onPress={() => this.updateFavoriteTrail(this.props.navigation.state.params, name)} name='ios-star-outline' size={25}/>
+                        }
+                        {
+                            this.isFavorited(name) &&
+                                <Icon type='entypo' color='yellow' onPress={() => this.updateFavoriteTrail(this.props.navigation.state.params, name)} name='star' size={25}/>
+                        }
+                    </View>
+                    <View>
+                        <View style={styles.trailDetails}>
+                            <Text style={styles.detailsHeader}>Mark trail completed</Text>
+                        </View>
+                        <Icon type='ionicon' color='red' name='ios-checkmark-circle-outline' size={25}/>
                     </View>
                 </View>
                 <Text style={styles.trailSummary}>
@@ -151,7 +208,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    return { userLocation: state.userLocation }
+    return { userLocation: state.userLocation, user: state.currUser }
 }
 
-export default connect(mapStateToProps)(TrailScreen);
+export default connect(mapStateToProps, { addFavoriteTrail, fetchFavoriteTrails, deleteFavoriteTrail })(TrailScreen);

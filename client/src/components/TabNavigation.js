@@ -26,11 +26,7 @@ const DiscoverStack = createStackNavigator({
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
-<<<<<<< HEAD
                 // fontFamily: 'Avenir',
-=======
-                fontFamily: 'Avenir'
->>>>>>> hook up firebase for account creation and logging in
             }
         },
     },
@@ -143,7 +139,7 @@ const LogInStack = createStackNavigator({
 });
 
 
-export default UserAuth = createSwitchNavigator({
+const UserAuth = createSwitchNavigator({
     SignUp: {
       screen: SignUpStack
     },
@@ -161,15 +157,4 @@ export default UserAuth = createSwitchNavigator({
 });
     
 
-<<<<<<< HEAD
 export default UserAuth;
-=======
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
->>>>>>> update firebase db with current user

@@ -8,3 +8,5 @@ export const GET_CURR_USER_FAILURE = 'get_curr_user_failure';
 export const USER_START_AUTHORIZING = 'user_start_authorizing'
 export const USER_LOGGED_IN = 'user_logged_in';
 export const USER_SIGNED_UP = 'user_signed_up';
+export const FAVORITE_TRAIL = 'favorite_trail';
+export const FETCH_FAVORITE_TRAILS = 'fetch_favorite_trails'

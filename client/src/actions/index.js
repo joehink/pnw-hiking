@@ -1,5 +1,6 @@
 import { FETCH_TRAILS_FAILURE, FETCH_TRAILS_SUCCESS, SEARCH_RADIUS_CHANGE, SET_USER_LOCATION, 
-            GET_CURR_USER_SUCCESS, GET_CURR_USER_FAILURE, USER_START_AUTHORIZING, USER_LOGGED_IN, USER_SIGNED_UP, FETCH_TRAILS_START } from './types';
+            GET_CURR_USER_SUCCESS, GET_CURR_USER_FAILURE, USER_START_AUTHORIZING, USER_LOGGED_IN, 
+                USER_SIGNED_UP, FETCH_TRAILS_START, FAVORITE_TRAIL, FETCH_FAVORITE_TRAILS } from './types';
 import axios from 'axios';
 import firebase from '../firebase';
 import geolib from 'geolib';
@@ -77,6 +78,50 @@ export const signUp = (email, password) => {
             });
     }
 }
+
+// export const addTrailToFavorites = (trail) => {
+//     return { type: FAVORITE_TRAIL, payload: trail }
+// };
+
+export const getFavoriteTrails = (trails) => {
+    return { type: FETCH_FAVORITE_TRAILS, payload: trails}
+}
+
+export const fetchFavoriteTrails = () => {
+    return function (dispatch) {
+        console.log(firebase.auth().currentUser);
+        if (firebase.auth().currentUser) {
+            let userID = firebase.auth().currentUser.uid;
+            console.log(userID);
+            firebase.database().ref().child('users/' + userID + '/favorites')
+            .on('value', (snapshot) => {
+                    console.log(snapshot.val());
+                    const trails = snapshot.val() || [];
+                    dispatch(getFavoriteTrails(trails))
+            });
+        }
+    };
+}
+
+export const deleteFavoriteTrail = (trailID) => {
+    return function (dispatch) {
+        let userID = firebase.auth().currentUser.uid;
+        firebase.database().ref().child('users/' + userID + '/favorites/' + trailID).remove()
+
+        // dispatch(addTrailToFavorites(trail));
+    };
+};
+
+export const addFavoriteTrail = (trail) => {
+    return function (dispatch) {
+        let userID = firebase.auth().currentUser.uid;
+        const newTrailRef = firebase.database().ref().child('users/' + userID + '/favorites').push()
+        trail.id = newTrailRef.key;
+        newTrailRef.set(trail);
+
+        // dispatch(addTrailToFavorites(trail));
+    };
+};
 
 export const logIn = (email, password) => {
     return dispatch => {
