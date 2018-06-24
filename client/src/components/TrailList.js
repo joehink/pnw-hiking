@@ -1,38 +1,30 @@
-import React, {Component} from 'react';
-import { ListView} from 'react-native';
+import React, { Component } from 'react';
+import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { connect } from 'react-redux';
 
 class TrailList extends Component {
     render() {
-        const { navigation } = this.props;
+        const { navigation, trails } = this.props;
         return (
-            <ListView 
-                enableEmptySections
-                dataSource={this.props.trails}
-                renderRow={(trail, sectionID) => {
-                    return (
+            <FlatList 
+                data={trails}
+                renderItem={({ item }) => (
                         <ListItem
-                            key={sectionID}
-                            title={trail.name}
-                            subtitle={`${trail.distanceFromUser} miles away`}
-                            avatar={trail.imgSqSmall ? {uri: trail.imgSqSmall } : require('../images/graySquare.png')}
-                            onPress={() => navigation.navigate('Trail', { ...trail })}
+                            title={item.name}
+                            subtitle={`${item.distanceFromUser} miles away`}
+                            avatar={item.imgSqSmall ? {uri: item.imgSqSmall } : require('../images/graySquare.png')}
+                            onPress={() => navigation.navigate('Trail', { ...item })}
                         />
-                    )
-                    
-                }}                            
+                    )}
+                keyExtractor={(item) => item.id.toString()}                    
             />
         )
     }
 }
 
-const ds = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 !== r2
-});
-
 const mapStateToProps = state => {
-    return { trails: ds.cloneWithRows(state.trailList.results) }
+    return { trails: state.trailList.results }
 }
 
 export default connect(mapStateToProps)(TrailList)
