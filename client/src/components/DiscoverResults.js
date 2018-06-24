@@ -8,6 +8,13 @@ import { findTrails } from '../actions';
 import Map from './Map';
 
 class DiscoverResults extends Component {
+    constructor(props) {
+        super(props)
+        this.props.navigation.addListener('didFocus', (o) => {
+            this.setState({});
+        });
+    }
+  
     renderResults() {
         const { trails, loading, userLocation, navigation } = this.props;
 

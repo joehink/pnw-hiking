@@ -5,16 +5,20 @@ import { connect } from 'react-redux';
 
 class TrailList extends Component {
     render() {
-        const { navigation, trails } = this.props;
+        const { navigation, trails } = this.props;                  
         return (
             <FlatList 
                 data={trails}
-                renderItem={({ item }) => (
+                extraData={this.props}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={(trail) => {
+                    return (
                         <ListItem
-                            title={item.name}
-                            subtitle={`${item.distanceFromUser} miles away`}
-                            avatar={item.imgSqSmall ? {uri: item.imgSqSmall } : require('../images/graySquare.png')}
-                            onPress={() => navigation.navigate('Trail', { ...item })}
+                            key={trail.index}
+                            title={trail.item.name}
+                            subtitle={this.props.favorites ? `${trail.item.length} miles`: `${trail.item.distanceFromUser} miles away`}
+                            avatar={trail.item.imgSqSmall ? {uri: trail.item.imgSqSmall } : require('../images/graySquare.png')}
+                            onPress={() => navigation.navigate('Trail', { ...trail.item })}
                         />
                     )}
                 keyExtractor={(item) => item.id.toString()}                    
@@ -27,4 +31,4 @@ const mapStateToProps = state => {
     return { trails: state.trailList.results }
 }
 
-export default connect(mapStateToProps)(TrailList)
+export default (TrailList)

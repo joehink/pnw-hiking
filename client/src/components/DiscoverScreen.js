@@ -6,7 +6,21 @@ import { connect } from 'react-redux';
 import { searchRadiusChange, setUserLocation } from '../actions';
 import { Slider, Button } from 'react-native-elements';
 
-class DiscoverScreen extends Component {
+class DiscoverScreen extends React.Component {
+    constructor(props) {
+        super(props)
+        // this.props.navigation.addListener('didFocus', (o) => {
+        //     this.setState({});
+        // });
+    }
+
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(position => {
+            //If we have their permission, save their location to state
+            this.props.setUserLocation(position);
+        }, err => console.log(err));
+    }
+
     gpsAuthCheck() {
         //If the user has not given permission to use their location, ask them
         navigator.geolocation.getCurrentPosition(position => {

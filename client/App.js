@@ -1,19 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-// import Map from './src/components/Map';
-import TabNavigation from './src/components/TabNavigation';
+import UserAuth from './src/components/TabNavigation';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import reducers from './src/reducers';
 
-export default class App extends React.Component {
+class App extends React.Component {
     render() {
         return (
             <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
                 <View style={styles.container}>
-                    <TabNavigation />
+                    <UserAuth />
                 </View>
             </Provider>
         );
@@ -26,3 +25,5 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
+
+export default App;
