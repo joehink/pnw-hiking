@@ -1,14 +1,16 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 import DiscoverScreen from './DiscoverScreen';
 import ProfileScreen from './ProfileScreen';
 import DiscoverResults from './DiscoverResults';
 import TrailScreen from './TrailScreen';
+import LogIn from './LogIn';
+import SignUp from './SignUp';
+import FavoriteTrailsScreen from './FavoriteTrailsScreen';
 
-export const DiscoverStack = createStackNavigator({
+const DiscoverStack = createStackNavigator({
     Discover: {
         screen: DiscoverScreen,
         navigationOptions: {
@@ -18,7 +20,7 @@ export const DiscoverStack = createStackNavigator({
                 paddingBottom: '1%',
                 shadowColor: 'transparent',
                 borderBottomColor:'transparent',
-                borderBottomWidth: 0 ,
+                borderBottomWidth: 0
             },
             headerTitleStyle: {
                 color: '#fff',
@@ -70,7 +72,7 @@ export const DiscoverStack = createStackNavigator({
     cardStyle:{ backgroundColor:'#2cb42c'}
 });
   
-export const ProfileStack = createStackNavigator({
+const ProfileStack = createStackNavigator({
     Profile: {
         screen: ProfileScreen,
         navigationOptions: {
@@ -89,13 +91,59 @@ export const ProfileStack = createStackNavigator({
             }
         },
     },
-    // Details: DetailsScreen,
+}, {
+    headerMode: 'screen',
+    cardStyle:{ backgroundColor:'#2cb42c'}
+});
+
+const FavoriteStack = createStackNavigator({
+    Favorites: {
+        screen: FavoriteTrailsScreen,
+        navigationOptions: {
+            title: 'Favorites',
+            headerStyle: {
+                backgroundColor: '#2cb42c',
+                paddingBottom: '1%',
+                shadowColor: 'transparent',
+                borderBottomColor:'transparent',
+                borderBottomWidth: 0 
+            },
+            headerTitleStyle: {
+                color: '#fff',
+                fontSize: 22,
+                // fontFamily: 'Avenir'
+            }
+        },
+    },
+    Trail: {
+        screen: TrailScreen,
+        navigationOptions: ({navigation }) => ({
+            title: `${navigation.state.params.name}`,
+            headerTintColor: 'white',
+            headerStyle: {
+                backgroundColor: '#2cb42c',
+                paddingBottom: '1%',
+                shadowColor: 'transparent',
+                borderBottomColor:'transparent',
+                borderBottomWidth: 0 
+            },
+            headerTitleStyle: {
+                color: '#fff',
+                fontSize: 22,
+                // fontFamily: 'Avenir'
+            }
+        })
+    },
+},{
+    headerMode: 'screen',
+    cardStyle:{ backgroundColor:'#2cb42c'}
 });
 
 const TabNavigation =  createBottomTabNavigator(
     {
         Discover: DiscoverStack,
-        Profile: ProfileStack,
+        Favorites: FavoriteStack,
+        Profile: ProfileStack
     },
     {
         navigationOptions: ({ navigation }) => ({
@@ -106,16 +154,55 @@ const TabNavigation =  createBottomTabNavigator(
                     iconName = `search${focused ? '' : ''}`;
                 } else if (routeName === 'Profile') {
                     iconName = `account-circle${focused ? '' : ''}`;
+                } else if (routeName === 'Favorites') {
+                    iconName = `star${focused ? '' : ''}`;
                 }
-    
-                return <Icon name={iconName} size={25} color={tintColor} />;
+                return <Icon name={iconName} size={25} color={tintColor}/>;
             },
         }),
         tabBarOptions: {
             activeTintColor: '#2cb42c',
             inactiveTintColor: 'gray',
         },
-    }
-  );
+        swipeEnabled: true,
+    },
+);
 
-export default TabNavigation;
+const SignUpStack = createStackNavigator({
+    SignUp: {
+      screen: SignUp,
+      navigationOptions: {
+        title: "Sign Up",
+      }
+    },
+});
+
+const LogInStack = createStackNavigator({
+    LogIn: {
+      screen: LogIn,
+      navigationOptions: {
+        title: "Log In",
+      }
+    },
+});
+
+
+const UserAuth = createSwitchNavigator({
+    SignUp: {
+      screen: SignUpStack
+    },
+    LogIn: {
+      screen: LogInStack
+    },
+    LoggedInApp: {
+        screen: TabNavigation,
+    },
+    SignedOutApp: {
+        screen: DiscoverStack
+    },
+}, {
+    initialRouteName: 'LoggedInApp',
+});
+    
+
+export default UserAuth;
