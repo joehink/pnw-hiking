@@ -2,14 +2,18 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { addFavoriteTrail, fetchFavoriteTrails, deleteFavoriteTrail } from '../actions';
+import { addFavoriteTrail, fetchFavoriteTrails, deleteFavoriteTrail, addCompletedTrail, deleteCompletedTrail, fetchCompletedTrails } from '../actions';
 import { Popup } from 'react-native-map-link';
 
 class TrailScreen extends React.Component {
     constructor(props) {
         super(props)
         this.props.fetchFavoriteTrails();
+        this.props.fetchCompletedTrails();
         this.state = {}
+        this.props.navigation.addListener('didFocus', (o) => {
+            this.setState({});
+        });
     }
 
 
@@ -41,6 +45,35 @@ class TrailScreen extends React.Component {
             let favoriteTrails = this.props.user.favorites;
             for (let key in favoriteTrails) {
                 if (favoriteTrails[key].name === name) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    updateCompletedTrail(trail, name) {
+        if (this.props.user) {
+            let completedTrails = this.props.user.completed;
+            let trailID = '';
+            for (let key in completedTrails) {
+                if (completedTrails[key].name === name) {
+                    trailID = key;
+                }
+            }
+            if (trailID) {
+                this.props.deleteCompletedTrail(trailID)
+            } else {
+                this.props.addCompletedTrail(trail);
+            }
+        }
+    }
+
+    isCompleted(name) {
+        if (this.props.user) {
+            let completedTrails = this.props.user.completed;
+            for (let key in completedTrails) {
+                if (completedTrails[key].name === name) {
                     return true;
                 }
             }
@@ -99,7 +132,14 @@ class TrailScreen extends React.Component {
                         <View style={styles.trailDetails}>
                             <Text style={styles.detailsHeader}>Trail Completed</Text>
                         </View>
-                        <Icon type='ionicon' color='red' name='ios-checkmark-circle-outline' size={30}/>
+                        { 
+                            !this.isCompleted(name) &&
+                                <Icon type='feather' color='red' onPress={() => this.updateCompletedTrail(this.props.navigation.state.params, name)} name='x' size={30}/>
+                        }
+                        {
+                            this.isCompleted(name) &&
+                                <Icon type='feather' color='green' onPress={() => this.updateCompletedTrail(this.props.navigation.state.params, name)} name='check' size={30}/>
+                        }
                     </View>
                 </View>
                 <Text style={styles.trailSummary}>
@@ -209,4 +249,5 @@ const mapStateToProps = state => {
     return { userLocation: state.userLocation, user: state.currUser }
 }
 
-export default connect(mapStateToProps, { addFavoriteTrail, fetchFavoriteTrails, deleteFavoriteTrail })(TrailScreen);
+export default connect(mapStateToProps, { addFavoriteTrail, fetchFavoriteTrails, deleteFavoriteTrail, addCompletedTrail, 
+                                deleteCompletedTrail, fetchCompletedTrails })(TrailScreen);

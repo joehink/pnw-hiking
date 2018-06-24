@@ -157,14 +157,15 @@ const TabNavigation =  createBottomTabNavigator(
                 } else if (routeName === 'Favorites') {
                     iconName = `star${focused ? '' : ''}`;
                 }
-                return <Icon name={iconName} size={25} color={tintColor} />;
+                return <Icon name={iconName} size={25} color={tintColor}/>;
             },
         }),
         tabBarOptions: {
             activeTintColor: '#2cb42c',
             inactiveTintColor: 'gray',
         },
-    }
+        swipeEnabled: true,
+    },
 );
 
 const SignUpStack = createStackNavigator({

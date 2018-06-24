@@ -8,16 +8,18 @@ import { fetchFavoriteTrails } from '../actions';
 
 class FavoriteTrailsScreen extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.props.fetchFavoriteTrails();
+        this.props.navigation.addListener('didFocus', (o) => {
+            this.setState({});
+        });
     }
+
     renderTrailList() {
         if (this.props.user && this.props.user.favorites) {
-            let favoriteTrails = [];
-            let trails = this.props.user.favorites;
-            for (let key in trails) {
-                favoriteTrails.push(trails[key]);
-            }
+            let favoriteTrails = Object.values(this.props.user.favorites).sort((a,b) => {
+                return a.length > b.length
+            })
             return <TrailList navigation={this.props.navigation} trails={favoriteTrails} favorites={true}/>
         } else {
             return (
@@ -49,6 +51,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
+    console.log(state);
     return { userLocation: state.userLocation.coords, user: state.currUser }
 }
 

@@ -1,6 +1,6 @@
 import { FETCH_TRAILS_FAILURE, FETCH_TRAILS_SUCCESS, SEARCH_RADIUS_CHANGE, SET_USER_LOCATION, 
             GET_CURR_USER_SUCCESS, GET_CURR_USER_FAILURE, USER_START_AUTHORIZING, USER_LOGGED_IN, 
-                USER_SIGNED_UP, FETCH_TRAILS_START, FAVORITE_TRAIL, FETCH_FAVORITE_TRAILS } from './types';
+                USER_SIGNED_UP, FETCH_TRAILS_START, FAVORITE_TRAIL, FETCH_FAVORITE_TRAILS, FETCH_COMPLETED_TRAILS } from './types';
 import axios from 'axios';
 import firebase from '../firebase';
 import geolib from 'geolib';
@@ -89,13 +89,10 @@ export const getFavoriteTrails = (trails) => {
 
 export const fetchFavoriteTrails = () => {
     return function (dispatch) {
-        console.log(firebase.auth().currentUser);
         if (firebase.auth().currentUser) {
             let userID = firebase.auth().currentUser.uid;
-            console.log(userID);
             firebase.database().ref().child('users/' + userID + '/favorites')
             .on('value', (snapshot) => {
-                    console.log(snapshot.val());
                     const trails = snapshot.val() || [];
                     dispatch(getFavoriteTrails(trails))
             });
@@ -119,11 +116,44 @@ export const addFavoriteTrail = (trail) => {
     }
 };
 
+export const getCompletedTrails = (trails) => {
+    return { type: FETCH_COMPLETED_TRAILS, payload: trails}
+}
+
+export const fetchCompletedTrails = () => {
+    return function (dispatch) {
+        if (firebase.auth().currentUser) {
+            let userID = firebase.auth().currentUser.uid;
+            firebase.database().ref().child('users/' + userID + '/completed')
+            .on('value', (snapshot) => {
+                    const trails = snapshot.val() || [];
+                    dispatch(getCompletedTrails(trails))
+            });
+        }
+    };
+}
+
+export const deleteCompletedTrail = (trailID) => {
+    return dispatch => {
+        let userID = firebase.auth().currentUser.uid;
+        firebase.database().ref().child('users/' + userID + '/completed/' + trailID).remove()
+    }
+};
+
+export const addCompletedTrail = (trail) => {
+    return dispatch => {
+        let userID = firebase.auth().currentUser.uid;
+        const newTrailRef = firebase.database().ref().child('users/' + userID + '/completed').push()
+        trail.id = newTrailRef.key;
+        newTrailRef.set(trail);
+    }
+};
+
 export const logIn = (email, password) => {
     return dispatch => {
         dispatch(authorizing());
         firebase.auth()
-            .signInAndRetrieveDataWithEmailAndPassword(email, password)
+            .signInWithEmailAndPassword(email, password)
             .then((user) => {
                 dispatch({ type: USER_LOGGED_IN, payload: user })
             });

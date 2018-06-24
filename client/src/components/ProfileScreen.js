@@ -1,8 +1,15 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 
 class ProfileScreen extends React.Component {
+    constructor(props) {
+        super(props) 
+        this.props.navigation.addListener('didFocus', (o) => {
+            this.setState({});
+        });
+    }
+    
     render() {
         return (
             <View style={styles.container}>

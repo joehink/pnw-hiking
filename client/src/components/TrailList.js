@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { ListView} from 'react-native';
+import { FlatList} from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { connect } from 'react-redux';
 
@@ -8,17 +8,18 @@ class TrailList extends Component {
         const { navigation, trails } = this.props;
                             
         return (
-            <ListView 
-                enableEmptySections
-                dataSource={ ds.cloneWithRows(trails) }
-                renderRow={(trail, sectionID) => {
+            <FlatList 
+                data={trails}
+                extraData={this.props}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={(trail) => {
                     return (
                         <ListItem
-                            key={sectionID}
-                            title={trail.name}
-                            subtitle={this.props.favorites ? `${trail.length} miles`: `${trail.distanceFromUser} miles away`}
-                            avatar={trail.imgSqSmall ? {uri: trail.imgSqSmall } : require('../images/graySquare.png')}
-                            onPress={() => navigation.navigate('Trail', { ...trail })}
+                            key={trail.index}
+                            title={trail.item.name}
+                            subtitle={this.props.favorites ? `${trail.item.length} miles`: `${trail.item.distanceFromUser} miles away`}
+                            avatar={trail.item.imgSqSmall ? {uri: trail.item.imgSqSmall } : require('../images/graySquare.png')}
+                            onPress={() => navigation.navigate('Trail', { ...trail.item })}
                         />
                     )
                     
@@ -28,9 +29,9 @@ class TrailList extends Component {
     }
 }
 
-const ds = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 !== r2
-});
+// const ds = new FlatList.DataSource({
+//     rowHasChanged: (r1, r2) => r1 !== r2
+// });
 
 // const mapStateToProps = state => {
 //     return { trails: ds.cloneWithRows(state.trailList.results) }
