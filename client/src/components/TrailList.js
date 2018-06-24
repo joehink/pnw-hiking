@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
-import { FlatList} from 'react-native';
+import React, { Component } from 'react';
+import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { connect } from 'react-redux';
 
 class TrailList extends Component {
     render() {
-        const { navigation, trails } = this.props;
-                            
+        const { navigation, trails } = this.props;                  
         return (
             <FlatList 
                 data={trails}
@@ -21,20 +20,15 @@ class TrailList extends Component {
                             avatar={trail.item.imgSqSmall ? {uri: trail.item.imgSqSmall } : require('../images/graySquare.png')}
                             onPress={() => navigation.navigate('Trail', { ...trail.item })}
                         />
-                    )
-                    
-                }}                            
+                    )}
+                keyExtractor={(item) => item.id.toString()}                    
             />
         )
     }
 }
 
-// const ds = new FlatList.DataSource({
-//     rowHasChanged: (r1, r2) => r1 !== r2
-// });
-
-// const mapStateToProps = state => {
-//     return { trails: ds.cloneWithRows(state.trailList.results) }
-// }
+const mapStateToProps = state => {
+    return { trails: state.trailList.results }
+}
 
 export default (TrailList)

@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, LayoutAnimation } from 'react-native';
 import Card from './reusable/Card';
-import HikeButton from './reusable/HikeButton';
 import Error from './reusable/Error';
 import { connect } from 'react-redux';
-import { findTrails, searchRadiusChange, setUserLocation } from '../actions';
-import { Slider } from 'react-native-elements';
+import { searchRadiusChange, setUserLocation } from '../actions';
+import { Slider, Button } from 'react-native-elements';
 
 class DiscoverScreen extends React.Component {
     constructor(props) {
@@ -23,14 +22,12 @@ class DiscoverScreen extends React.Component {
     }
 
     gpsAuthCheck() {
-        const { searchRadius, navigation } = this.props;
-
         //If the user has not given permission to use their location, ask them
         navigator.geolocation.getCurrentPosition(position => {
             //If we have their permission, save their location to state
             this.props.setUserLocation(position);
-            //Then request a list of trails from the api
-            this.props.findTrails({position, searchRadius, navigation})
+            //Navigate to the list of trails
+            this.props.navigation.navigate('Results');
         }, err => console.log(err));
     }
     renderError() {
@@ -40,16 +37,18 @@ class DiscoverScreen extends React.Component {
             return <Text style={{ padding: 10 }}>Tap Go! to find hikes near you</Text>
         }
     }
-    componentWillUpdate() {
+    componentDidUpdate() {
         LayoutAnimation.spring();
+    }
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(position => {
+            this.props.setUserLocation(position);
+        }, err => console.log(err));
     }
     render() {
         return (
             <Card style={{justifyContent: 'center', alignItems: 'center'}}>
                 {this.renderError()}
-                <HikeButton 
-                    onPress={this.gpsAuthCheck.bind(this)} 
-                />
                 <Slider
                     minimumValue={1}
                     maximumValue={200}
@@ -58,7 +57,10 @@ class DiscoverScreen extends React.Component {
                     style={{ width: '70%'}}
                     value={this.props.searchRadius}
                     onValueChange={value => this.props.searchRadiusChange(value)} />
-                <Text>How Far Away: {this.props.searchRadius} miles</Text>
+                <Button 
+                    title={`Search for trails within ${this.props.searchRadius} miles`}
+                    onPress={this.gpsAuthCheck.bind(this)} 
+                />
             </Card>
         );
     }
@@ -68,4 +70,4 @@ const mapStateToProps = state => {
     return { searchRadius: state.searchRadius, error: state.trailList.error }
 }
 
-export default connect(mapStateToProps, { findTrails, searchRadiusChange, setUserLocation })(DiscoverScreen);
+export default connect(mapStateToProps, { searchRadiusChange, setUserLocation })(DiscoverScreen);

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import Card from './reusable/Card';
 import TrailList from './TrailList';
 import { connect } from 'react-redux';
+import { findTrails } from '../actions';
 
 import Map from './Map';
 
@@ -13,10 +14,23 @@ class DiscoverResults extends Component {
             this.setState({});
         });
     }
-    
-    renderTrailList() {
-        if (this.props.trails.length > 0) {
-            return <TrailList navigation={this.props.navigation} trails={this.props.trails} />
+  
+    renderResults() {
+        const { trails, loading, userLocation, navigation } = this.props;
+
+        if (loading) {
+            return <ActivityIndicator style={{ flex: 1 }} />
+        } else if (trails.length > 0) {
+            return (
+                <Card>
+                    <Map 
+                        currLocation={userLocation.coords} 
+                        height={{height: '40%'}} 
+                        trails={trails}
+                    />
+                    <TrailList navigation={navigation}/>
+                </Card>
+            )
         } else {
             return (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -25,27 +39,26 @@ class DiscoverResults extends Component {
             )
         }
     }
+    componentDidMount() {
+        const { userLocation, searchRadius } = this.props;
+        this.props.findTrails({position: userLocation, searchRadius})
+    }
     render() {
         return (
             <Card>
-                <Map currLocation={this.props.userLocation} height={{height: '40%'}} trails={this.props.trails}/>
-                {
-                    this.props.trails.length > 0 &&
-                    <TrailList navigation={this.props.navigation} trails={this.props.trails} />
-                }
-                {
-                    this.props.trails.length == 0 &&
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>Sorry, no trails nearby</Text>
-                    </View>
-                }
+                {this.renderResults()}
             </Card>
         );
     }
 }
 
 const mapStateToProps = state => {
-    return { userLocation: state.userLocation.coords, trails: state.trailList.results }
+    return { 
+        userLocation: state.userLocation, 
+        trails: state.trailList.results,
+        searchRadius: state.searchRadius,
+        loading: state.trailList.loading
+    }
 }
 
-export default connect(mapStateToProps)(DiscoverResults);
+export default connect(mapStateToProps, { findTrails })(DiscoverResults);

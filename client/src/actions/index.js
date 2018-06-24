@@ -16,8 +16,10 @@ export const findTrails = ({position, searchRadius, navigation}) => {
         axios.get(url)
             .then(results => {
                 //Filter out non-featured hikes
-                const trailsWithDistance = results.data.trails.filter((trail, index) => {
-                    return trail.type === "Featured Hike"
+                const trailsWithDistance = results.data.trails.filter((trail, index) => {                    
+                    const distanceFromUser = parseFloat(geolib.getDistance({latitude, longitude}, {latitude: trail.latitude, longitude: trail.longitude}) * 0.00062137).toFixed(1);
+
+                    return trail.type === "Featured Hike" && distanceFromUser < searchRadius
                 })
                 //Add a distance from user property to each trail object in array
                 .map(trail => {
@@ -27,8 +29,7 @@ export const findTrails = ({position, searchRadius, navigation}) => {
                 //Sort hikes nearest to furthest
                 .sort((a, b) => a.distanceFromUser - b.distanceFromUser);
 
-                dispatch({ type: FETCH_TRAILS_SUCCESS, payload: trailsWithDistance })
-                navigation.navigate('Results');                
+                dispatch({ type: FETCH_TRAILS_SUCCESS, payload: trailsWithDistance })               
             }).catch(error => {
                 console.log(error)
                 dispatch({ type: FETCH_TRAILS_FAILURE, payload: 'Sorry, we were not able to connect'})
