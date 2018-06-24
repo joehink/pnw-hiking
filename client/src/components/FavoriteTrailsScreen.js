@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import Card from './reusable/Card';
 import TrailList from './TrailList';
 import { connect } from 'react-redux';
@@ -16,7 +16,10 @@ class FavoriteTrailsScreen extends React.Component {
     }
 
     renderTrailList() {
-        if (this.props.user && this.props.user.favorites) {
+        if (this.props.user && this.props.user.fetching) {
+            return <ActivityIndicator style={{ flex: 1 }} />
+        }
+        else if (this.props.user && this.props.user.favorites) {
             let favoriteTrails = Object.values(this.props.user.favorites).sort((a,b) => {
                 return a.length > b.length
             })

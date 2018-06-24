@@ -1,6 +1,6 @@
 import { FETCH_TRAILS_FAILURE, FETCH_TRAILS_SUCCESS, SEARCH_RADIUS_CHANGE, SET_USER_LOCATION, 
             GET_CURR_USER_SUCCESS, GET_CURR_USER_FAILURE, USER_START_AUTHORIZING, USER_LOGGED_IN, 
-                USER_SIGNED_UP, FETCH_TRAILS_START, FAVORITE_TRAIL, FETCH_FAVORITE_TRAILS, FETCH_COMPLETED_TRAILS } from './types';
+                USER_SIGNED_UP, FETCH_TRAILS_START, FAVORITE_TRAIL, FETCH_FAVORITE_TRAILS, FETCH_COMPLETED_TRAILS, USER_START_FETCHING } from './types';
 import axios from 'axios';
 import firebase from '../firebase';
 import geolib from 'geolib';
@@ -89,7 +89,8 @@ export const getFavoriteTrails = (trails) => {
 }
 
 export const fetchFavoriteTrails = () => {
-    return function (dispatch) {
+    return (dispatch) => {
+        dispatch(fetchingUserTrailData());
         if (firebase.auth().currentUser) {
             let userID = firebase.auth().currentUser.uid;
             firebase.database().ref().child('users/' + userID + '/favorites')
@@ -122,7 +123,8 @@ export const getCompletedTrails = (trails) => {
 }
 
 export const fetchCompletedTrails = () => {
-    return function (dispatch) {
+    return (dispatch) => {
+        dispatch(fetchingUserTrailData());
         if (firebase.auth().currentUser) {
             let userID = firebase.auth().currentUser.uid;
             firebase.database().ref().child('users/' + userID + '/completed')
@@ -163,4 +165,8 @@ export const logIn = (email, password) => {
 
 export const authorizing = () => {
     return { type: USER_START_AUTHORIZING }
+}
+
+export const fetchingUserTrailData = () => {
+    return { type: USER_START_FETCHING }
 }

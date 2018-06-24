@@ -20,8 +20,8 @@ class TrailList extends Component {
                             avatar={trail.item.imgSqSmall ? {uri: trail.item.imgSqSmall } : require('../images/graySquare.png')}
                             onPress={() => navigation.navigate('Trail', { ...trail.item })}
                         />
-                    )}
-                keyExtractor={(item) => item.id.toString()}                    
+                    )} 
+                }                    
             />
         )
     }
