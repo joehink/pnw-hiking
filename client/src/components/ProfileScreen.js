@@ -1,23 +1,21 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import Button from './reusable/Button';
 import firebase from '../firebase';
 
 
 class ProfileScreen extends React.Component {
-    constructor(props) {
-        super(props) 
-        this.props.navigation.addListener('didFocus', (o) => {
-            this.setState({});
-        });
-    }
-
     signOut() {
         firebase.auth().signOut()
         .then(() => {
             this.props.navigation.navigate('SignUp');
         })
     }
-    
+    componentDidMount() {
+        this.props.navigation.addListener('didFocus', (o) => {
+            this.setState({});
+        });
+    }
     render() {
         return (
             <View style={styles.container}>

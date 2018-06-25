@@ -1,20 +1,16 @@
-import { FETCH_FAVORITE_TRAILS } from './types';
+import { FETCH_FAVORITE_TRAILS, USER_START_FETCHING } from './types';
 
 import firebase from '../firebase';
 
-export const getFavoriteTrails = (trails) => {
-    return { type: FETCH_FAVORITE_TRAILS, payload: trails}
-}
-
 export const fetchFavoriteTrails = () => {
     return (dispatch) => {
-        dispatch(fetchingUserTrailData());
+        dispatch({ type: USER_START_FETCHING });
         if (firebase.auth().currentUser) {
             let userID = firebase.auth().currentUser.uid;
             firebase.database().ref().child('users/' + userID + '/favorites')
             .on('value', (snapshot) => {
                     const trails = snapshot.val() || [];
-                    dispatch(getFavoriteTrails(trails))
+                    dispatch({ type: FETCH_FAVORITE_TRAILS, payload: trails})
             });
         }
     };

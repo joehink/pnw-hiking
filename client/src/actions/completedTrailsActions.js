@@ -1,5 +1,4 @@
 import { FETCH_COMPLETED_TRAILS } from './types';
-
 import firebase from '../firebase';
 
 export const getCompletedTrails = (trails) => {
