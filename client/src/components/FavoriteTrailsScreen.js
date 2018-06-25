@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import Card from './reusable/Card';
 import TrailList from './TrailList';
 import { connect } from 'react-redux';
 import { fetchFavoriteTrails } from '../actions';
-import LogInRedirect from './navigation/LogInRedirect';
+import LogInRedirect from './LogInRedirect';
 
 
 class FavoriteTrailsScreen extends React.Component {
@@ -31,9 +31,9 @@ class FavoriteTrailsScreen extends React.Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <Card>
                 {this.renderTrailList()}
-            </View>
+            </Card>
         );
     }
 }

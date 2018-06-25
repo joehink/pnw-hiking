@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
+import Card from './reusable/Card';
 import Button from './reusable/Button';
 import { FormInput, FormValidationMessage, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { logIn } from '../actions';
 
-class LogIn extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            email: '',
-            password: '',
-            validationError: ''
-        }
+class LogIn extends Component {
+    state = {
+        email: '',
+        password: '',
+        validationError: ''
     }
 
     validate() {
@@ -50,7 +48,7 @@ class LogIn extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <Icon containerStyle={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} type='feather' onPress={() => this.props.navigation.navigate('MainApp')} name='x' size={30}/>
-                <View style={styles.container}>
+                <Card style={{justifyContent: 'center', alignItems: 'center'}}>
                     <Image
                         style={{marginBottom: '13%', width: '100%', height: 115}}
                         source={require('../images/goHike.png')}
@@ -67,7 +65,7 @@ class LogIn extends React.Component {
                         Don't have an account yet?
                         <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("SignUp")}> Sign Up</Text>
                     </Text>
-                </View>
+                </Card>
             </View>
         );
     }
