@@ -12,3 +12,4 @@ export const FAVORITE_TRAIL = 'favorite_trail';
 export const FETCH_FAVORITE_TRAILS = 'fetch_favorite_trails';
 export const FETCH_COMPLETED_TRAILS = 'fetch_completed_trails';
 export const USER_START_FETCHING = 'user_start_fetching';
+export const SIGN_OUT_USER = 'sign_out_user';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import UserAuth from './src/components/TabNavigation';
+import AppNavigation from './src/components/navigation/TabNavigation';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
@@ -12,7 +12,7 @@ class App extends React.Component {
         return (
             <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
                 <View style={styles.container}>
-                    <UserAuth />
+                    <AppNavigation />
                 </View>
             </Provider>
         );

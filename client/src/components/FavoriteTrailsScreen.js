@@ -4,6 +4,7 @@ import Card from './reusable/Card';
 import TrailList from './TrailList';
 import { connect } from 'react-redux';
 import { fetchFavoriteTrails } from '../actions';
+import LogInRedirect from './navigation/LogInRedirect';
 
 
 class FavoriteTrailsScreen extends React.Component {
@@ -26,18 +27,16 @@ class FavoriteTrailsScreen extends React.Component {
             return <TrailList navigation={this.props.navigation} trails={favoriteTrails} favorites={true}/>
         } else {
             return (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text>You have no trails favorited.</Text>
-                </View>
+                <LogInRedirect />
             )
         }
     }
 
     render() {
         return (
-            <Card>
+            <View style={styles.container}>
                 {this.renderTrailList()}
-            </Card>
+            </View>
         );
     }
 }
