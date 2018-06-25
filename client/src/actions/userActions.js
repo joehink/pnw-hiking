@@ -3,7 +3,8 @@ import {
     GET_CURR_USER_FAILURE, 
     USER_START_AUTHORIZING, 
     USER_LOGGED_IN, 
-    USER_SIGNED_UP
+    USER_SIGNED_UP, 
+    SIGN_OUT_USER
 } from './types';
 
 import firebase from '../firebase';
@@ -13,10 +14,8 @@ export const getCurrUser = (navigation) => {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 dispatch({ type: GET_CURR_USER_SUCCESS, payload: user})
-                navigation.navigate('LoggedInApp')
             } else {
-                dispatch({ type: GET_CURR_USER_FAILURE, payload: 'No user found'})
-                navigation.navigate('SignUp')
+                dispatch({ type: GET_CURR_USER_FAILURE })
             }
         })
     }
