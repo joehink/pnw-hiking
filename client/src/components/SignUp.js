@@ -55,19 +55,19 @@ class SignUp extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <Image
+                    style={{marginBottom: '13%', width: '100%', height: 115}}
+                    source={require('../images/goHike.png')}
+                />
                 { this.state.validationError &&
                     <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
                 }
-                <Image
-                    style={{marginBottom: '13%'}}
-                    source={require('../images/goHike.png')}
-                />
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '2%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.confPassword } textAlign='center' onChangeText={ (input) => this.setState({confPassword: input})} secureTextEntry placeholder="Confirm Password" />
                 <View style={styles.logInContainer}> 
                     <TouchableOpacity disabled={this.state.email && this.state.password && this.state.confPassword ? false : true}
-                                    style={this.state.email && this.state.password && this.state.confPassword ? styles.buttonLogIn : styles.buttonLogInDisabled} onPress={() => this.signUp()}>
+                                        style={this.state.email && this.state.password && this.state.confPassword ? styles.buttonLogIn : styles.buttonLogInDisabled} onPress={() => this.signUp()}>
                         <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
                             Sign Up
                         </Text>
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     },
 
     buttonLogInDisabled: {
-        backgroundColor: 'rgba(44, 180, 44, .2)',
+        backgroundColor: 'rgba(44, 180, 44, .4)',
         width: '84%',
         borderRadius: 60,
         height: 50,
