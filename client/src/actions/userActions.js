@@ -57,3 +57,17 @@ export const logIn = (email, password) => {
 export const authorizing = () => {
     return { type: USER_START_AUTHORIZING }
 }
+
+export const signOutUser = (navigation) => {
+    return dispatch => {
+        firebase.auth().signOut()
+        .then(() => {
+            dispatch(signOut());
+            navigation.navigate('MainApp');
+        })
+    }
+}
+
+export const signOut = () => {
+    return { type: SIGN_OUT_USER }
+}

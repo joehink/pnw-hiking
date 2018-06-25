@@ -3,11 +3,12 @@ import { Text, LayoutAnimation } from 'react-native';
 import Card from './reusable/Card';
 import Error from './reusable/Error';
 import { connect } from 'react-redux';
-import { searchRadiusChange, setUserLocation } from '../actions';
+import { searchRadiusChange, setUserLocation, getCurrUser } from '../actions';
 import { Slider, Button } from 'react-native-elements';
 
 class DiscoverScreen extends React.Component {
     componentDidMount() {
+        this.props.getCurrUser();
         navigator.geolocation.getCurrentPosition(position => {
             //If we have their permission, save their location to state
             this.props.setUserLocation(position);
@@ -58,4 +59,4 @@ const mapStateToProps = state => {
     return { searchRadius: state.searchRadius, error: state.trailList.error }
 }
 
-export default connect(mapStateToProps, { searchRadiusChange, setUserLocation })(DiscoverScreen);
+export default connect(mapStateToProps, { searchRadiusChange, setUserLocation, getCurrUser })(DiscoverScreen);
