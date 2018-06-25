@@ -182,7 +182,7 @@ const UserAuth = createSwitchNavigator({
         screen: DiscoverStack
     },
 }, {
-    initialRouteName: 'LoggedInApp',
+    initialRouteName: 'LogIn',
 });
     
 

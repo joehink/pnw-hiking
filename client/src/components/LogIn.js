@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import Button from './reusable/Button';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { logIn } from '../actions';
@@ -44,10 +45,9 @@ class LogIn extends React.Component {
             this.props.logIn(this.state.email, this.state.password)
         }
     }
-
     render() {
         return (
-            <View style={styles.container}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                 <Image
                     style={{marginBottom: '13%', width: '100%', height: 115}}
                     source={require('../images/goHike.png')}
@@ -57,67 +57,16 @@ class LogIn extends React.Component {
                 }
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '1%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
-                <View style={styles.logInContainer}> 
-                    <TouchableOpacity disabled={this.state.email && this.state.password ? false : true}
-                                        style={this.state.email && this.state.password ? styles.buttonLogIn : styles.buttonLogInDisabled} onPress={() => this.logIn()}>
-                        <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
-                            Log in with Email
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <Button onPress={() => this.logIn()} >
+                    Login with Email
+                </Button>
                 <Text style={{textAlign: 'center'}}>
                     Don't have an account yet?
                     <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("SignUp")}> Sign Up</Text>
                 </Text>
-                {/* <View style={styles.logInContainer}>  */}
-                    {/* <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.props.navigation.navigate("SignedOutApp")}>
-                        <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
-                            Proceed without logging in
-                        </Text>
-                    </TouchableOpacity> */}
-                {/* </View> */}
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        // backgroundColor: 'rgba(44, 180, 44, .6)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-    },
-
-    buttonLogIn: {
-        backgroundColor: '#2cb42c',
-        width: '84%',
-        borderRadius: 60,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingLeft: '10%',
-        paddingRight: '10%',
-    },
-
-    buttonLogInDisabled: {
-        backgroundColor: 'rgba(44, 180, 44, .4)',
-        width: '84%',
-        borderRadius: 60,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingLeft: '10%',
-        paddingRight: '10%',
-    },
-
-    logInContainer: {
-        marginTop: '5%',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: '14%'
-    }
-});
 
 export default connect(null, { logIn })(LogIn);

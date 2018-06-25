@@ -7,13 +7,6 @@ import { searchRadiusChange, setUserLocation } from '../actions';
 import { Slider, Button } from 'react-native-elements';
 
 class DiscoverScreen extends React.Component {
-    constructor(props) {
-        super(props)
-        // this.props.navigation.addListener('didFocus', (o) => {
-        //     this.setState({});
-        // });
-    }
-
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(position => {
             //If we have their permission, save their location to state
@@ -39,11 +32,6 @@ class DiscoverScreen extends React.Component {
     }
     componentDidUpdate() {
         LayoutAnimation.spring();
-    }
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition(position => {
-            this.props.setUserLocation(position);
-        }, err => console.log(err));
     }
     render() {
         return (
