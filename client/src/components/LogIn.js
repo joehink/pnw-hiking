@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { logIn } from '../actions';
@@ -48,31 +48,34 @@ class LogIn extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <Image
+                    style={{marginBottom: '13%', width: '100%', height: 115}}
+                    source={require('../images/goHike.png')}
+                />
                 { this.state.validationError &&
-                    <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
+                    <FormValidationMessage>{this.state.validationError}</FormValidationMessage>
                 }
-                <FormLabel>Email</FormLabel>
-                <FormInput value={ this.state.email } onChangeText={ (input) => this.setState({email: input})} placeholder="Email address..." />
-                <FormLabel>Password</FormLabel>
-                <FormInput value={ this.state.password } onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password..." />
+                <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '1%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
+                <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
                 <View style={styles.logInContainer}> 
-                    <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.logIn()}>
+                    <TouchableOpacity disabled={this.state.email && this.state.password ? false : true}
+                                        style={this.state.email && this.state.password ? styles.buttonLogIn : styles.buttonLogInDisabled} onPress={() => this.logIn()}>
                         <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
                             Log in with Email
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={{textAlign: 'center', marginTop: '5%'}}>
+                <Text style={{textAlign: 'center'}}>
                     Don't have an account yet?
                     <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("SignUp")}> Sign Up</Text>
                 </Text>
-                <View style={styles.logInContainer}> 
-                    <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.props.navigation.navigate("SignedOutApp")}>
+                {/* <View style={styles.logInContainer}>  */}
+                    {/* <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.props.navigation.navigate("SignedOutApp")}>
                         <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
                             Proceed without logging in
                         </Text>
-                    </TouchableOpacity>
-                </View>
+                    </TouchableOpacity> */}
+                {/* </View> */}
             </View>
         );
     }
@@ -80,23 +83,40 @@ class LogIn extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        // backgroundColor: 'rgba(44, 180, 44, .6)',
+        justifyContent: 'center',
+        alignItems: 'center',
         flex: 1,
     },
 
     buttonLogIn: {
         backgroundColor: '#2cb42c',
-        width: '92%',
-        borderRadius: 8,
+        width: '84%',
+        borderRadius: 60,
         height: 50,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingLeft: '10%',
+        paddingRight: '10%',
+    },
+
+    buttonLogInDisabled: {
+        backgroundColor: 'rgba(44, 180, 44, .4)',
+        width: '84%',
+        borderRadius: 60,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingLeft: '10%',
+        paddingRight: '10%',
     },
 
     logInContainer: {
         marginTop: '5%',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: '14%'
     }
 });
 

@@ -168,31 +168,12 @@ const TabNavigation =  createBottomTabNavigator(
     },
 );
 
-const SignUpStack = createStackNavigator({
-    SignUp: {
-      screen: SignUp,
-      navigationOptions: {
-        title: "Sign Up",
-      }
-    },
-});
-
-const LogInStack = createStackNavigator({
-    LogIn: {
-      screen: LogIn,
-      navigationOptions: {
-        title: "Log In",
-      }
-    },
-});
-
-
 const UserAuth = createSwitchNavigator({
     SignUp: {
-      screen: SignUpStack
+      screen: SignUp
     },
     LogIn: {
-      screen: LogInStack
+      screen: LogIn
     },
     LoggedInApp: {
         screen: TabNavigation,
@@ -201,7 +182,7 @@ const UserAuth = createSwitchNavigator({
         screen: DiscoverStack
     },
 }, {
-    initialRouteName: 'LoggedInApp',
+    initialRouteName: 'LogIn',
 });
     
 
