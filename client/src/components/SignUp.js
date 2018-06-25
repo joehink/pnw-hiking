@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { getCurrUser, signUp } from '../actions';
@@ -58,30 +58,32 @@ class SignUp extends React.Component {
                 { this.state.validationError &&
                     <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
                 }
-                <FormLabel>Email</FormLabel>
-                <FormInput value={ this.state.email } onChangeText={ (input) => this.setState({email: input})} placeholder="Email address..." />
-                <FormLabel>Password</FormLabel>
-                <FormInput value={ this.state.password } onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password..." />
-                <FormLabel>Confirm Password</FormLabel>
-                <FormInput value={ this.state.confPassword } onChangeText={ (input) => this.setState({confPassword: input})} secureTextEntry placeholder="Confirm Password..." />
+                <Image
+                    style={{marginBottom: '13%'}}
+                    source={require('../images/goHike.png')}
+                />
+                <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '2%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
+                <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
+                <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.confPassword } textAlign='center' onChangeText={ (input) => this.setState({confPassword: input})} secureTextEntry placeholder="Confirm Password" />
                 <View style={styles.logInContainer}> 
-                    <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.signUp()}>
+                    <TouchableOpacity disabled={this.state.email && this.state.password && this.state.confPassword ? false : true}
+                                    style={this.state.email && this.state.password && this.state.confPassword ? styles.buttonLogIn : styles.buttonLogInDisabled} onPress={() => this.signUp()}>
                         <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
                             Sign Up
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={{textAlign: 'center', marginTop: '5%'}}>
+                <Text style={{textAlign: 'center'}}>
                     Already have an account?
                     <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("LogIn")}> Log In</Text>
                 </Text>
-                <View style={styles.logInContainer}> 
+                {/* <View style={styles.logInContainer}> 
                     <TouchableOpacity style={styles.buttonLogIn} onPress={() => this.props.navigation.navigate("SignedOutApp")}>
                         <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
                             Proceed without logging in
                         </Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </View>
         );
     }
@@ -89,26 +91,40 @@ class SignUp extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        // backgroundColor: 'rgba(44, 180, 44, .6)',
+        justifyContent: 'center',
+        alignItems: 'center',
         flex: 1,
     },
 
     buttonLogIn: {
         backgroundColor: '#2cb42c',
-        width: '92%',
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
-        borderBottomLeftRadius: 8,
-        borderBottomRightRadius: 8,
+        width: '84%',
+        borderRadius: 60,
         height: 50,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingLeft: '10%',
+        paddingRight: '10%',
+    },
+
+    buttonLogInDisabled: {
+        backgroundColor: 'rgba(44, 180, 44, .2)',
+        width: '84%',
+        borderRadius: 60,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingLeft: '10%',
+        paddingRight: '10%',
     },
 
     logInContainer: {
         marginTop: '5%',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: '14%'
     }
 });
 
