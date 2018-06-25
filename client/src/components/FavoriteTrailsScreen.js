@@ -8,14 +8,6 @@ import LogInRedirect from './navigation/LogInRedirect';
 
 
 class FavoriteTrailsScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.props.fetchFavoriteTrails();
-        this.props.navigation.addListener('didFocus', (o) => {
-            this.setState({});
-        });
-    }
-
     renderTrailList() {
         if (this.props.user && this.props.user.fetching) {
             return <ActivityIndicator style={{ flex: 1 }} />
@@ -31,7 +23,12 @@ class FavoriteTrailsScreen extends React.Component {
             )
         }
     }
-
+    componentDidMount() {
+        this.props.fetchFavoriteTrails();
+        this.props.navigation.addListener('didFocus', (o) => {
+            this.setState({});
+        });
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -41,19 +38,7 @@ class FavoriteTrailsScreen extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderTopLeftRadius: 18,
-        borderTopRightRadius: 18,
-    },
-});
-
 const mapStateToProps = state => {
-    console.log(state);
     return { userLocation: state.userLocation.coords, user: state.currUser }
 }
 

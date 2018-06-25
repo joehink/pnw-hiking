@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import Button from './reusable/Button';
 import firebase from '../firebase';
 import LogInRedirect from './navigation/LogInRedirect';
 import { connect } from 'react-redux';
@@ -7,13 +8,6 @@ import  { signOutUser } from '../actions';
 
 
 class ProfileScreen extends React.Component {
-    constructor(props) {
-        super(props) 
-        this.props.navigation.addListener('didFocus', (o) => {
-            this.setState({});
-        });
-    }
-
     signOut() {
         this.props.signOutUser(this.props.navigation);
     }
@@ -33,7 +27,11 @@ class ProfileScreen extends React.Component {
             return <LogInRedirect />
         }
     }
-    
+    componentDidMount() {
+        this.props.navigation.addListener('didFocus', (o) => {
+            this.setState({});
+        });
+    }
     render() {
         return (
             <View style={styles.container}>

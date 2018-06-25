@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements'
-import { connect } from 'react-redux';
 
 class TrailList extends Component {
     render() {
@@ -27,8 +26,4 @@ class TrailList extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return { trails: state.trailList.results }
-}
-
-export default (TrailList)
+export default TrailList;
