@@ -14,7 +14,7 @@ class FavoriteTrailsScreen extends React.Component {
             return a.length > b.length
         })
 
-        if (user && user.fetching) {
+        if (user && user.loading) {
             return <ActivityIndicator style={{ flex: 1 }} />
         }
         else if (user && favoriteTrails.trails) {
@@ -41,7 +41,11 @@ class FavoriteTrailsScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { userLocation: state.discover.userLocation.coords, user: state.currUser, favoriteTrails: state.favoriteTrails }
+    return { 
+        userLocation: state.discover.userLocation.coords, 
+        user: state.currUser, 
+        favoriteTrails: state.favoriteTrails 
+    }
 }
 
 export default connect(mapStateToProps, { fetchFavoriteTrails })(FavoriteTrailsScreen);

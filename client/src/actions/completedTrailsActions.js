@@ -3,7 +3,7 @@ import firebase from '../firebase';
 
 export const fetchCompletedTrails = () => {
     return (dispatch) => {
-        dispatch({ type: USER_START_FETCHING });
+        // dispatch({ type: USER_START_FETCHING });
         if (firebase.auth().currentUser) {
             let userID = firebase.auth().currentUser.uid;
             firebase.database().ref().child('users/' + userID + '/completed')

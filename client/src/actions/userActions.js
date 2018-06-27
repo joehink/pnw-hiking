@@ -23,7 +23,7 @@ export const getCurrUser = () => {
 
 export const signUp = (email, password) => {
     return dispatch => {
-        dispatch(authorizing());
+        dispatch({ type: USER_START_AUTHORIZING });
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
             .then((user) => {
