@@ -1,8 +1,8 @@
-import DiscoverScreen from '../DiscoverScreen';
-import ProfileScreen from '../ProfileScreen';
-import DiscoverResults from '../DiscoverResults';
-import TrailScreen from '../TrailScreen';
-import FavoriteTrailsScreen from '../FavoriteTrailsScreen';
+import DiscoverScreen from '../screens/DiscoverScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import DiscoverResults from '../screens/DiscoverResults';
+import TrailScreen from '../screens/TrailScreen';
+import FavoriteTrailsScreen from '../screens/FavoriteTrailsScreen';
 import { createStackNavigator } from 'react-navigation';
 
 export const DiscoverStack = createStackNavigator({

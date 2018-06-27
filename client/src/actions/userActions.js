@@ -9,7 +9,7 @@ import {
 
 import firebase from '../firebase';
 
-export const getCurrUser = (navigation) => {
+export const getCurrUser = () => {
     return dispatch => {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
@@ -44,7 +44,7 @@ export const signUp = (email, password) => {
 
 export const logIn = (email, password) => {
     return dispatch => {
-        dispatch(authorizing());
+        dispatch({ type: USER_START_AUTHORIZING });
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then((user) => {
@@ -53,20 +53,12 @@ export const logIn = (email, password) => {
     }
 }
 
-export const authorizing = () => {
-    return { type: USER_START_AUTHORIZING }
-}
-
 export const signOutUser = (navigation) => {
     return dispatch => {
         firebase.auth().signOut()
         .then(() => {
-            dispatch(signOut());
+            dispatch({ type: SIGN_OUT_USER });
             navigation.navigate('MainApp');
         })
     }
-}
-
-export const signOut = () => {
-    return { type: SIGN_OUT_USER }
 }

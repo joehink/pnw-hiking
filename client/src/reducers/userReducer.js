@@ -16,7 +16,7 @@ const INITIAL_STATE = null;
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_CURR_USER_SUCCESS:
-            return { user: action.payload, error: ''};
+            return { user: action.payload, error: '', fetching: false};
         case GET_CURR_USER_FAILURE:
             return { ...state };
         case USER_START_AUTHORIZING:

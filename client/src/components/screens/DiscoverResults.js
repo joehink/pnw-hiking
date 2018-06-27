@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
-import Card from './reusable/Card';
-import TrailList from './TrailList';
+import Card from '../reusable/Card';
+import TrailList from '../reusable/TrailList';
 import { connect } from 'react-redux';
-import { findTrails } from '../actions';
+import { findTrails } from '../../actions';
 
-import Map from './Map';
+import Map from '../Map';
 
 class DiscoverResults extends Component {
     constructor(props) {

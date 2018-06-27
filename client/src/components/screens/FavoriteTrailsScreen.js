@@ -1,10 +1,10 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import Card from './reusable/Card';
-import TrailList from './TrailList';
+import Card from '../reusable/Card';
+import TrailList from '../reusable/TrailList';
 import { connect } from 'react-redux';
-import { fetchFavoriteTrails } from '../actions';
-import LogInRedirect from './LogInRedirect';
+import { fetchFavoriteTrails } from '../../actions';
+import LogInRedirect from '../LogInRedirect';
 
 
 class FavoriteTrailsScreen extends React.Component {

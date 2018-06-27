@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Text, LayoutAnimation } from 'react-native';
-import Card from './reusable/Card';
-import Error from './reusable/Error';
+import Card from '../reusable/Card';
+import Error from '../reusable/Error';
 import { connect } from 'react-redux';
-import { searchRadiusChange, setUserLocation, getCurrUser } from '../actions';
+import { searchRadiusChange, setUserLocation, getCurrUser } from '../../actions';
 import { Slider, Button } from 'react-native-elements';
 
-class DiscoverScreen extends React.Component {
+class DiscoverScreen extends Component {
     componentDidMount() {
         this.props.getCurrUser();
         navigator.geolocation.getCurrentPosition(position => {

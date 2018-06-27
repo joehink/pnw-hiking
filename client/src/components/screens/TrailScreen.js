@@ -2,7 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { addFavoriteTrail, fetchFavoriteTrails, deleteFavoriteTrail, addCompletedTrail, deleteCompletedTrail, fetchCompletedTrails } from '../actions';
+import firebase from '../../firebase';
+import { 
+    addFavoriteTrail, 
+    fetchFavoriteTrails, 
+    deleteFavoriteTrail, 
+    addCompletedTrail, 
+    deleteCompletedTrail, 
+    fetchCompletedTrails 
+} from '../../actions';
 import { Popup } from 'react-native-map-link';
 
 class TrailScreen extends React.Component {
@@ -33,9 +41,15 @@ class TrailScreen extends React.Component {
                 }
             }
             if (trailID) {
-                this.props.deleteFavoriteTrail(trailID)
+                //Delete favorite trail
+                let userID = firebase.auth().currentUser.uid;
+                firebase.database().ref().child('users/' + userID + '/favorites/' + trailID).remove()
             } else {
-                this.props.addFavoriteTrail(trail);
+                //Add favorite trail
+                let userID = firebase.auth().currentUser.uid;
+                const newTrailRef = firebase.database().ref().child('users/' + userID + '/favorites').push()
+                trail.id = newTrailRef.key;
+                newTrailRef.set(trail);
             }
         }
     }
@@ -62,9 +76,15 @@ class TrailScreen extends React.Component {
                 }
             }
             if (trailID) {
-                this.props.deleteCompletedTrail(trailID)
+                //Remove from completed
+                let userID = firebase.auth().currentUser.uid;
+                firebase.database().ref().child('users/' + userID + '/completed/' + trailID).remove()
             } else {
-                this.props.addCompletedTrail(trail);
+                //Add to completed
+                let userID = firebase.auth().currentUser.uid;
+                const newTrailRef = firebase.database().ref().child('users/' + userID + '/completed').push()
+                trail.id = newTrailRef.key;
+                newTrailRef.set(trail);
             }
         }
     }
@@ -230,7 +250,6 @@ const styles = StyleSheet.create({
     buttonDirections: {
         height: 50,
         width: '92%',
-        // backgroundColor: '#0000FF',
         backgroundColor: '#4a80f5',
         alignItems:'center',
         justifyContent:'center',
@@ -249,5 +268,8 @@ const mapStateToProps = state => {
     return { userLocation: state.userLocation, user: state.currUser }
 }
 
-export default connect(mapStateToProps, { addFavoriteTrail, fetchFavoriteTrails, deleteFavoriteTrail, addCompletedTrail, 
-                                deleteCompletedTrail, fetchCompletedTrails })(TrailScreen);
+export default connect(mapStateToProps, { 
+                                    addFavoriteTrail, 
+                                    fetchFavoriteTrails, 
+                                    deleteFavoriteTrail, 
+                                    fetchCompletedTrails })(TrailScreen);
