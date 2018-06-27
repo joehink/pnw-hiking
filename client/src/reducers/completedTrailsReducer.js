@@ -1,10 +1,10 @@
-import { SET_USER_LOCATION } from '../actions/types';
+import { FETCH_COMPLETED_TRAILS } from '../actions/types';
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = []
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case SET_USER_LOCATION:
+        case FETCH_COMPLETED_TRAILS:
             return action.payload;
         default: 
             return state;

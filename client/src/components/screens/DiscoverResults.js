@@ -1,23 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
-import Card from './reusable/Card';
-import TrailList from './TrailList';
+import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
-import { findTrails } from '../actions';
+import { findTrails } from '../../actions';
 
-import Map from './Map';
+import Map from '../Map';
 
 class DiscoverResults extends Component {
-    constructor(props) {
-        super(props)
-        this.props.navigation.addListener('didFocus', (o) => {
-            this.setState({});
-        });
-    }
-  
     renderResults() {
         const { trails, loading, userLocation, navigation } = this.props;
-
         if (loading) {
             return <ActivityIndicator style={{ flex: 1 }} />
         } else if (trails.length > 0) {
@@ -41,7 +32,10 @@ class DiscoverResults extends Component {
     }
     componentDidMount() {
         const { userLocation, searchRadius } = this.props;
-        this.props.findTrails({position: userLocation, searchRadius})
+        this.props.findTrails({position: userLocation.coords, searchRadius})
+        this.props.navigation.addListener('didFocus', (o) => {
+            this.setState({});
+        });
     }
     render() {
         return (
@@ -54,10 +48,10 @@ class DiscoverResults extends Component {
 
 const mapStateToProps = state => {
     return { 
-        userLocation: state.userLocation, 
-        trails: state.trailList.results,
-        searchRadius: state.searchRadius,
-        loading: state.trailList.loading
+        userLocation: state.discover.userLocation, 
+        trails: state.discover.trails,
+        searchRadius: state.discover.searchRadius,
+        loading: state.discover.loading
     }
 }
 

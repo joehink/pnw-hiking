@@ -1,10 +1,8 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import Button from './reusable/Button';
-import LogInRedirect from './LogInRedirect';
+import LogInRedirect from '../LogInRedirect';
 import { connect } from 'react-redux';
-import  { signOutUser } from '../actions';
-import Card from './reusable/Card';
+import  { signOutUser } from '../../actions';
+import { Button, Card } from '../reusable';
 
 class ProfileScreen extends React.Component {
     signOut() {

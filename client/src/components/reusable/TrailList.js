@@ -16,7 +16,7 @@ class TrailList extends Component {
                             key={trail.index}
                             title={trail.item.name}
                             subtitle={this.props.favorites ? `${trail.item.length} miles`: `${trail.item.distanceFromUser} miles away`}
-                            avatar={trail.item.imgSqSmall ? {uri: trail.item.imgSqSmall } : require('../images/graySquare.png')}
+                            avatar={trail.item.imgSqSmall ? {uri: trail.item.imgSqSmall } : require('../../images/graySquare.png')}
                             onPress={() => navigation.navigate('Trail', { ...trail.item })}
                         />
                     )} 
@@ -26,4 +26,4 @@ class TrailList extends Component {
     }
 }
 
-export default TrailList;
+export { TrailList };

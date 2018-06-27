@@ -9,7 +9,7 @@ import axios from 'axios';
 import geolib from 'geolib';
 
 export const findTrails = ({position, searchRadius, navigation}) => {
-    const { latitude, longitude } = position.coords;
+    const { latitude, longitude } = position;
     const maxResults = 500;
     const sort = 'distance';
     const key ='200292830-8db73dcb549ccc93d02472f29702934a'

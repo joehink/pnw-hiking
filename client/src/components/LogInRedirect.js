@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import Button from './reusable/Button';
+import { Button } from './reusable';
 import { withNavigation } from 'react-navigation';
 
 class LogInRedirect extends React.Component {
