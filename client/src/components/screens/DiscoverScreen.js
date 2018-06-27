@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, LayoutAnimation } from 'react-native';
-import Card from '../reusable/Card';
-import Error from '../reusable/Error';
+import { Card, Error } from '../reusable';
 import { connect } from 'react-redux';
 import { searchRadiusChange, setUserLocation, getCurrUser } from '../../actions';
 import { Slider, Button } from 'react-native-elements';
@@ -56,7 +55,7 @@ class DiscoverScreen extends Component {
 }
 
 const mapStateToProps = state => {
-    return { searchRadius: state.searchRadius, error: state.trailList.error }
+    return { searchRadius: state.discover.searchRadius, error: state.discover.error }
 }
 
 export default connect(mapStateToProps, { searchRadiusChange, setUserLocation, getCurrUser })(DiscoverScreen);

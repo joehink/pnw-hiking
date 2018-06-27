@@ -5,9 +5,6 @@ import {
     SIGN_OUT_USER,
     USER_LOGGED_IN, 
     USER_SIGNED_UP, 
-    FAVORITE_TRAIL, 
-    FETCH_FAVORITE_TRAILS, 
-    FETCH_COMPLETED_TRAILS, 
     USER_START_FETCHING 
 } from '../actions/types';
 
@@ -27,12 +24,6 @@ export default (state = INITIAL_STATE, action) => {
             return { user: action.payload, authorizing: false }
         case USER_START_FETCHING:
             return { ...state, fetching: true }
-        case FAVORITE_TRAIL: 
-            return { ...state, favorites: action.payload }
-        case FETCH_FAVORITE_TRAILS:
-            return { ...state, favorites: action.payload, fetching: false }
-        case FETCH_COMPLETED_TRAILS:
-            return { ...state, completed: action.payload, fetching: false }
         case SIGN_OUT_USER: 
             return { user: null }
         default: 

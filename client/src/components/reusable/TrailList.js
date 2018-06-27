@@ -26,4 +26,4 @@ class TrailList extends Component {
     }
 }
 
-export default TrailList;
+export { TrailList };

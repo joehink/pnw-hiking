@@ -1,9 +1,8 @@
 import React from 'react';
-import Button from '../reusable/Button';
 import LogInRedirect from '../LogInRedirect';
 import { connect } from 'react-redux';
 import  { signOutUser } from '../../actions';
-import Card from '../reusable/Card';
+import { Button, Card } from '../reusable';
 
 class ProfileScreen extends React.Component {
     signOut() {

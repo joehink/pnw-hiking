@@ -19,4 +19,4 @@ const styles = {
     }
 }
 
-export default Error;
+export { Error };

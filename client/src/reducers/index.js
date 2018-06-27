@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import trailListReducer from './trailListReducer';
-import searchRadiusReducer from './searchRadiusReducer';
-import userLocationReducer from './userLocationReducer';
+import discoverReducer from './discoverReducer';
+import favoriteTrailsReducer from './favoriteTrailsReducer';
+import completedTrailsReducer from './completedTrailsReducer';
 import userReducer from './userReducer';
 
 export default combineReducers({
-    trailList: trailListReducer,
-    searchRadius: searchRadiusReducer,
-    userLocation: userLocationReducer,
+    discover: discoverReducer,
+    favoriteTrails: favoriteTrailsReducer,
+    completedTrails: completedTrailsReducer,
     currUser: userReducer
 });

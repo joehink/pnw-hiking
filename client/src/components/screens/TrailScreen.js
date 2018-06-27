@@ -3,27 +3,21 @@ import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'rea
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import firebase from '../../firebase';
-import { 
-    addFavoriteTrail, 
-    fetchFavoriteTrails, 
-    deleteFavoriteTrail, 
-    addCompletedTrail, 
-    deleteCompletedTrail, 
-    fetchCompletedTrails 
-} from '../../actions';
+import { fetchFavoriteTrails, fetchCompletedTrails } from '../../actions';
 import { Popup } from 'react-native-map-link';
 
 class TrailScreen extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            isVisible: false
+        }
         this.props.fetchFavoriteTrails();
         this.props.fetchCompletedTrails();
-        this.state = {}
         this.props.navigation.addListener('didFocus', (o) => {
             this.setState({});
         });
     }
-
 
     mapDirections = () => {
         this.setState({
@@ -32,14 +26,15 @@ class TrailScreen extends React.Component {
     }
 
     updateFavoriteTrail(trail, name) {
-        if (this.props.user) {
-            let favoriteTrails = this.props.user.favorites;
+        const { favoriteTrails, user } = this.props;
+        if (user) {
             let trailID = '';
-            for (let key in favoriteTrails) {
-                if (favoriteTrails[key].name === name) {
+            for (let key in favoriteTrails.trails) {
+                if (favoriteTrails.trails[key].name === name) {
                     trailID = key;
                 }
             }
+            console.log(favoriteTrails.trails);
             if (trailID) {
                 //Delete favorite trail
                 let userID = firebase.auth().currentUser.uid;
@@ -55,10 +50,10 @@ class TrailScreen extends React.Component {
     }
 
     isFavorited(name) {
-        if (this.props.user) {
-            let favoriteTrails = this.props.user.favorites;
-            for (let key in favoriteTrails) {
-                if (favoriteTrails[key].name === name) {
+        const { favoriteTrails, user } = this.props;
+        if (user) {
+            for (let key in favoriteTrails.trails) {
+                if (favoriteTrails.trails[key].name === name) {
                     return true;
                 }
             }
@@ -67,8 +62,8 @@ class TrailScreen extends React.Component {
     }
 
     updateCompletedTrail(trail, name) {
-        if (this.props.user) {
-            let completedTrails = this.props.user.completed;
+        const { completedTrails, user } = this.props;
+        if (user) {
             let trailID = '';
             for (let key in completedTrails) {
                 if (completedTrails[key].name === name) {
@@ -90,8 +85,8 @@ class TrailScreen extends React.Component {
     }
 
     isCompleted(name) {
-        if (this.props.user) {
-            let completedTrails = this.props.user.completed;
+        const { completedTrails, user } = this.props;
+        if (user) {
             for (let key in completedTrails) {
                 if (completedTrails[key].name === name) {
                     return true;
@@ -102,8 +97,18 @@ class TrailScreen extends React.Component {
     }
 
     render() {
-        const { ascent, conditionDetails, conditionStatus, difficulty, imgMedium, location, 
-                    latitude, longitude, summary, name, length } = this.props.navigation.state.params;
+        const { 
+            ascent, 
+            conditionDetails, 
+            conditionStatus, 
+            difficulty, 
+            imgMedium, 
+            location, 
+            latitude, 
+            longitude, 
+            summary, 
+            name, 
+            length } = this.props.navigation.state.params;
         return (
             <ScrollView style={styles.container}>
                 <Image
@@ -265,11 +270,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    return { userLocation: state.userLocation, user: state.currUser }
+    return { 
+        userLocation: state.discover.userLocation, 
+        user: state.currUser, 
+        completedTrails: state.completedTrails,
+        favoriteTrails: state.favoriteTrails
+    }
 }
 
-export default connect(mapStateToProps, { 
-                                    addFavoriteTrail, 
-                                    fetchFavoriteTrails, 
-                                    deleteFavoriteTrail, 
-                                    fetchCompletedTrails })(TrailScreen);
+export default connect(mapStateToProps, { fetchFavoriteTrails, fetchCompletedTrails })(TrailScreen);

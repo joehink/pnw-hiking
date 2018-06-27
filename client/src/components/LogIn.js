@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
-import Card from './reusable/Card';
-import Button from './reusable/Button';
+import { Button, Card } from './reusable';
 import { FormInput, FormValidationMessage, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { logIn } from '../actions';
