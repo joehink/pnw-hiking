@@ -19,6 +19,5 @@ export const FAVORITED_TRAIL_SUCCESS = 'favorited_trail_success';
 export const COMPLETED_TRAIL_SUCCESS = 'completed_trail_success';
 export const IS_COMPLETED_AT_START = 'is_completed_at_start';
 export const IS_FAVORITED_AT_START = 'is_favorited_at_start';
-export const RESET_TRAIL = 'reset_trail';
 export const TOGGLE_FAVORITED = 'toggle_favorited';
 export const TOGGLE_COMPLETED = 'toggle_completed';

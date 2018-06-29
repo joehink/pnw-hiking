@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
@@ -6,7 +6,15 @@ import { fetchFavoriteTrails } from '../../actions';
 import LogInRedirect from '../LogInRedirect';
 
 
-class FavoriteTrailsScreen extends React.Component {
+class FavoriteTrailsScreen extends Component {
+    constructor(props) {
+        super(props);
+        if (this.props.user.user) {
+            this.props.navigation.addListener('willFocus', () => {
+                this.props.fetchFavoriteTrails(this.props.user.user.uid);
+            })
+        }
+    }
     renderTrailList() {
         const { user, favoriteTrails, navigation } = this.props;
 
@@ -14,22 +22,16 @@ class FavoriteTrailsScreen extends React.Component {
             return a.length > b.length
         })
 
-        if (user && user.loading) {
+        if (user.user && favoriteTrails.loading) {
             return <ActivityIndicator style={{ flex: 1 }} />
         }
-        else if (user && favoriteTrails.trails) {
+        else if (user.user && favoriteTrails.trails) {
             return <TrailList navigation={navigation} trails={sortedTrails} favorites={true}/>
         } else {
             return (
                 <LogInRedirect />
             )
         }
-    }
-    componentDidMount() {
-        this.props.fetchFavoriteTrails();
-        this.props.navigation.addListener('didFocus', () => {
-            this.setState({});
-        });
     }
     render() {
         return (

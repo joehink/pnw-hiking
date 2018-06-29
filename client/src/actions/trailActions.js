@@ -2,11 +2,10 @@ import {
     FETCH_TRAIL_START,
     FAVORITED_TRAIL_SUCCESS,
     COMPLETED_TRAIL_SUCCESS,
-    RESET_TRAIL,
     IS_COMPLETED_AT_START,
     IS_FAVORITED_AT_START,
     TOGGLE_FAVORITED,
-    TOGGLE_COMPLETED,
+    TOGGLE_COMPLETED
 } from './types';
 import firebase from '../firebase';
 

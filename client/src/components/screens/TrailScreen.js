@@ -150,9 +150,7 @@ class TrailScreen extends React.Component {
             );
         } else {
             return (
-                <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <ActivityIndicator />
-                </View>
+                <ActivityIndicator style={{ flex: 1 }}/>
             )
         }
     }
