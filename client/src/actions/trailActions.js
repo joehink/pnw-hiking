@@ -42,7 +42,12 @@ export const removeFromDb = (userID, trail, collection) => {
         const trailId = Object.keys(trail)[0];
         firebase.database().ref().child(`users/${userID}/${collection}/${trailId}`).remove()
             .then(() => {
-                dispatch({type: RESET_TRAIL})
+                if(collection === 'favorites') {
+                    dispatch({ type: TOGGLE_FAVORITED })
+                } else if ( collection === 'completed' ) {
+                    dispatch({ type: TOGGLE_COMPLETED })
+                }
+
             })
             .catch(err => {
                 console.log(err)
@@ -63,7 +68,28 @@ export const addToDb = (userID, trail, collection) => {
                     if (error) {
                         console.log(error);
                     } else {
-                        dispatch({type: RESET_TRAIL})
+                        if(collection === 'favorites') {
+                            dispatch({ type: TOGGLE_FAVORITED })
+                        } else if ( collection === 'completed' ) {
+                            dispatch({ type: TOGGLE_COMPLETED })
+                        }
+                    }
+                });
+            }
+        })
+        query.off('value', snap => {
+            if(!snap.exists()) {
+                const newTrailRef = ref.push()
+                trail.firebaseId = newTrailRef.key;
+                newTrailRef.set(trail, (error) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        if(collection === 'favorites') {
+                            dispatch({ type: TOGGLE_FAVORITED })
+                        } else if ( collection === 'completed' ) {
+                            dispatch({ type: TOGGLE_COMPLETED })
+                        }
                     }
                 });
             }

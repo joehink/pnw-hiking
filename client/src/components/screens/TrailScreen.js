@@ -9,12 +9,24 @@ import { Page, Section } from '../reusable';
 
 class TrailScreen extends React.Component {
     state = { isVisible: false }
+    constructor(props) {
+        super(props);
+        if (this.props.user.user) {
+            this.props.navigation.addListener('willFocus', () => {
+                const trail = this.props.navigation.state.params;
+                this.props.isTrailInDB(this.props.user.user.uid, trail, 'favorites', 'Favorited')
+                this.props.isTrailInDB(this.props.user.user.uid, trail, 'completed', 'Completed')
+            });
+        }
+    }
     renderActions() {
+        const trail = this.props.navigation.state.params;
+        const userID = this.props.user.user.uid;
         if (this.props.user.user) {
             return (
                 <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto'}}>
                     <Icon 
-                        onPress={() => this.props.toggle('favorites')}
+                        onPress={() => this.props.trailData.isFavorited ? this.props.removeFromDb(userID, this.props.trailData.favoritedTrail, 'favorites') : this.props.addToDb(userID, trail, 'favorites')}
                         name="favorite" 
                         color={this.props.trailData.isFavorited ? 'red' : 'gray'} 
                         size={20} 
@@ -22,7 +34,7 @@ class TrailScreen extends React.Component {
                         raised
                     />
                     <Icon 
-                        onPress={() => this.props.toggle('completed')}
+                        onPress={() => this.props.trailData.isCompleted ? this.props.removeFromDb(userID, this.props.trailData.completedTrail, 'completed') : this.props.addToDb(userID, trail, 'completed')}
                         name="check" 
                         color={this.props.trailData.isCompleted ? 'green' : 'gray'} 
                         size={20} 
@@ -31,40 +43,6 @@ class TrailScreen extends React.Component {
                     />
                 </View>
             )
-        }
-    }
-    componentWillUnmount() {
-        const trail = this.props.navigation.state.params;
-        const userID = this.props.user.user.uid;
-        const { trailData } = this.props;
-
-        if (!trailData.completedAtStart && trailData.isCompleted) {
-            this.props.addToDb(userID, trail, 'completed');
-        } else if (trailData.completedAtStart && !trailData.isCompleted) {
-            this.props.removeFromDb(userID, trailData.completedTrail, 'completed');
-        }
-
-        if(!trailData.favoritedAtStart && trailData.isFavorited) {
-            this.props.addToDb(userID, trail, 'favorites');
-        } else if (trailData.favoritedAtStart && !trailData.isFavorited) {
-            this.props.removeFromDb(userID, trailData.favoritedTrail, 'favorites');
-        }
-
-    }
-    setUpComponent() {
-        const trail = this.props.navigation.state.params;
-        this.props.isTrailInDB(this.props.user.user.uid, trail, 'favorites', 'Favorited')
-        this.props.isTrailInDB(this.props.user.user.uid, trail, 'completed', 'Completed')
-    }
-    componentDidMount() {
-        if (this.props.user.user) {
-            this.setUpComponent()
-            this.props.navigation.addListener('didBlur', () => {
-                this.componentWillUnmount()
-            });
-            this.props.navigation.addListener('didFocus', () => {
-                this.setUpComponent()
-            });
         }
     }
     renderTrail() {
