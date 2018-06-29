@@ -64,7 +64,7 @@ export const DiscoverStack = createStackNavigator({
     },
 }, {
     headerMode: 'screen',
-    cardStyle:{ backgroundColor:'#2cb42c'}
+    cardStyle:{ backgroundColor:'#fff'}
 });
   
 export const ProfileStack = createStackNavigator({

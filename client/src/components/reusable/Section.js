@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native'
 
-const Card = (props) => {
+const Section = (props) => {
     return (
         <View style={[styles.container, props.style]}>
             {props.children}
@@ -11,9 +11,13 @@ const Card = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff',
+        flexDirection: 'row',
+        marginTop: 5,
+        marginBottom: 5,
+        paddingTop: 10,
+        paddingBottom: 0
     }
 })
 
-export { Card };
+export { Section };

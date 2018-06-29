@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
-import Button from './reusable/Button';
+import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { getCurrUser, signUp } from '../actions';
 
@@ -63,7 +62,13 @@ class SignUp extends React.Component {
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '2%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.confPassword } textAlign='center' onChangeText={ (input) => this.setState({confPassword: input})} secureTextEntry placeholder="Confirm Password" />
-                <Button onPress={() => this.signUp()}>Sign Up</Button>
+                <Button 
+                    onPress={() => this.signUp()}
+                    title="Sign Up"
+                    rounded
+                    backgroundColor="#2cb42c"
+                    buttonStyle={{ width: '100%' }}
+                />
                 <Text style={{textAlign: 'center'}}>
                     Already have an account?
                     <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("LogIn")}> Log In</Text>

@@ -33,7 +33,7 @@ class DiscoverResults extends Component {
     componentDidMount() {
         const { userLocation, searchRadius } = this.props;
         this.props.findTrails({position: userLocation.coords, searchRadius})
-        this.props.navigation.addListener('didFocus', (o) => {
+        this.props.navigation.addListener('didFocus', () => {
             this.setState({});
         });
     }

@@ -48,6 +48,9 @@ class DiscoverScreen extends Component {
                 <Button 
                     title={`Search for trails within ${this.props.searchRadius} miles`}
                     onPress={this.gpsAuthCheck.bind(this)} 
+                    rounded
+                    backgroundColor="#2cb42c"
+                    buttonStyle={{ width: '100%' }}
                 />
             </Card>
         );

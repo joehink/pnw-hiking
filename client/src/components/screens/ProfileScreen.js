@@ -7,10 +7,11 @@ import { Button, Card } from '../reusable';
 class ProfileScreen extends React.Component {
     signOut() {
         this.props.signOutUser(this.props.navigation);
+        console.log(this.props.user);
     }
 
     renderProfile() {
-        if (this.props.user && this.props.user.user) {
+        if (this.props.user.user) {
             return <Button onPress={() => this.signOut()} >
                         Log Out
                     </Button>
