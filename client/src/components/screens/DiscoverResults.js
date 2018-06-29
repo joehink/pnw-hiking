@@ -19,7 +19,7 @@ class DiscoverResults extends Component {
                         height={{height: '40%'}} 
                         trails={trails}
                     />
-                    <TrailList navigation={navigation} trails={trails}/>
+                    <TrailList navigation={navigation} trails={trails} discover/>
                 </Card>
             )
         } else {

@@ -15,7 +15,7 @@ class TrailList extends Component {
                         <ListItem
                             key={trail.index}
                             title={trail.item.name}
-                            subtitle={this.props.favorites ? `${trail.item.length} miles`: `${trail.item.distanceFromUser} miles away`}
+                            subtitle={!this.props.discover ? `${trail.item.length} miles`: `${trail.item.distanceFromUser} miles away`}
                             avatar={trail.item.imgSqSmall ? {uri: trail.item.imgSqSmall } : require('../../images/graySquare.png')}
                             onPress={() => navigation.navigate('Trail', { ...trail.item })}
                         />

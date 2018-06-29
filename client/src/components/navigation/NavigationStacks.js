@@ -3,6 +3,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import DiscoverResults from '../screens/DiscoverResults';
 import TrailScreen from '../screens/TrailScreen';
 import FavoriteTrailsScreen from '../screens/FavoriteTrailsScreen';
+import CompletedTrailsScreen from '../screens/CompletedTrailsScreen';
 import { createStackNavigator } from 'react-navigation';
 
 export const DiscoverStack = createStackNavigator({
@@ -88,7 +89,7 @@ export const ProfileStack = createStackNavigator({
     },
 }, {
     headerMode: 'screen',
-    cardStyle:{ backgroundColor:'#2cb42c'}
+    cardStyle:{ backgroundColor:'#fff'}
 });
 
 export const FavoriteStack = createStackNavigator({
@@ -131,5 +132,48 @@ export const FavoriteStack = createStackNavigator({
     },
 },{
     headerMode: 'screen',
-    cardStyle:{ backgroundColor:'#2cb42c'}
+    cardStyle:{ backgroundColor:'#fff'}
+});
+
+export const CompletedStack = createStackNavigator({
+    Completed: {
+        screen: CompletedTrailsScreen,
+        navigationOptions: {
+            title: 'Completed',
+            headerStyle: {
+                backgroundColor: '#2cb42c',
+                paddingBottom: '1%',
+                shadowColor: 'transparent',
+                borderBottomColor:'transparent',
+                borderBottomWidth: 0 
+            },
+            headerTitleStyle: {
+                color: '#fff',
+                fontSize: 22,
+                // fontFamily: 'Avenir'
+            }
+        },
+    },
+    Trail: {
+        screen: TrailScreen,
+        navigationOptions: ({navigation }) => ({
+            title: `${navigation.state.params.name}`,
+            headerTintColor: 'white',
+            headerStyle: {
+                backgroundColor: '#2cb42c',
+                paddingBottom: '1%',
+                shadowColor: 'transparent',
+                borderBottomColor:'transparent',
+                borderBottomWidth: 0 
+            },
+            headerTitleStyle: {
+                color: '#fff',
+                fontSize: 22,
+                // fontFamily: 'Avenir'
+            }
+        })
+    },
+},{
+    headerMode: 'screen',
+    cardStyle:{ backgroundColor:'#fff'}
 });
