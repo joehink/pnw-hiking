@@ -9,11 +9,10 @@ import LogInRedirect from '../LogInRedirect';
 class FavoriteTrailsScreen extends Component {
     constructor(props) {
         super(props);
-        this.props.getCurrUser();
-        
+        const { user } = this.props;
         this.props.navigation.addListener('willFocus', () => {
-            if (this.props.user.user) {
-                this.props.fetchFavoriteTrails(this.props.user.user.uid);
+            if (user.user) {
+                this.props.fetchFavoriteTrails(user.user.uid);
             }
         })
         

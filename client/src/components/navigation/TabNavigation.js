@@ -3,7 +3,7 @@ import { createBottomTabNavigator, createSwitchNavigator } from 'react-navigatio
 import { Icon } from 'react-native-elements';
 import LogIn from '../LogIn';
 import SignUp from '../SignUp';
-import { DiscoverStack, ProfileStack, FavoriteStack, CompletedStack } from './NavigationStacks';
+import { DiscoverStack, ProfileStack, FavoriteStack, CompletedStack, StartScreenStack } from './NavigationStacks';
 
 const TabNavigation =  createBottomTabNavigator(
     {
@@ -44,10 +44,13 @@ const AppNavigation = createSwitchNavigator({
       screen: LogIn
     },
     MainApp: {
-        screen: TabNavigation,
+        screen: TabNavigation
+    },
+    StartScreen: {
+        screen: StartScreenStack
     }
 }, {
-    initialRouteName: 'MainApp',
+    initialRouteName: 'StartScreen',
 });
     
 

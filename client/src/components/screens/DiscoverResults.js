@@ -7,10 +7,6 @@ import { findTrails, getCurrUser } from '../../actions';
 import Map from '../Map';
 
 class DiscoverResults extends Component {
-    constructor(props) {
-        super(props);
-        this.props.getCurrUser();
-    }
     renderResults() {
         const { trails, loading, userLocation, navigation } = this.props;
         if (loading) {
@@ -37,9 +33,6 @@ class DiscoverResults extends Component {
     componentDidMount() {
         const { userLocation, searchRadius } = this.props;
         this.props.findTrails({position: userLocation.coords, searchRadius})
-        this.props.navigation.addListener('didFocus', () => {
-            this.setState({});
-        });
     }
     render() {
         return (

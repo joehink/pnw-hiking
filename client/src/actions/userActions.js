@@ -10,14 +10,16 @@ import {
 
 import firebase from '../firebase';
 
-export const getCurrUser = () => {
+export const getCurrUser = navigation => {
     return dispatch => {
         dispatch({ type: USER_FETCH_START })
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 dispatch({ type: GET_CURR_USER_SUCCESS, payload: user})
+                navigation.navigate('MainApp');
             } else {
                 dispatch({ type: GET_CURR_USER_FAILURE })
+                navigation.navigate('MainApp');
             }
         })
     }

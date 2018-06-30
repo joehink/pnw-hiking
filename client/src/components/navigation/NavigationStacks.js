@@ -5,8 +5,20 @@ import DiscoverResults from '../screens/DiscoverResults';
 import TrailScreen from '../screens/TrailScreen';
 import FavoriteTrailsScreen from '../screens/FavoriteTrailsScreen';
 import CompletedTrailsScreen from '../screens/CompletedTrailsScreen';
+import StartScreen from '../screens/StartScreen';
 import HeaderButton from '../HeaderButton';
 import { createStackNavigator } from 'react-navigation';
+
+export const StartScreenStack = createStackNavigator({
+    StartScreen: {
+        screen: StartScreen,
+        navigationOptions: {
+            header: null
+        }
+    }
+},{
+    cardStyle:{ backgroundColor:'#fff'}
+})
 
 export const DiscoverStack = createStackNavigator({
     Discover: {

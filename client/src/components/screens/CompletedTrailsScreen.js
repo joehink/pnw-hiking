@@ -8,12 +8,12 @@ import LogInRedirect from '../LogInRedirect';
 
 class CompletedTrailsScreen extends Component {
     constructor(props) {
-        super(props);
-        this.props.getCurrUser();
-        
+        super(props);   
+        const { user } = this.props; 
+            
         this.props.navigation.addListener('willFocus', () => {
-            if (this.props.user.user) {
-                this.props.fetchCompletedTrails(this.props.user.user.uid);
+            if (user.user) {
+                this.props.fetchCompletedTrails(user.user.uid);
             }
         })
     }

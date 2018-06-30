@@ -11,34 +11,36 @@ class TrailScreen extends React.Component {
     state = { isVisible: false }
     constructor(props) {
         super(props);
-        
-        this.props.navigation.addListener('willFocus', () => {
-            if (this.props.user.user) {
-                const trail = this.props.navigation.state.params;
-                this.props.isTrailInDB(this.props.user.user.uid, trail, 'favorites', 'Favorited')
-                this.props.isTrailInDB(this.props.user.user.uid, trail, 'completed', 'Completed')
+        const { user, navigation } = this.props;
+
+        navigation.addListener('willFocus', () => {
+            if (user.user) {
+                const trail = navigation.state.params;
+                this.props.isTrailInDB(user.user.uid, trail, 'favorites', 'Favorited')
+                this.props.isTrailInDB(user.user.uid, trail, 'completed', 'Completed')
             }
         });
         
     }
     renderActions() {
-        const trail = this.props.navigation.state.params;
-        const userID = this.props.user.user.uid;
-        if (this.props.user.user) {
+        const { navigation, user, trailData } = this.props;
+        const trail = navigation.state.params;
+        const userID = user.user.uid;
+        if (user.user) {
             return (
                 <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto'}}>
                     <Icon 
-                        onPress={() => this.props.trailData.isFavorited ? this.props.removeFromDb(userID, this.props.trailData.favoritedTrail, 'favorites') : this.props.addToDb(userID, trail, 'favorites')}
+                        onPress={() => trailData.isFavorited ? this.props.removeFromDb(userID, trailData.favoritedTrail, 'favorites') : this.props.addToDb(userID, trail, 'favorites')}
                         name="favorite" 
-                        color={this.props.trailData.isFavorited ? 'red' : 'gray'} 
+                        color={trailData.isFavorited ? 'red' : 'gray'} 
                         size={20} 
                         reverse 
                         raised
                     />
                     <Icon 
-                        onPress={() => this.props.trailData.isCompleted ? this.props.removeFromDb(userID, this.props.trailData.completedTrail, 'completed') : this.props.addToDb(userID, trail, 'completed')}
+                        onPress={() => trailData.isCompleted ? this.props.removeFromDb(userID, trailData.completedTrail, 'completed') : this.props.addToDb(userID, trail, 'completed')}
                         name="check" 
-                        color={this.props.trailData.isCompleted ? 'green' : 'gray'} 
+                        color={trailData.isCompleted ? 'green' : 'gray'} 
                         size={20} 
                         reverse 
                         raised 
@@ -48,7 +50,9 @@ class TrailScreen extends React.Component {
         }
     }
     renderTrail() {
-        if(!this.props.trailData.loading) {
+        const { navigation, trailData, userLocation } = this.props;
+
+        if(!trailData.loading) {
             const { 
                 ascent, 
                 conditionDetails, 
@@ -62,7 +66,7 @@ class TrailScreen extends React.Component {
                 name, 
                 high,
                 length 
-            } = this.props.navigation.state.params;
+            } = navigation.state.params;
             return (
                 <Page>
                     <ScrollView showsVerticalScrollIndicator={false} >
@@ -140,8 +144,8 @@ class TrailScreen extends React.Component {
                             options={{
                                 latitude: latitude,
                                 longitude: longitude,
-                                sourceLatitude: this.props.userLocation.coords.latitude, 
-                                sourceLongitude: this.props.userLocation.coords.longitude, 
+                                sourceLatitude: userLocation.coords.latitude, 
+                                sourceLongitude: userLocation.coords.longitude, 
                                 dialogTitle: 'Open in Maps', 
                                 dialogMessage: 'What app would you like to use?', 
                                 cancelText: 'Cancel', 
