@@ -4,7 +4,6 @@ import { withNavigation } from 'react-navigation';
 import { Button } from 'react-native-elements';
 
 class LogInRedirect extends React.Component {
-    
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

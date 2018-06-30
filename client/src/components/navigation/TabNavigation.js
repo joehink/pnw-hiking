@@ -21,7 +21,7 @@ const TabNavigation =  createBottomTabNavigator(
                 } else if (routeName === 'Profile') {
                     iconName = `account-circle${focused ? '' : ''}`;
                 } else if (routeName === 'Favorites') {
-                    iconName = `star${focused ? '' : ''}`;
+                    iconName = `favorite${focused ? '' : ''}`;
                 } else if (routeName === 'Completed') {
                     iconName = `check${focused ? '' : ''}`;
                 }

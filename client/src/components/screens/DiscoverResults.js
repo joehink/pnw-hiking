@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
-import { findTrails } from '../../actions';
+import { findTrails, getCurrUser } from '../../actions';
 
 import Map from '../Map';
 
 class DiscoverResults extends Component {
+    constructor(props) {
+        super(props);
+        this.props.getCurrUser();
+    }
     renderResults() {
         const { trails, loading, userLocation, navigation } = this.props;
         if (loading) {
@@ -55,4 +59,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { findTrails })(DiscoverResults);
+export default connect(mapStateToProps, { findTrails, getCurrUser })(DiscoverResults);

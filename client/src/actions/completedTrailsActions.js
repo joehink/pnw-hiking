@@ -7,7 +7,10 @@ export const fetchCompletedTrails = userID => {
         firebase.database().ref().child('users/' + userID + '/completed')
         .on('value', (snapshot) => {
             const trails = snapshot.val() || [];
-            dispatch({ type: FETCH_COMPLETED_TRAILS_SUCCESS, payload: trails});
+            let sortedTrails = Object.values(trails).sort((a,b) => {
+                return a.length > b.length
+            })
+            dispatch({ type: FETCH_COMPLETED_TRAILS_SUCCESS, payload: sortedTrails});
         });
     };
 }

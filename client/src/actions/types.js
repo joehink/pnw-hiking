@@ -12,7 +12,7 @@ export const USER_LOGGED_IN = 'user_logged_in';
 export const USER_SIGNED_UP = 'user_signed_up';
 export const FETCH_COMPLETED_TRAILS_START = 'fetch_completed_trails_start';
 export const FETCH_COMPLETED_TRAILS_SUCCESS = 'fetch_completed_trails_success';
-export const USER_START_FETCHING = 'user_start_fetching';
+export const USER_FETCH_START = 'user_fetch_start';
 export const SIGN_OUT_USER = 'sign_out_user';
 
 export const FETCH_TRAIL_START = 'fetch_trail_start';

@@ -2,31 +2,30 @@ import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
-import { fetchFavoriteTrails } from '../../actions';
+import { fetchFavoriteTrails, getCurrUser } from '../../actions';
 import LogInRedirect from '../LogInRedirect';
 
 
 class FavoriteTrailsScreen extends Component {
     constructor(props) {
         super(props);
-        if (this.props.user.user) {
-            this.props.navigation.addListener('willFocus', () => {
+        this.props.getCurrUser();
+        
+        this.props.navigation.addListener('willFocus', () => {
+            if (this.props.user.user) {
                 this.props.fetchFavoriteTrails(this.props.user.user.uid);
-            })
-        }
+            }
+        })
+        
     }
     renderTrailList() {
         const { user, favoriteTrails, navigation } = this.props;
 
-        let sortedTrails = Object.values(favoriteTrails.trails).sort((a,b) => {
-            return a.length > b.length
-        })
-
-        if (user.user && favoriteTrails.loading) {
+        if (user.user && favoriteTrails.loading || user.loading) {
             return <ActivityIndicator style={{ flex: 1 }} />
         }
         else if (user.user && favoriteTrails.trails) {
-            return <TrailList navigation={navigation} trails={sortedTrails} favorites={true}/>
+            return <TrailList navigation={navigation} trails={favoriteTrails.trails} favorites={true} />
         } else {
             return (
                 <LogInRedirect />
@@ -50,4 +49,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchFavoriteTrails })(FavoriteTrailsScreen);
+export default connect(mapStateToProps, { fetchFavoriteTrails, getCurrUser })(FavoriteTrailsScreen);

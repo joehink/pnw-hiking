@@ -11,13 +11,15 @@ class TrailScreen extends React.Component {
     state = { isVisible: false }
     constructor(props) {
         super(props);
-        if (this.props.user.user) {
-            this.props.navigation.addListener('willFocus', () => {
+        
+        this.props.navigation.addListener('willFocus', () => {
+            if (this.props.user.user) {
                 const trail = this.props.navigation.state.params;
                 this.props.isTrailInDB(this.props.user.user.uid, trail, 'favorites', 'Favorited')
                 this.props.isTrailInDB(this.props.user.user.uid, trail, 'completed', 'Completed')
-            });
-        }
+            }
+        });
+        
     }
     renderActions() {
         const trail = this.props.navigation.state.params;
@@ -63,7 +65,7 @@ class TrailScreen extends React.Component {
             } = this.props.navigation.state.params;
             return (
                 <Page>
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false} >
     
                         <Section style={{ padding: 5, borderColor: '#046A38', borderWidth: 5, borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
                             <ImageBackground source={{uri: imgMedium}} style={{width: '100%', height: 250}}>

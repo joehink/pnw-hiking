@@ -1,15 +1,17 @@
+import React from 'react';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import DiscoverResults from '../screens/DiscoverResults';
 import TrailScreen from '../screens/TrailScreen';
 import FavoriteTrailsScreen from '../screens/FavoriteTrailsScreen';
 import CompletedTrailsScreen from '../screens/CompletedTrailsScreen';
+import HeaderButton from '../HeaderButton';
 import { createStackNavigator } from 'react-navigation';
 
 export const DiscoverStack = createStackNavigator({
     Discover: {
         screen: DiscoverScreen,
-        navigationOptions: {
+        navigationOptions: ({navigation}) => ({
             title: 'Discover',
             headerStyle: {
                 backgroundColor: '#2cb42c',
@@ -18,16 +20,17 @@ export const DiscoverStack = createStackNavigator({
                 borderBottomColor:'transparent',
                 borderBottomWidth: 0
             },
+            headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
                 // fontFamily: 'Avenir',
             }
-        },
+        }),
     },
     Results: {
         screen: DiscoverResults,
-        navigationOptions: {
+        navigationOptions: ({navigation }) => ({
             title: 'Trails',
             headerTintColor: 'white',
             headerStyle: {
@@ -37,16 +40,17 @@ export const DiscoverStack = createStackNavigator({
                 borderBottomColor:'transparent',
                 borderBottomWidth: 0 
             },
+            headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
                 // fontFamily: 'Avenir'
             }
-        },
+        }),
     },
     Trail: {
         screen: TrailScreen,
-        navigationOptions: ({navigation }) => ({
+        navigationOptions: ({ navigation }) => ({
             title: `${navigation.state.params.name}`,
             headerTintColor: 'white',
             headerStyle: {
@@ -56,6 +60,7 @@ export const DiscoverStack = createStackNavigator({
                 borderBottomColor:'transparent',
                 borderBottomWidth: 0 
             },
+            headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
@@ -71,7 +76,7 @@ export const DiscoverStack = createStackNavigator({
 export const ProfileStack = createStackNavigator({
     Profile: {
         screen: ProfileScreen,
-        navigationOptions: {
+        navigationOptions: ({navigation }) => ({
             title: 'Profile',
             headerStyle: {
                 backgroundColor: '#2cb42c',
@@ -80,12 +85,13 @@ export const ProfileStack = createStackNavigator({
                 borderBottomColor:'transparent',
                 borderBottomWidth: 0 
             },
+            headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
                 // fontFamily: 'Avenir'
             }
-        },
+        }),
     },
 }, {
     headerMode: 'screen',
@@ -95,7 +101,7 @@ export const ProfileStack = createStackNavigator({
 export const FavoriteStack = createStackNavigator({
     Favorites: {
         screen: FavoriteTrailsScreen,
-        navigationOptions: {
+        navigationOptions: ({navigation }) => ({
             title: 'Favorites',
             headerStyle: {
                 backgroundColor: '#2cb42c',
@@ -104,12 +110,13 @@ export const FavoriteStack = createStackNavigator({
                 borderBottomColor:'transparent',
                 borderBottomWidth: 0 
             },
+            headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
                 // fontFamily: 'Avenir'
             }
-        },
+        }),
     },
     Trail: {
         screen: TrailScreen,
@@ -123,6 +130,7 @@ export const FavoriteStack = createStackNavigator({
                 borderBottomColor:'transparent',
                 borderBottomWidth: 0 
             },
+            headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
@@ -138,7 +146,7 @@ export const FavoriteStack = createStackNavigator({
 export const CompletedStack = createStackNavigator({
     Completed: {
         screen: CompletedTrailsScreen,
-        navigationOptions: {
+        navigationOptions: ({navigation }) => ({
             title: 'Completed',
             headerStyle: {
                 backgroundColor: '#2cb42c',
@@ -147,12 +155,13 @@ export const CompletedStack = createStackNavigator({
                 borderBottomColor:'transparent',
                 borderBottomWidth: 0 
             },
+            headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
                 // fontFamily: 'Avenir'
             }
-        },
+        }),
     },
     Trail: {
         screen: TrailScreen,
@@ -166,6 +175,7 @@ export const CompletedStack = createStackNavigator({
                 borderBottomColor:'transparent',
                 borderBottomWidth: 0 
             },
+            headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
                 color: '#fff',
                 fontSize: 22,
