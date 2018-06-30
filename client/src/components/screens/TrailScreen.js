@@ -25,8 +25,8 @@ class TrailScreen extends React.Component {
     renderActions() {
         const { navigation, user, trailData } = this.props;
         const trail = navigation.state.params;
-        const userID = user.user.uid;
         if (user.user) {
+            const userID = user.user.uid;
             return (
                 <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto'}}>
                     <Icon 

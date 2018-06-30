@@ -42,7 +42,6 @@ class FavoriteTrailsScreen extends Component {
 
 const mapStateToProps = state => {
     return { 
-        userLocation: state.discover.userLocation.coords, 
         user: state.currUser, 
         favoriteTrails: state.favoriteTrails 
     }
