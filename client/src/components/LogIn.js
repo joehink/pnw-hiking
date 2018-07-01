@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
-import { Button, Card } from './reusable';
-import { FormInput, FormValidationMessage, Icon } from 'react-native-elements';
+import { Card } from './reusable';
+import { FormInput, FormValidationMessage, Icon, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { logIn } from '../actions';
 
@@ -52,14 +52,18 @@ class LogIn extends Component {
                         style={{marginBottom: '13%', width: '100%', height: 115}}
                         source={require('../images/goHike.png')}
                     />
-                    { this.state.validationError &&
+                    { !!this.state.validationError &&
                         <FormValidationMessage>{this.state.validationError}</FormValidationMessage>
                     }
                     <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '1%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
                     <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
-                    <Button onPress={() => this.logIn()} >
-                        Login with Email
-                    </Button>
+                    <Button 
+                        onPress={() => this.logIn()}
+                        title="Login with Email"
+                        rounded
+                        backgroundColor="#2cb42c"
+                        buttonStyle={{ width: '100%' }}
+                    />
                     <Text style={{textAlign: 'center'}}>
                         Don't have an account yet?
                         <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("SignUp")}> Sign Up</Text>

@@ -3,11 +3,10 @@ import { Text, LayoutAnimation } from 'react-native';
 import { Card, Error } from '../reusable';
 import { connect } from 'react-redux';
 import { searchRadiusChange, setUserLocation, getCurrUser } from '../../actions';
-import { Slider, Button } from 'react-native-elements';
+import { Slider, Button, Icon } from 'react-native-elements';
 
 class DiscoverScreen extends Component {
     componentDidMount() {
-        this.props.getCurrUser();
         navigator.geolocation.getCurrentPosition(position => {
             //If we have their permission, save their location to state
             this.props.setUserLocation(position);
@@ -24,16 +23,16 @@ class DiscoverScreen extends Component {
         }, err => console.log(err));
     }
     renderError() {
-        if (this.props.error) {
-            return <Error errorMessage={this.props.error} />
-        } else {
-            return <Text style={{ padding: 10 }}>Tap Go! to find hikes near you</Text>
-        }
+        const { error } = this.props;
+        if (error) {
+            return <Error errorMessage={error} />
+        } 
     }
     componentDidUpdate() {
         LayoutAnimation.spring();
     }
     render() {
+        const { searchRadius } = this.props;
         return (
             <Card style={{justifyContent: 'center', alignItems: 'center'}}>
                 {this.renderError()}
@@ -43,11 +42,14 @@ class DiscoverScreen extends Component {
                     thumbTintColor={'black'}
                     step={1}
                     style={{ width: '70%'}}
-                    value={this.props.searchRadius}
+                    value={searchRadius}
                     onValueChange={value => this.props.searchRadiusChange(value)} />
                 <Button 
-                    title={`Search for trails within ${this.props.searchRadius} miles`}
+                    title={`Search for trails within ${searchRadius} miles`}
                     onPress={this.gpsAuthCheck.bind(this)} 
+                    rounded
+                    backgroundColor="#2cb42c"
+                    buttonStyle={{ width: '100%' }}
                 />
             </Card>
         );
@@ -55,7 +57,11 @@ class DiscoverScreen extends Component {
 }
 
 const mapStateToProps = state => {
-    return { searchRadius: state.discover.searchRadius, error: state.discover.error }
+    return { 
+        searchRadius: state.discover.searchRadius, 
+        error: state.discover.error, 
+        user: state.currUser 
+    }
 }
 
 export default connect(mapStateToProps, { searchRadiusChange, setUserLocation, getCurrUser })(DiscoverScreen);

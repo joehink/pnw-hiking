@@ -2,29 +2,29 @@ import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
-import { fetchFavoriteTrails, getCurrUser } from '../../actions';
+import { fetchCompletedTrails, getCurrUser } from '../../actions';
 import LogInRedirect from '../LogInRedirect';
 
 
-class FavoriteTrailsScreen extends Component {
+class CompletedTrailsScreen extends Component {
     constructor(props) {
-        super(props);
-        const { user } = this.props;
+        super(props);   
+        const { user } = this.props; 
+            
         this.props.navigation.addListener('willFocus', () => {
             if (user.user) {
-                this.props.fetchFavoriteTrails(user.user.uid);
+                this.props.fetchCompletedTrails(user.user.uid);
             }
         })
-        
     }
     renderTrailList() {
-        const { user, favoriteTrails, navigation } = this.props;
+        const { user, completedTrails, navigation } = this.props;
 
-        if (user.user && favoriteTrails.loading || user.loading) {
+        if (user.user && completedTrails.loading || user.loading) {
             return <ActivityIndicator style={{ flex: 1 }} />
         }
-        else if (user.user && favoriteTrails.trails) {
-            return <TrailList navigation={navigation} trails={favoriteTrails.trails} favorites={true} />
+        else if (user.user && completedTrails.trails) {
+            return <TrailList navigation={navigation} trails={completedTrails.trails}/>
         } else {
             return (
                 <LogInRedirect />
@@ -42,9 +42,10 @@ class FavoriteTrailsScreen extends Component {
 
 const mapStateToProps = state => {
     return { 
+        userLocation: state.discover.userLocation.coords, 
         user: state.currUser, 
-        favoriteTrails: state.favoriteTrails 
+        completedTrails: state.completedTrails 
     }
 }
 
-export default connect(mapStateToProps, { fetchFavoriteTrails, getCurrUser })(FavoriteTrailsScreen);
+export default connect(mapStateToProps, { fetchCompletedTrails, getCurrUser })(CompletedTrailsScreen);

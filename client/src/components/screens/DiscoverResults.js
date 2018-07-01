@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
-import { findTrails } from '../../actions';
+import { findTrails, getCurrUser } from '../../actions';
 
 import Map from '../Map';
 
@@ -19,7 +19,7 @@ class DiscoverResults extends Component {
                         height={{height: '40%'}} 
                         trails={trails}
                     />
-                    <TrailList navigation={navigation} trails={trails}/>
+                    <TrailList navigation={navigation} trails={trails} discover/>
                 </Card>
             )
         } else {
@@ -33,9 +33,6 @@ class DiscoverResults extends Component {
     componentDidMount() {
         const { userLocation, searchRadius } = this.props;
         this.props.findTrails({position: userLocation.coords, searchRadius})
-        this.props.navigation.addListener('didFocus', (o) => {
-            this.setState({});
-        });
     }
     render() {
         return (
@@ -55,4 +52,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { findTrails })(DiscoverResults);
+export default connect(mapStateToProps, { findTrails, getCurrUser })(DiscoverResults);

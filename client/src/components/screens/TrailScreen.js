@@ -1,281 +1,176 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Text, View, ScrollView, ImageBackground, ActivityIndicator, LayoutAnimation } from 'react-native';
+import { Icon, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import firebase from '../../firebase';
-import { fetchFavoriteTrails, fetchCompletedTrails } from '../../actions';
+import { isTrailInDB, addToDb, removeFromDb, toggle } from '../../actions';
 import { Popup } from 'react-native-map-link';
+import { Page, Section } from '../reusable';
+
 
 class TrailScreen extends React.Component {
+    state = { isVisible: false }
     constructor(props) {
-        super(props)
-        this.state = {
-            isVisible: false
-        }
-        this.props.fetchFavoriteTrails();
-        this.props.fetchCompletedTrails();
-        this.props.navigation.addListener('didFocus', (o) => {
-            this.setState({});
+        super(props);
+        const { user, navigation } = this.props;
+
+        navigation.addListener('willFocus', () => {
+            if (user.user) {
+                const trail = navigation.state.params;
+                this.props.isTrailInDB(user.user.uid, trail, 'favorites', 'Favorited')
+                this.props.isTrailInDB(user.user.uid, trail, 'completed', 'Completed')
+            }
         });
+        
     }
-
-    mapDirections = () => {
-        this.setState({
-            isVisible: true,
-        })
-    }
-
-    updateFavoriteTrail(trail, name) {
-        const { favoriteTrails, user } = this.props;
-        if (user) {
-            let trailID = '';
-            for (let key in favoriteTrails.trails) {
-                if (favoriteTrails.trails[key].name === name) {
-                    trailID = key;
-                }
-            }
-            console.log(favoriteTrails.trails);
-            if (trailID) {
-                //Delete favorite trail
-                let userID = firebase.auth().currentUser.uid;
-                firebase.database().ref().child('users/' + userID + '/favorites/' + trailID).remove()
-            } else {
-                //Add favorite trail
-                let userID = firebase.auth().currentUser.uid;
-                const newTrailRef = firebase.database().ref().child('users/' + userID + '/favorites').push()
-                trail.id = newTrailRef.key;
-                newTrailRef.set(trail);
-            }
+    renderActions() {
+        const { navigation, user, trailData } = this.props;
+        const trail = navigation.state.params;
+        if (user.user) {
+            const userID = user.user.uid;
+            return (
+                <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto'}}>
+                    <Icon 
+                        onPress={() => trailData.isFavorited ? this.props.removeFromDb(userID, trailData.favoritedTrail, 'favorites') : this.props.addToDb(userID, trail, 'favorites')}
+                        name="favorite" 
+                        color={trailData.isFavorited ? 'red' : 'gray'} 
+                        size={20} 
+                        reverse 
+                        raised
+                    />
+                    <Icon 
+                        onPress={() => trailData.isCompleted ? this.props.removeFromDb(userID, trailData.completedTrail, 'completed') : this.props.addToDb(userID, trail, 'completed')}
+                        name="check" 
+                        color={trailData.isCompleted ? 'green' : 'gray'} 
+                        size={20} 
+                        reverse 
+                        raised 
+                    />
+                </View>
+            )
         }
     }
+    renderTrail() {
+        const { navigation, trailData, userLocation } = this.props;
 
-    isFavorited(name) {
-        const { favoriteTrails, user } = this.props;
-        if (user) {
-            for (let key in favoriteTrails.trails) {
-                if (favoriteTrails.trails[key].name === name) {
-                    return true;
-                }
-            }
+        if(!trailData.loading) {
+            const { 
+                ascent, 
+                conditionDetails, 
+                conditionStatus, 
+                difficulty, 
+                imgMedium, 
+                location, 
+                latitude, 
+                longitude, 
+                summary, 
+                name, 
+                high,
+                length 
+            } = navigation.state.params;
+            return (
+                <Page>
+                    <ScrollView showsVerticalScrollIndicator={false} >
+    
+                        <Section style={{ padding: 5, borderColor: '#046A38', borderWidth: 5, borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
+                            <ImageBackground source={{uri: imgMedium}} style={{width: '100%', height: 250}}>
+                                {this.renderActions()}
+                            </ImageBackground>
+                        </Section>
+    
+                        <Section style={{paddingTop: 0}}>
+                            <View style={{ flexDirection: 'column'}}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{name}</Text>
+                                <View style={{ flexDirection: 'row', paddingTop: 2.5 }}>
+                                    <Icon name="location-on" size={20} />
+                                    <Text>{location.length <= 2 ? 'N/A' : location}</Text>
+                                </View>
+                            </View>
+                        </Section>
+    
+                        <Section style={{ borderColor: 'black', borderTopWidth: 2}}>
+                            <Text>{ summary }</Text>
+                        </Section>
+    
+                        <Section style={{ borderColor: 'black', borderTopWidth: 2, justifyContent: 'space-around', padding: 20 }}>
+                            <View style={{ alignItems: 'center' }}>
+                                <Icon name="directions-walk" size={35}/>
+                                <Text>Length</Text>
+                                <Text>{length}</Text>
+                            </View>
+                            <View style={{ alignItems: 'center' }}>
+                                <Icon name="thumbs-up-down" size={35}/>
+                                <Text>Difficulty</Text>
+                                <Text>{difficulty}</Text>
+                            </View>
+                            <View style={{ alignItems: 'center' }}>
+                                <Icon name="trending-up" size={35}/>
+                                <Text>Ascent</Text>
+                                <Text>{ascent}</Text>
+                            </View>
+                            <View style={{ alignItems: 'center' }}>
+                                <Icon name="filter-hdr" size={35}/>
+                                <Text>Highest Pt.</Text>
+                                <Text>{high}</Text>
+                            </View>
+                        </Section>
+                        
+                        <Button 
+                            onPress={() => this.setState({ isVisible: true })}
+                            backgroundColor="#4a80f5"
+                            title="Get Directions"
+                            containerViewStyle={{ margin: 10, }}
+                        />
+                        <Section style={{ flexDirection: 'column', borderColor: 'black', borderTopWidth: 2, paddingTop: 15 }}>
+                            <View style={{ backgroundColor: '#046A38', padding: 10, marginBottom: 10 }}>
+                                <Text style={{ padding: 10, borderColor: 'white', borderWidth: 2, color: 'white', textAlign: 'center' }}>
+                                    {conditionStatus}
+                                </Text>
+                            </View>
+                            <View style={{ backgroundColor: '#046A38', padding: 10 }}>
+                                <Text style={{ padding: 10, borderColor: 'white', borderWidth: 2, color: 'white', textAlign: 'center' }}>
+                                    {conditionDetails}
+                                </Text>
+                            </View>
+                        </Section>
+    
+                        <Popup
+                            isVisible={this.state.isVisible}
+                            onCancelPressed={() => this.setState({ isVisible: false })}
+                            onAppPressed={() => this.setState({ isVisible: false })}
+                            onBackButtonPressed={() => this.setState({ isVisible: false })}
+                            modalProps={{ 
+                                animationIn: 'slideInUp'
+                            }}
+                            options={{
+                                latitude: latitude,
+                                longitude: longitude,
+                                sourceLatitude: userLocation.coords.latitude, 
+                                sourceLongitude: userLocation.coords.longitude, 
+                                dialogTitle: 'Open in Maps', 
+                                dialogMessage: 'What app would you like to use?', 
+                                cancelText: 'Cancel', 
+                            }}
+                        />
+                    </ScrollView>
+                </Page>
+            );
+        } else {
+            return (
+                <ActivityIndicator style={{ flex: 1 }}/>
+            )
         }
-        return false;
     }
-
-    updateCompletedTrail(trail, name) {
-        const { completedTrails, user } = this.props;
-        if (user) {
-            let trailID = '';
-            for (let key in completedTrails) {
-                if (completedTrails[key].name === name) {
-                    trailID = key;
-                }
-            }
-            if (trailID) {
-                //Remove from completed
-                let userID = firebase.auth().currentUser.uid;
-                firebase.database().ref().child('users/' + userID + '/completed/' + trailID).remove()
-            } else {
-                //Add to completed
-                let userID = firebase.auth().currentUser.uid;
-                const newTrailRef = firebase.database().ref().child('users/' + userID + '/completed').push()
-                trail.id = newTrailRef.key;
-                newTrailRef.set(trail);
-            }
-        }
-    }
-
-    isCompleted(name) {
-        const { completedTrails, user } = this.props;
-        if (user) {
-            for (let key in completedTrails) {
-                if (completedTrails[key].name === name) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     render() {
-        const { 
-            ascent, 
-            conditionDetails, 
-            conditionStatus, 
-            difficulty, 
-            imgMedium, 
-            location, 
-            latitude, 
-            longitude, 
-            summary, 
-            name, 
-            length } = this.props.navigation.state.params;
-        return (
-            <ScrollView style={styles.container}>
-                <Image
-                    style={styles.trailImage}
-                    source={{uri: `${imgMedium}`}}
-                />
-                <Text style={styles.trailName}>{name}</Text>
-                <View style={styles.trailDetailsContainer}>
-                    <View>  
-                        <View style={styles.trailDetails}>
-                            <Icon type='entypo' name='location-pin' size={25}/>
-                            <Text style={styles.detailsHeader}>Location</Text>
-                        </View>
-                        <Text style={{textAlign:'center'}} >{location}</Text>
-                    </View>
-                    <View>
-                        <View style={styles.trailDetails}>
-                            <Icon type='material-community' name='walk' size={25}/>
-                            <Text style={styles.detailsHeader}>Distance</Text>
-                        </View>
-                        <Text style={{textAlign:'center'}}>{length} mi</Text>
-                    </View>
-                    <View> 
-                        <View style={styles.trailDetails}>
-                            <Icon type='material-community' name='trending-up' size={25}/>
-                            <Text style={styles.detailsHeader}>Ascent</Text>
-                        </View>
-                        <Text style={{textAlign:'center'}}>{ascent} ft.</Text>
-                    </View>
-                </View>
-                <View style={styles.trailDetailsContainer}>
-                    <View>  
-                        <View style={styles.trailDetails}>
-                            <Text style={styles.detailsHeader}>Favorite</Text>
-                        </View>
-                        { 
-                            !this.isFavorited(name) &&
-                                <Icon type='ionicon' onPress={() => this.updateFavoriteTrail(this.props.navigation.state.params, name)} name='ios-star-outline' size={30}/>
-                        }
-                        {
-                            this.isFavorited(name) &&
-                                <Icon type='entypo' color='yellow' onPress={() => this.updateFavoriteTrail(this.props.navigation.state.params, name)} name='star' size={30}/>
-                        }
-                    </View>
-                    <View>
-                        <View style={styles.trailDetails}>
-                            <Text style={styles.detailsHeader}>Trail Completed</Text>
-                        </View>
-                        { 
-                            !this.isCompleted(name) &&
-                                <Icon type='feather' color='red' onPress={() => this.updateCompletedTrail(this.props.navigation.state.params, name)} name='x' size={30}/>
-                        }
-                        {
-                            this.isCompleted(name) &&
-                                <Icon type='feather' color='green' onPress={() => this.updateCompletedTrail(this.props.navigation.state.params, name)} name='check' size={30}/>
-                        }
-                    </View>
-                </View>
-                <Text style={styles.trailSummary}>
-                    <Text style={{fontWeight: "bold", fontSize: 16, marginBottom: '10%'}}>Overview {"\n"}</Text>
-                    <Text>{summary}</Text>
-                </Text>
-                <Text style={styles.trailConditions}>Trail Conditions: {conditionDetails}</Text>
-                <Text style={styles.trailConditions}>Status: {conditionStatus}</Text>
-                <View style={{justifyContent: 'center', alignItems: 'center', marginTop: '5%'}}>
-                    <TouchableOpacity style={styles.buttonDirections} onPress={() => this.mapDirections()}>
-                        <Text style={styles.directionText}>
-                            Get Directions
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                <Popup
-                    isVisible={this.state.isVisible}
-                    onCancelPressed={() => this.setState({ isVisible: false })}
-                    onAppPressed={() => this.setState({ isVisible: false })}
-                    onBackButtonPressed={() => this.setState({ isVisible: false })}
-                    modalProps={{ 
-                        animationIn: 'slideInUp'
-                    }}
-                    options={{
-                        latitude: latitude,
-                        longitude: longitude,
-                        sourceLatitude: this.props.userLocation.coords.latitude, 
-                        sourceLongitude: this.props.userLocation.coords.longitude, 
-                        dialogTitle: 'Open in Maps', 
-                        dialogMessage: 'What app would you like to use?', 
-                        cancelText: 'Cancel', 
-                    }}
-                />
-            </ScrollView>
-        );
+        return this.renderTrail()
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff',
-        borderTopLeftRadius: 18,
-        borderTopRightRadius: 18,
-    },
-
-    trailImage: {
-        width: '100%',
-        height: 250,
-        borderTopLeftRadius: 18,
-        borderTopRightRadius: 18,
-    },
-
-    trailDetailsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center' ,
-        marginTop: '3%',
-    },
-
-    trailDetails: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center', 
-        marginRight: '5%'
-    },
-
-    detailsHeader: {
-        marginLeft: '4%'
-    },
-
-    trailSummary: {
-        marginTop: '4%',
-        marginLeft: '4%',
-        marginRight: '4%'
-    },
-
-    trailConditions: {
-        marginTop: '3%',
-        marginLeft: '4%',
-    },
-
-    trailName: {
-        textAlign: 'center',
-        fontSize: 20,
-        fontWeight: '700',
-        marginTop: '2%'
-    },
-
-    buttonDirections: {
-        height: 50,
-        width: '92%',
-        backgroundColor: '#4a80f5',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius: 8
-    },
-
-    directionText: {
-        fontSize: 15,
-        color: 'white',
-        fontWeight: '500',
-    }
-
-});
 
 const mapStateToProps = state => {
     return { 
         userLocation: state.discover.userLocation, 
         user: state.currUser, 
-        completedTrails: state.completedTrails,
-        favoriteTrails: state.favoriteTrails
+        trailData: state.trail
     }
 }
 
-export default connect(mapStateToProps, { fetchFavoriteTrails, fetchCompletedTrails })(TrailScreen);
+export default connect(mapStateToProps, { isTrailInDB, addToDb, removeFromDb, toggle })(TrailScreen);

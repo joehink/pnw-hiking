@@ -9,7 +9,7 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    user: {},
+    user: null,
     loading: false,
     error: '',
     authorizing: false
@@ -20,7 +20,7 @@ export default (state = INITIAL_STATE, action) => {
         case GET_CURR_USER_SUCCESS:
             return { ...state, user: action.payload, error: '', loading: false};
         case GET_CURR_USER_FAILURE:
-            return { ...state };
+            return { ...INITIAL_STATE };
         case USER_START_AUTHORIZING:
             return { ...state, authorizing: true }
         case USER_SIGNED_UP:
@@ -30,7 +30,7 @@ export default (state = INITIAL_STATE, action) => {
         case USER_FETCH_START:
             return { ...state, loading: true }
         case SIGN_OUT_USER: 
-            return { INITIAL_STATE }
+            return { ...INITIAL_STATE }
         default: 
             return state;
     }

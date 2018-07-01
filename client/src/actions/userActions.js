@@ -4,18 +4,22 @@ import {
     USER_START_AUTHORIZING, 
     USER_LOGGED_IN, 
     USER_SIGNED_UP, 
-    SIGN_OUT_USER
+    SIGN_OUT_USER,
+    USER_FETCH_START 
 } from './types';
 
 import firebase from '../firebase';
 
-export const getCurrUser = () => {
+export const getCurrUser = navigation => {
     return dispatch => {
+        dispatch({ type: USER_FETCH_START })
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 dispatch({ type: GET_CURR_USER_SUCCESS, payload: user})
+                navigation.navigate('MainApp');
             } else {
                 dispatch({ type: GET_CURR_USER_FAILURE })
+                navigation.navigate('MainApp');
             }
         })
     }

@@ -6,11 +6,15 @@ import { Button, Card } from '../reusable';
 
 class ProfileScreen extends React.Component {
     signOut() {
-        this.props.signOutUser(this.props.navigation);
+        const { navigation } = this.props;
+
+        this.props.signOutUser(navigation);
     }
 
     renderProfile() {
-        if (this.props.user && this.props.user.user) {
+        const { user } = this.props;
+
+        if (user.user) {
             return <Button onPress={() => this.signOut()} >
                         Log Out
                     </Button>
@@ -19,7 +23,9 @@ class ProfileScreen extends React.Component {
         }
     }
     componentDidMount() {
-        this.props.navigation.addListener('didFocus', (o) => {
+        const { navigation } = this.props;
+
+        navigation.addListener('willFocus', () => {
             this.setState({});
         });
     }
