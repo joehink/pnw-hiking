@@ -8,7 +8,7 @@ class StartScreen extends Component {
         this.props.getCurrUser(this.props.navigation)
     }
     render() {
-        return <ActivityIndicator style={{ flex: 1 }} />
+        return <ActivityIndicator size="large" style={{ flex: 1 }} />
     }
 }
 

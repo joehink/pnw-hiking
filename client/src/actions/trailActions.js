@@ -5,7 +5,9 @@ import {
     IS_COMPLETED_AT_START,
     IS_FAVORITED_AT_START,
     TOGGLE_FAVORITED,
-    TOGGLE_COMPLETED
+    TOGGLE_COMPLETED,
+    TRAIL_FAVORITE_ACTION_START,
+    TRAIL_COMPLETED_ACTION_START
 } from './types';
 import firebase from '../firebase';
 
@@ -38,6 +40,11 @@ export const isTrailInDB = ( userID, trail, collection ) => {
 
 export const removeFromDb = (userID, trail, collection) => {
     return dispatch => {
+        if(collection === 'favorites') {
+            dispatch({ type: TRAIL_FAVORITE_ACTION_START });
+        } else {
+            dispatch({ type: TRAIL_COMPLETED_ACTION_START });
+        }
         const trailId = Object.keys(trail)[0];
         firebase.database().ref().child(`users/${userID}/${collection}/${trailId}`).remove()
             .then(() => {
@@ -57,6 +64,11 @@ export const removeFromDb = (userID, trail, collection) => {
 
 export const addToDb = (userID, trail, collection) => {
     return dispatch => {
+        if(collection === 'favorites') {
+            dispatch({ type: TRAIL_FAVORITE_ACTION_START });
+        } else {
+            dispatch({ type: TRAIL_COMPLETED_ACTION_START });
+        }
         const ref = firebase.database().ref().child(`users/${userID}/${collection}`)
         const query = ref.orderByChild('id').equalTo(trail.id).limitToFirst(1);
         query.once('value', snap => {
@@ -104,3 +116,4 @@ export const toggle = collection => {
     } 
 }
 
+ 

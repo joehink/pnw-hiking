@@ -21,7 +21,7 @@ class CompletedTrailsScreen extends Component {
         const { user, completedTrails, navigation } = this.props;
 
         if (user.user && completedTrails.loading || user.loading) {
-            return <ActivityIndicator style={{ flex: 1 }} />
+            return <ActivityIndicator size="large" style={{ flex: 1 }} />
         }
         else if (user.user && completedTrails.trails) {
             return <TrailList navigation={navigation} trails={completedTrails.trails}/>

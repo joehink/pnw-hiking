@@ -21,7 +21,7 @@ class FavoriteTrailsScreen extends Component {
         const { user, favoriteTrails, navigation } = this.props;
 
         if (user.user && favoriteTrails.loading || user.loading) {
-            return <ActivityIndicator style={{ flex: 1 }} />
+            return <ActivityIndicator size="large" style={{ flex: 1 }} />
         }
         else if (user.user && favoriteTrails.trails) {
             return <TrailList navigation={navigation} trails={favoriteTrails.trails} favorites={true} />

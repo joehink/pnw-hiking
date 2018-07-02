@@ -22,13 +22,40 @@ class TrailScreen extends React.Component {
         });
         
     }
-    renderActions() {
+    // renderActions() {
+    //     const { navigation, user, trailData } = this.props;
+    //     const trail = navigation.state.params;
+    //     if (user.user) {
+    //         const userID = user.user.uid;
+    //         return (
+    //             <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto'}}>
+    //                 <Icon 
+    //                     onPress={() => trailData.isFavorited ? this.props.removeFromDb(userID, trailData.favoritedTrail, 'favorites') : this.props.addToDb(userID, trail, 'favorites')}
+    //                     name="favorite" 
+    //                     color={trailData.isFavorited ? 'red' : 'gray'} 
+    //                     size={20} 
+    //                     reverse 
+    //                     raised
+    //                 />
+    //                 <Icon 
+    //                     onPress={() => trailData.isCompleted ? this.props.removeFromDb(userID, trailData.completedTrail, 'completed') : this.props.addToDb(userID, trail, 'completed')}
+    //                     name="check" 
+    //                     color={trailData.isCompleted ? 'green' : 'gray'} 
+    //                     size={20} 
+    //                     reverse 
+    //                     raised 
+    //                 />
+    //             </View>
+    //         )
+    //     }
+    // }
+    renderFavorite() {
         const { navigation, user, trailData } = this.props;
         const trail = navigation.state.params;
         if (user.user) {
             const userID = user.user.uid;
-            return (
-                <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto'}}>
+            if(!trailData.favoriting) {
+                return (
                     <Icon 
                         onPress={() => trailData.isFavorited ? this.props.removeFromDb(userID, trailData.favoritedTrail, 'favorites') : this.props.addToDb(userID, trail, 'favorites')}
                         name="favorite" 
@@ -37,6 +64,23 @@ class TrailScreen extends React.Component {
                         reverse 
                         raised
                     />
+                )
+            } else {
+                return (
+                    <View style={{ backgroundColor: 'red', borderRadius: 50, width: 44, height: 44, justifyContent: 'center', alignItems: 'center', margin: 7 }}>
+                        <ActivityIndicator color="#fff" />
+                    </View>
+                )
+            }
+        }
+    }
+    renderComplete() {
+        const { navigation, user, trailData } = this.props;
+        const trail = navigation.state.params;
+        if (user.user) {
+            const userID = user.user.uid;
+            if(!trailData.completing) {
+                return (
                     <Icon 
                         onPress={() => trailData.isCompleted ? this.props.removeFromDb(userID, trailData.completedTrail, 'completed') : this.props.addToDb(userID, trail, 'completed')}
                         name="check" 
@@ -45,8 +89,14 @@ class TrailScreen extends React.Component {
                         reverse 
                         raised 
                     />
-                </View>
-            )
+                )
+            } else {
+                return (
+                    <View style={{ backgroundColor: 'green', borderRadius: 50, width: 44, height: 44, justifyContent: 'center', alignItems: 'center', margin: 7 }}>
+                        <ActivityIndicator color="#fff" />
+                    </View>
+                )
+            }
         }
     }
     renderTrail() {
@@ -73,7 +123,10 @@ class TrailScreen extends React.Component {
     
                         <Section style={{ padding: 5, borderColor: '#046A38', borderWidth: 5, borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
                             <ImageBackground source={{uri: imgMedium}} style={{width: '100%', height: 250}}>
-                                {this.renderActions()}
+                                <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto', justifyContent: 'space-around'}}>
+                                    {this.renderFavorite()}
+                                    {this.renderComplete()}
+                                </View>
                             </ImageBackground>
                         </Section>
     
@@ -156,7 +209,7 @@ class TrailScreen extends React.Component {
             );
         } else {
             return (
-                <ActivityIndicator style={{ flex: 1 }}/>
+                <ActivityIndicator size="large" style={{ flex: 1 }}/>
             )
         }
     }

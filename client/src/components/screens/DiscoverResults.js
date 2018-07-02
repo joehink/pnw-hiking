@@ -10,7 +10,7 @@ class DiscoverResults extends Component {
     renderResults() {
         const { trails, loading, userLocation, navigation } = this.props;
         if (loading) {
-            return <ActivityIndicator style={{ flex: 1 }} />
+            return <ActivityIndicator size="large" style={{ flex: 1 }} />
         } else if (trails.length > 0) {
             return (
                 <Card>
