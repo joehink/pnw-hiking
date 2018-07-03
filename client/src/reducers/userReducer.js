@@ -3,8 +3,10 @@ import {
     GET_CURR_USER_FAILURE, 
     USER_START_AUTHORIZING, 
     SIGN_OUT_USER,
-    USER_LOGGED_IN, 
-    USER_SIGNED_UP, 
+    USER_LOGGED_IN_SUCCESS,
+    USER_LOGGED_IN_FAILURE, 
+    USER_SIGNED_UP_SUCCESS, 
+    USER_SIGNED_UP_FAILURE,
     USER_FETCH_START 
 } from '../actions/types';
 
@@ -23,10 +25,14 @@ export default (state = INITIAL_STATE, action) => {
             return { ...INITIAL_STATE };
         case USER_START_AUTHORIZING:
             return { ...state, authorizing: true }
-        case USER_SIGNED_UP:
+        case USER_SIGNED_UP_SUCCESS:
             return { ...state, user: action.payload, authorizing: false }
-        case USER_LOGGED_IN:
+        case USER_SIGNED_UP_FAILURE:
+            return { ...state, user: null, authorizing: false, error: action.payload + '' }
+        case USER_LOGGED_IN_SUCCESS:
             return { ...state, user: action.payload, authorizing: false }
+        case USER_LOGGED_IN_FAILURE:
+            return { ...state, user: null, authorizing: false, error: action.payload + '' }
         case USER_FETCH_START:
             return { ...state, loading: true }
         case SIGN_OUT_USER: 

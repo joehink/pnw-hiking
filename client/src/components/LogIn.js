@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { Card } from './reusable';
 import { FormInput, FormValidationMessage, Icon, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -46,14 +46,20 @@ class LogIn extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <Icon containerStyle={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} type='feather' onPress={() => this.props.navigation.navigate('MainApp')} name='x' size={30}/>
+                <TouchableOpacity style={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} onPress={() => this.props.navigation.navigate('MainApp')}>
+                    <Icon type='feather' name='x' size={30}/>
+                </TouchableOpacity>
                 <Card style={{justifyContent: 'center', alignItems: 'center'}}>
                     <Image
                         style={{marginBottom: '13%', width: '100%', height: 115}}
                         source={require('../images/goHike.png')}
                     />
+                    {
+                        this.props.user  && this.props.user.error &&
+                        <FormValidationMessage labelStyle={{textAlign: 'center'}}>{ this.props.user.error }</FormValidationMessage>
+                    }
                     { !!this.state.validationError &&
-                        <FormValidationMessage>{this.state.validationError}</FormValidationMessage>
+                        <FormValidationMessage labelStyle={{textAlign: 'center'}}>{this.state.validationError}</FormValidationMessage>
                     }
                     <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '1%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
                     <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
@@ -74,4 +80,8 @@ class LogIn extends Component {
     }
 }
 
-export default connect(null, { logIn })(LogIn);
+const mapStateToProps = state => {
+    return { user: state.currUser }
+}
+
+export default connect(mapStateToProps, { logIn })(LogIn);

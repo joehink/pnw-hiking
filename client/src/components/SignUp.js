@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements'
+import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { FormInput, FormValidationMessage, Button, Icon } from 'react-native-elements'
 import { connect } from 'react-redux';
-import { getCurrUser, signUp } from '../actions';
+import { signUp } from '../actions';
 
 class SignUp extends React.Component {
     state = {
@@ -11,6 +11,7 @@ class SignUp extends React.Component {
         confPassword: '',
         validationError: ''
     }
+
     validate() {
         if (!this.state.email || !this.state.password || !this.state.confPassword) {
             this.setState({
@@ -46,18 +47,23 @@ class SignUp extends React.Component {
             this.props.signUp(this.state.email, this.state.password)
         }
     }
-    componentDidMount() {
-        this.props.getCurrUser(this.props.navigation)
-    }
+
     render() {
         return (
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                <TouchableOpacity style={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} onPress={() => this.props.navigation.navigate('MainApp')}>
+                    <Icon type='feather' name='x' size={30}/>
+                </TouchableOpacity>
                 <Image
                     style={{marginBottom: '13%', width: '100%', height: 115}}
                     source={require('../images/goHike.png')}
                 />
-                { this.state.validationError &&
-                    <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
+                {
+                    this.props.user  && this.props.user.error &&
+                    <FormValidationMessage labelStyle={{textAlign: 'center'}}>{ this.props.user.error }</FormValidationMessage>
+                }
+                { !!this.state.validationError &&
+                    <FormValidationMessage labelStyle={{textAlign: 'center'}}>{ this.state.validationError }</FormValidationMessage>
                 }
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '2%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
@@ -82,4 +88,4 @@ const mapStateToProps = state => {
     return { user: state.currUser }
 }
 
-export default connect(mapStateToProps, { getCurrUser, signUp })(SignUp);
+export default connect(mapStateToProps, { signUp })(SignUp);

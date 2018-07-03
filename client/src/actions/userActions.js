@@ -2,8 +2,10 @@ import {
     GET_CURR_USER_SUCCESS, 
     GET_CURR_USER_FAILURE, 
     USER_START_AUTHORIZING, 
-    USER_LOGGED_IN, 
-    USER_SIGNED_UP, 
+    USER_LOGGED_IN_SUCCESS, 
+    USER_LOGGED_IN_FAILURE,
+    USER_SIGNED_UP_SUCCESS, 
+    USER_SIGNED_UP_FAILURE,
     SIGN_OUT_USER,
     USER_FETCH_START 
 } from './types';
@@ -40,8 +42,12 @@ export const signUp = (email, password) => {
                                 email: userEmail
                             })
                             .then(() => {
-                                dispatch({ type: USER_SIGNED_UP, payload: user })
+                                dispatch({ type: USER_SIGNED_UP_SUCCESS, payload: user });
                             })
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch({ type: USER_SIGNED_UP_FAILURE, payload: error });
             });
     }
 }
@@ -52,7 +58,11 @@ export const logIn = (email, password) => {
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then((user) => {
-                dispatch({ type: USER_LOGGED_IN, payload: user })
+                dispatch({ type: USER_LOGGED_IN_SUCCESS, payload: error })
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch({ type: USER_LOGGED_IN_FAILURE, payload: error});
             });
     }
 }

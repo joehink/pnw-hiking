@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
 import { fetchFavoriteTrails, getCurrUser } from '../../actions';
@@ -17,13 +17,16 @@ class FavoriteTrailsScreen extends Component {
         })
         
     }
+
     renderTrailList() {
         const { user, favoriteTrails, navigation } = this.props;
-
         if (user.user && favoriteTrails.loading || user.loading) {
             return <ActivityIndicator style={{ flex: 1 }} />
-        }
-        else if (user.user && favoriteTrails.trails) {
+        } else if (user.user && favoriteTrails.trails.length === 0) {
+            return  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontWeight: 'bold', fontSize: 14}}>You have not favorited any trails yet.</Text>
+                    </View>
+        } else if (user.user && favoriteTrails.trails) {
             return <TrailList navigation={navigation} trails={favoriteTrails.trails} favorites={true} />
         } else {
             return (
@@ -31,6 +34,7 @@ class FavoriteTrailsScreen extends Component {
             )
         }
     }
+    
     render() {
         return (
             <Card>
