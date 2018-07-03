@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements'
+import { Text, View } from 'react-native';
+import { FormInput, FormValidationMessage, Button } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { getCurrUser, signUp } from '../actions';
 
@@ -46,22 +46,48 @@ class SignUp extends React.Component {
             this.props.signUp(this.state.email, this.state.password)
         }
     }
-    // componentDidMount() {
-    //     this.props.getCurrUser(this.props.navigation)
-    // }
+
+    componentDidMount() {
+        this.emailInput.focus();
+    }
+
     render() {
         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                <Image
-                    style={{marginBottom: '13%', width: '100%', height: 115}}
-                    source={require('../images/goHike.png')}
-                />
+            <View style={{ alignItems: 'center', flex: 1 }}>
+                <Text style={{ fontFamily: 'Righteous', fontSize: 70, marginBottom: 20, marginTop: 100 }}>Go Hike</Text>
                 { !!this.state.validationError &&
                     <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
                 }
-                <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '2%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
-                <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
-                <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.confPassword } textAlign='center' onChangeText={ (input) => this.setState({confPassword: input})} secureTextEntry placeholder="Confirm Password" />
+                <FormInput 
+                    autoCapitalize = 'none' 
+                    ref={input => this.emailInput = input} 
+                    inputStyle={{fontSize: 16, width: '100%'}} 
+                    containerStyle={{paddingTop: '2.5%', width: '75%'}} 
+                    value={ this.state.email } 
+                    textAlign='center' 
+                    onChangeText={ (input) => this.setState({email: input})} 
+                    placeholder="Email" 
+                />
+                <FormInput 
+                    autoCapitalize = 'none' 
+                    inputStyle={{fontSize: 16, width: '100%'}} 
+                    containerStyle={{paddingTop: '2.5%', width: '75%'}} 
+                    value={ this.state.password } 
+                    textAlign='center' 
+                    onChangeText={ (input) => this.setState({password: input})} 
+                    secureTextEntry 
+                    placeholder="Password" 
+                />
+                <FormInput 
+                    autoCapitalize = 'none' 
+                    inputStyle={{fontSize: 16, width: '100%'}} 
+                    containerStyle={{paddingTop: '2.5%', width: '75%'}} 
+                    value={ this.state.confPassword } 
+                    textAlign='center' 
+                    onChangeText={ (input) => this.setState({confPassword: input})} 
+                    secureTextEntry 
+                    placeholder="Confirm Password" 
+                />
                 <Button 
                     onPress={() => this.signUp()}
                     title="Sign Up"
@@ -73,7 +99,7 @@ class SignUp extends React.Component {
                 />
                 <Text style={{textAlign: 'center'}}>
                     Already have an account?
-                    <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("LogIn")}> Log In</Text>
+                    <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("LogIn")}>Log In</Text>
                 </Text>
             </View>
         );
