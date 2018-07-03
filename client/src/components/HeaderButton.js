@@ -14,7 +14,7 @@ class HeaderButton extends Component {
                 </TouchableOpacity>
             )
         } else {
-            return <Text></Text>
+            return null
         }
     }
     render() {

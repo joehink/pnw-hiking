@@ -70,41 +70,22 @@ export const addToDb = (userID, trail, collection) => {
             dispatch({ type: TRAIL_COMPLETED_ACTION_START });
         }
         const ref = firebase.database().ref().child(`users/${userID}/${collection}`)
-        const query = ref.orderByChild('id').equalTo(trail.id).limitToFirst(1);
-        query.once('value', snap => {
-            if(!snap.exists()) {
-                const newTrailRef = ref.push()
-                trail.firebaseId = newTrailRef.key;
-                newTrailRef.set(trail, (error) => {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        if(collection === 'favorites') {
-                            dispatch({ type: TOGGLE_FAVORITED })
-                        } else if ( collection === 'completed' ) {
-                            dispatch({ type: TOGGLE_COMPLETED })
-                        }
-                    }
-                });
+        const newTrailRef = ref.push()
+        trail.firebaseId = newTrailRef.key;
+        const newTrail = trail;
+        newTrailRef.set(trail, (error) => {
+            if (error) {
+                console.log(error);
+            } else {
+                if(collection === 'favorites') {
+                    dispatch({ type: TOGGLE_FAVORITED });
+                    dispatch({ type: FAVORITED_TRAIL_SUCCESS, payload: { [newTrail.firebaseId]: newTrail } })
+                } else if ( collection === 'completed' ) {
+                    dispatch({ type: TOGGLE_COMPLETED });
+                    dispatch({ type: COMPLETED_TRAIL_SUCCESS, payload: { [newTrail.firebaseId]: newTrail } })
+                }
             }
-        })
-        query.off('value', snap => {
-            if(!snap.exists()) {
-                const newTrailRef = ref.push()
-                trail.firebaseId = newTrailRef.key;
-                newTrailRef.set(trail, (error) => {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        if(collection === 'favorites') {
-                            dispatch({ type: TOGGLE_FAVORITED })
-                        } else if ( collection === 'completed' ) {
-                            dispatch({ type: TOGGLE_COMPLETED })
-                        }
-                    }
-                });
-            }
-        })
+        });
     }
 }
 

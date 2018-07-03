@@ -62,7 +62,9 @@ class LogIn extends Component {
                         title="Login with Email"
                         rounded
                         backgroundColor="#2cb42c"
-                        buttonStyle={{ width: '100%' }}
+                        buttonStyle={{ width: 200 }}
+                        loading={this.props.user.authorizing}
+                        containerViewStyle={{ margin: 25 }}
                     />
                     <Text style={{textAlign: 'center'}}>
                         Don't have an account yet?
@@ -74,4 +76,8 @@ class LogIn extends Component {
     }
 }
 
-export default connect(null, { logIn })(LogIn);
+const mapStateToProps = state => {
+    return { user: state.currUser }
+}
+
+export default connect(mapStateToProps, { logIn })(LogIn);

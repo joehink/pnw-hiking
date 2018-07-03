@@ -46,9 +46,9 @@ class SignUp extends React.Component {
             this.props.signUp(this.state.email, this.state.password)
         }
     }
-    componentDidMount() {
-        this.props.getCurrUser(this.props.navigation)
-    }
+    // componentDidMount() {
+    //     this.props.getCurrUser(this.props.navigation)
+    // }
     render() {
         return (
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
@@ -56,7 +56,7 @@ class SignUp extends React.Component {
                     style={{marginBottom: '13%', width: '100%', height: 115}}
                     source={require('../images/goHike.png')}
                 />
-                { this.state.validationError &&
+                { !!this.state.validationError &&
                     <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
                 }
                 <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '2%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
@@ -67,7 +67,9 @@ class SignUp extends React.Component {
                     title="Sign Up"
                     rounded
                     backgroundColor="#2cb42c"
-                    buttonStyle={{ width: '100%' }}
+                    buttonStyle={{ width: 200 }}
+                    loading={this.props.user.authorizing}
+                    containerViewStyle={{ margin: 25 }}
                 />
                 <Text style={{textAlign: 'center'}}>
                     Already have an account?
