@@ -5,7 +5,9 @@ import {
     IS_COMPLETED_AT_START,
     IS_FAVORITED_AT_START,
     TOGGLE_FAVORITED,
-    TOGGLE_COMPLETED
+    TOGGLE_COMPLETED,
+    TRAIL_FAVORITE_ACTION_START,
+    TRAIL_COMPLETED_ACTION_START
 } from './types';
 import firebase from '../firebase';
 
@@ -38,6 +40,11 @@ export const isTrailInDB = ( userID, trail, collection ) => {
 
 export const removeFromDb = (userID, trail, collection) => {
     return dispatch => {
+        if(collection === 'favorites') {
+            dispatch({ type: TRAIL_FAVORITE_ACTION_START });
+        } else {
+            dispatch({ type: TRAIL_COMPLETED_ACTION_START });
+        }
         const trailId = Object.keys(trail)[0];
         firebase.database().ref().child(`users/${userID}/${collection}/${trailId}`).remove()
             .then(() => {
@@ -57,42 +64,28 @@ export const removeFromDb = (userID, trail, collection) => {
 
 export const addToDb = (userID, trail, collection) => {
     return dispatch => {
+        if(collection === 'favorites') {
+            dispatch({ type: TRAIL_FAVORITE_ACTION_START });
+        } else {
+            dispatch({ type: TRAIL_COMPLETED_ACTION_START });
+        }
         const ref = firebase.database().ref().child(`users/${userID}/${collection}`)
-        const query = ref.orderByChild('id').equalTo(trail.id).limitToFirst(1);
-        query.once('value', snap => {
-            if(!snap.exists()) {
-                const newTrailRef = ref.push()
-                trail.firebaseId = newTrailRef.key;
-                newTrailRef.set(trail, (error) => {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        if(collection === 'favorites') {
-                            dispatch({ type: TOGGLE_FAVORITED })
-                        } else if ( collection === 'completed' ) {
-                            dispatch({ type: TOGGLE_COMPLETED })
-                        }
-                    }
-                });
+        const newTrailRef = ref.push()
+        trail.firebaseId = newTrailRef.key;
+        const newTrail = trail;
+        newTrailRef.set(trail, (error) => {
+            if (error) {
+                console.log(error);
+            } else {
+                if(collection === 'favorites') {
+                    dispatch({ type: TOGGLE_FAVORITED });
+                    dispatch({ type: FAVORITED_TRAIL_SUCCESS, payload: { [newTrail.firebaseId]: newTrail } })
+                } else if ( collection === 'completed' ) {
+                    dispatch({ type: TOGGLE_COMPLETED });
+                    dispatch({ type: COMPLETED_TRAIL_SUCCESS, payload: { [newTrail.firebaseId]: newTrail } })
+                }
             }
-        })
-        query.off('value', snap => {
-            if(!snap.exists()) {
-                const newTrailRef = ref.push()
-                trail.firebaseId = newTrailRef.key;
-                newTrailRef.set(trail, (error) => {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        if(collection === 'favorites') {
-                            dispatch({ type: TOGGLE_FAVORITED })
-                        } else if ( collection === 'completed' ) {
-                            dispatch({ type: TOGGLE_COMPLETED })
-                        }
-                    }
-                });
-            }
-        })
+        });
     }
 }
 
@@ -104,3 +97,4 @@ export const toggle = collection => {
     } 
 }
 
+ 

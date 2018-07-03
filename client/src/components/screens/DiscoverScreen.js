@@ -49,7 +49,8 @@ class DiscoverScreen extends Component {
                     onPress={this.gpsAuthCheck.bind(this)} 
                     rounded
                     backgroundColor="#2cb42c"
-                    buttonStyle={{ width: '100%' }}
+                    containerViewStyle={{ paddingLeft: 20, paddingRight: 20 }}
+                    buttonStyle={{ width: 300 }}
                 />
             </Card>
         );

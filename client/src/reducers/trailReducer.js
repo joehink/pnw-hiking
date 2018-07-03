@@ -6,6 +6,8 @@ import {
     IS_FAVORITED_AT_START,
     TOGGLE_FAVORITED,
     TOGGLE_COMPLETED,
+    TRAIL_FAVORITE_ACTION_START,
+    TRAIL_COMPLETED_ACTION_START
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -14,7 +16,9 @@ const INITIAL_STATE = {
     completedTrail: null,
     favoritedTrail: null,
     isCompleted: false,
-    isFavorited: false
+    isFavorited: false,
+    favoriting: false,
+    completing: false 
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -29,11 +33,16 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, isCompleted: action.payload };
         case IS_FAVORITED_AT_START:
             return { ...state, isFavorited: action.payload };
+        case TRAIL_FAVORITE_ACTION_START:
+            return { ...state, favoriting: true }
+        case TRAIL_COMPLETED_ACTION_START:
+            return { ...state, completing: true }
         case TOGGLE_COMPLETED:
-            return { ...state, isCompleted: !state.isCompleted }
+            return { ...state, isCompleted: !state.isCompleted, completing: false }
         case TOGGLE_FAVORITED:
-            return { ...state, isFavorited: !state.isFavorited}
+            return { ...state, isFavorited: !state.isFavorited, favoriting: false}
         default: 
             return state;
     }
 }
+ 

@@ -22,7 +22,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "create-react-native-app": "^1.0.0",
-    "expo": "^27.0.1",
+    "expo": "^27.1.0",
     "firebase": "^5.0.4",
     "geolib": "^2.0.24",
     "npm-install-missing": "^0.1.4",

@@ -22,7 +22,7 @@ class CompletedTrailsScreen extends Component {
     renderTrailList() {
         const { user, completedTrails, navigation } = this.props;
         if (user.user && completedTrails.loading || user.loading) {
-            return <ActivityIndicator style={{ flex: 1 }} />
+            return <ActivityIndicator size="large" style={{ flex: 1 }} />
         } else if (user.user && completedTrails.trails.length === 0) {
             return  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={{fontWeight: 'bold', fontSize: 14}}>You have not completed any trails yet.</Text>

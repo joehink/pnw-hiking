@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { signOutUser } from '../actions';
 
 class HeaderButton extends Component {
     renderButton() {
         if (this.props.user.user) {
-            return <Text 
-                        style={styles.buttonStyle} 
-                        onPress={() => this.props.signOutUser(this.props.navigation)}
-                    >
+            return (
+                <TouchableOpacity onPress={() => this.props.signOutUser(this.props.navigation)}>
+                    <Text style={styles.buttonStyle} >
                         Log Out
                     </Text>
+                </TouchableOpacity>
+            )
         } else {
-            return <Text></Text>
+            return null
         }
     }
     render() {

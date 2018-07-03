@@ -43,6 +43,10 @@ class LogIn extends Component {
         }
     }
 
+    componentDidMount() {
+        this.emailInput.focus();
+    }
+
     render() {
         return (
             <View style={{flex: 1}}>
@@ -61,14 +65,32 @@ class LogIn extends Component {
                     { !!this.state.validationError &&
                         <FormValidationMessage labelStyle={{textAlign: 'center'}}>{this.state.validationError}</FormValidationMessage>
                     }
-                    <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '1%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
-                    <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
+                    <FormInput 
+                        autoCapitalize = 'none' 
+                        ref={input => this.emailInput = input} 
+                        inputStyle={{fontSize: 16, width: '100%'}} 
+                        containerStyle={{ width: '75%'}} 
+                        value={ this.state.email} textAlign='center' 
+                        onChangeText={ (input) => this.setState({email: input})} 
+                        placeholder="Email" 
+                    />
+                    <FormInput 
+                        autoCapitalize = 'none' 
+                        inputStyle={{fontSize: 16, width: '100%'}} 
+                        containerStyle={{paddingTop: '5%', width: '75%'}} 
+                        value={ this.state.password } 
+                        textAlign='center' 
+                        onChangeText={ (input) => this.setState({password: input})} 
+                        secureTextEntry placeholder="Password" 
+                    />
                     <Button 
                         onPress={() => this.logIn()}
                         title="Login with Email"
                         rounded
                         backgroundColor="#2cb42c"
-                        buttonStyle={{ width: '100%' }}
+                        buttonStyle={{ width: 200 }}
+                        loading={this.props.user.authorizing}
+                        containerViewStyle={{ margin: 25 }}
                     />
                     <Text style={{textAlign: 'center'}}>
                         Don't have an account yet?

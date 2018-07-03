@@ -21,7 +21,7 @@ class FavoriteTrailsScreen extends Component {
     renderTrailList() {
         const { user, favoriteTrails, navigation } = this.props;
         if (user.user && favoriteTrails.loading || user.loading) {
-            return <ActivityIndicator style={{ flex: 1 }} />
+            return <ActivityIndicator size="large" style={{ flex: 1 }} />
         } else if (user.user && favoriteTrails.trails.length === 0) {
             return  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={{fontWeight: 'bold', fontSize: 14}}>You have not favorited any trails yet.</Text>

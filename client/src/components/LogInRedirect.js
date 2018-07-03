@@ -13,7 +13,8 @@ class LogInRedirect extends React.Component {
                     title="Log in"
                     rounded
                     backgroundColor="#2cb42c"
-                    buttonStyle={{ width: '100%' }}
+                    buttonStyle={{ width: 200 }}
+                    containerViewStyle={{ margin: 25 }}
                 />
             </View>
         );
