@@ -5,11 +5,17 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import reducers from './src/reducers';
+import { Font } from 'expo';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         YellowBox.ignoreWarnings(['Setting a timer', '[2']);
+    }
+    componentDidMount() {
+        Font.loadAsync({
+            'Righteous': require('./assets/fonts/Righteous-Regular.ttf'),
+          });
     }
     render() {
         return (

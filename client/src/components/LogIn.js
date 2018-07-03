@@ -43,20 +43,37 @@ class LogIn extends Component {
         }
     }
 
+    componentDidMount() {
+        this.emailInput.focus();
+    }
+
     render() {
         return (
             <View style={{flex: 1}}>
                 <Icon containerStyle={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} type='feather' onPress={() => this.props.navigation.navigate('MainApp')} name='x' size={30}/>
-                <Card style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <Image
-                        style={{marginBottom: '13%', width: '100%', height: 115}}
-                        source={require('../images/goHike.png')}
-                    />
+                <Card style={{marginTop: 100, alignItems: 'center'}}>
+                    <Text style={{ fontFamily: 'Righteous', fontSize: 70, marginBottom: 20 }} >Go Hike</Text>
                     { !!this.state.validationError &&
                         <FormValidationMessage>{this.state.validationError}</FormValidationMessage>
                     }
-                    <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '1%', paddingBottom: '2%', width: '75%'}} value={ this.state.email} textAlign='center' onChangeText={ (input) => this.setState({email: input})} placeholder="Email" />
-                    <FormInput inputStyle={{fontSize: 20, width: '100%'}} containerStyle={{paddingTop: '7%', paddingBottom: '2%', width: '75%'}} value={ this.state.password } textAlign='center' onChangeText={ (input) => this.setState({password: input})} secureTextEntry placeholder="Password" />
+                    <FormInput 
+                        autoCapitalize = 'none' 
+                        ref={input => this.emailInput = input} 
+                        inputStyle={{fontSize: 16, width: '100%'}} 
+                        containerStyle={{ paddingBottom: '1%', width: '75%'}} 
+                        value={ this.state.email} textAlign='center' 
+                        onChangeText={ (input) => this.setState({email: input})} 
+                        placeholder="Email" 
+                    />
+                    <FormInput 
+                        autoCapitalize = 'none' 
+                        inputStyle={{fontSize: 16, width: '100%'}} 
+                        containerStyle={{paddingTop: '5%', paddingBottom: '1%', width: '75%'}} 
+                        value={ this.state.password } 
+                        textAlign='center' 
+                        onChangeText={ (input) => this.setState({password: input})} 
+                        secureTextEntry placeholder="Password" 
+                    />
                     <Button 
                         onPress={() => this.logIn()}
                         title="Login with Email"
