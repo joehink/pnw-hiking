@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { Card } from './reusable';
 import { FormInput, FormValidationMessage, Icon, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -50,17 +50,20 @@ class LogIn extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <Icon 
-                    containerStyle={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} 
-                    type='feather' 
-                    onPress={() => this.props.navigation.navigate('MainApp')} 
-                    name='x' 
-                    size={30}
-                />
-                <Card style={{marginTop: 100, alignItems: 'center'}}>
-                    <Text style={{ fontFamily: 'Righteous', fontSize: 70, marginBottom: 20 }}>Go Hike</Text>
+                <TouchableOpacity style={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} onPress={() => this.props.navigation.navigate('MainApp')}>
+                    <Icon type='feather' name='x' size={30}/>
+                </TouchableOpacity>
+                <Card style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <Image
+                        style={{marginBottom: '13%', width: '100%', height: 115}}
+                        source={require('../images/goHike.png')}
+                    />
+                    {
+                        this.props.user  && this.props.user.error &&
+                        <FormValidationMessage labelStyle={{textAlign: 'center'}}>{ this.props.user.error }</FormValidationMessage>
+                    }
                     { !!this.state.validationError &&
-                        <FormValidationMessage>{this.state.validationError}</FormValidationMessage>
+                        <FormValidationMessage labelStyle={{textAlign: 'center'}}>{this.state.validationError}</FormValidationMessage>
                     }
                     <FormInput 
                         autoCapitalize = 'none' 

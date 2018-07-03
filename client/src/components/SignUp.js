@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { FormInput, FormValidationMessage, Button } from 'react-native-elements'
+import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { FormInput, FormValidationMessage, Button, Icon } from 'react-native-elements'
 import { connect } from 'react-redux';
-import { getCurrUser, signUp } from '../actions';
+import { signUp } from '../actions';
 
 class SignUp extends React.Component {
     state = {
@@ -11,6 +11,7 @@ class SignUp extends React.Component {
         confPassword: '',
         validationError: ''
     }
+
     validate() {
         if (!this.state.email || !this.state.password || !this.state.confPassword) {
             this.setState({
@@ -47,16 +48,23 @@ class SignUp extends React.Component {
         }
     }
 
+
     componentDidMount() {
         this.emailInput.focus();
     }
-
     render() {
         return (
-            <View style={{ alignItems: 'center', flex: 1 }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                <TouchableOpacity style={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} onPress={() => this.props.navigation.navigate('MainApp')}>
+                    <Icon type='feather' name='x' size={30}/>
+                </TouchableOpacity>
                 <Text style={{ fontFamily: 'Righteous', fontSize: 70, marginBottom: 20, marginTop: 100 }}>Go Hike</Text>
+                {
+                    this.props.user  && this.props.user.error &&
+                    <FormValidationMessage labelStyle={{textAlign: 'center'}}>{ this.props.user.error }</FormValidationMessage>
+                }
                 { !!this.state.validationError &&
-                    <FormValidationMessage>{ this.state.validationError }</FormValidationMessage>
+                    <FormValidationMessage labelStyle={{textAlign: 'center'}}>{ this.state.validationError }</FormValidationMessage>
                 }
                 <FormInput 
                     autoCapitalize = 'none' 
@@ -110,4 +118,4 @@ const mapStateToProps = state => {
     return { user: state.currUser }
 }
 
-export default connect(mapStateToProps, { getCurrUser, signUp })(SignUp);
+export default connect(mapStateToProps, { signUp })(SignUp);
