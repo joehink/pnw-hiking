@@ -159,7 +159,7 @@ export const CompletedStack = createStackNavigator({
     Completed: {
         screen: CompletedTrailsScreen,
         navigationOptions: ({navigation }) => ({
-            title: 'Completed',
+            title: 'Completed Trails',
             headerStyle: {
                 backgroundColor: '#2cb42c',
                 paddingBottom: '1%',
