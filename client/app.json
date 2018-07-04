@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Go Hike",
+    "icon": "./logo.png",
+    "description": "An easy-to-use app for finding hiking trails near you!",
+    "sdkVersion": "27.0.0",
+    "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.joehink.gohike"
+    },
+    "android": {
+      "package": "com.joehink.gohike"
+    }
   }
 }

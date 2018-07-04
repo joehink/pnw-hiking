@@ -29,7 +29,7 @@ const TabNavigation =  createBottomTabNavigator(
             },
         }),
         tabBarOptions: {
-            activeTintColor: '#2cb42c',
+            activeTintColor: '#06AA5B',
             inactiveTintColor: 'gray',
         },
         swipeEnabled: true,

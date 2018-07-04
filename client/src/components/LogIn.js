@@ -53,13 +53,10 @@ class LogIn extends Component {
                 <TouchableOpacity style={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} onPress={() => this.props.navigation.navigate('MainApp')}>
                     <Icon type='feather' name='x' size={30}/>
                 </TouchableOpacity>
-                <Card style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <Image
-                        style={{marginBottom: '13%', width: '100%', height: 115}}
-                        source={require('../images/goHike.png')}
-                    />
+                <Card style={{ alignItems: 'center'}}>
+                    <Text style={{ fontFamily: 'Righteous', fontSize: 70, marginBottom: 20, marginTop: 100 }}>Go Hike</Text>
                     {
-                        this.props.user  && this.props.user.error &&
+                        !!this.props.user  && !!this.props.user.error &&
                         <FormValidationMessage labelStyle={{textAlign: 'center'}}>{ this.props.user.error }</FormValidationMessage>
                     }
                     { !!this.state.validationError &&
@@ -69,7 +66,7 @@ class LogIn extends Component {
                         autoCapitalize = 'none' 
                         ref={input => this.emailInput = input} 
                         inputStyle={{fontSize: 16, width: '100%'}} 
-                        containerStyle={{ width: '75%'}} 
+                        containerStyle={{paddingTop: '2.5%', width: '75%'}} 
                         value={ this.state.email} textAlign='center' 
                         onChangeText={ (input) => this.setState({email: input})} 
                         placeholder="Email" 
@@ -77,7 +74,7 @@ class LogIn extends Component {
                     <FormInput 
                         autoCapitalize = 'none' 
                         inputStyle={{fontSize: 16, width: '100%'}} 
-                        containerStyle={{paddingTop: '5%', width: '75%'}} 
+                        containerStyle={{paddingTop: '2.5%', width: '75%'}} 
                         value={ this.state.password } 
                         textAlign='center' 
                         onChangeText={ (input) => this.setState({password: input})} 
@@ -87,7 +84,7 @@ class LogIn extends Component {
                         onPress={() => this.logIn()}
                         title="Login with Email"
                         rounded
-                        backgroundColor="#2cb42c"
+                        backgroundColor="#06AA5B"
                         buttonStyle={{ width: 200 }}
                         loading={this.props.user.authorizing}
                         containerViewStyle={{ margin: 25 }}

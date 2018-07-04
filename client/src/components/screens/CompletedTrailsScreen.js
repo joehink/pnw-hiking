@@ -28,9 +28,8 @@ class CompletedTrailsScreen extends Component {
                         <Text style={{fontWeight: 'bold', fontSize: 14}}>You have not completed any trails yet.</Text>
                     </View>
         } else if (user.user && completedTrails.trails) {
-            let stats = this.renderStats(completedTrails.trails);
             return  <View>
-                        {stats}
+                        {this.renderStats(completedTrails.trails)}
                         <TrailList navigation={navigation} trails={completedTrails.trails}/>
                     </View>
         } else {
@@ -49,7 +48,7 @@ class CompletedTrailsScreen extends Component {
         }
         return  <View>
                     <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>Hiking Stats</Text>
-                    <Section style={{borderColor: 'black', borderBottomWidth: 1, justifyContent: 'space-around', padding: 20, paddingBottom: 10 }}>
+                    <Section style={{borderColor: '#bbb', borderBottomWidth: 1, justifyContent: 'space-around', padding: 20, paddingBottom: 10 }}>
                         <View style={{justifyContent: 'center', alignItems: 'center'}}> 
                             <Text style={{fontWeight: 'bold'}}>Total Distance</Text>
                             <Text>{Math.round(totalDistance * 1000) / 1000 + ' mi'}</Text>
@@ -77,7 +76,6 @@ class CompletedTrailsScreen extends Component {
 
 const mapStateToProps = state => {
     return { 
-        userLocation: state.discover.userLocation.coords, 
         user: state.currUser, 
         completedTrails: state.completedTrails 
     }
