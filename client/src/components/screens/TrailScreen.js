@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ScrollView, ImageBackground, ActivityIndicator, LayoutAnimation } from 'react-native';
+import { Text, View, ScrollView, ImageBackground, ActivityIndicator } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { isTrailInDB, addToDb, removeFromDb, toggle } from '../../actions';
@@ -22,33 +22,6 @@ class TrailScreen extends React.Component {
         });
         
     }
-    // renderActions() {
-    //     const { navigation, user, trailData } = this.props;
-    //     const trail = navigation.state.params;
-    //     if (user.user) {
-    //         const userID = user.user.uid;
-    //         return (
-    //             <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto'}}>
-    //                 <Icon 
-    //                     onPress={() => trailData.isFavorited ? this.props.removeFromDb(userID, trailData.favoritedTrail, 'favorites') : this.props.addToDb(userID, trail, 'favorites')}
-    //                     name="favorite" 
-    //                     color={trailData.isFavorited ? 'red' : 'gray'} 
-    //                     size={20} 
-    //                     reverse 
-    //                     raised
-    //                 />
-    //                 <Icon 
-    //                     onPress={() => trailData.isCompleted ? this.props.removeFromDb(userID, trailData.completedTrail, 'completed') : this.props.addToDb(userID, trail, 'completed')}
-    //                     name="check" 
-    //                     color={trailData.isCompleted ? 'green' : 'gray'} 
-    //                     size={20} 
-    //                     reverse 
-    //                     raised 
-    //                 />
-    //             </View>
-    //         )
-    //     }
-    // }
     renderFavorite() {
         const { navigation, user, trailData } = this.props;
         const trail = navigation.state.params;

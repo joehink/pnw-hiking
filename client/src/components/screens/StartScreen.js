@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, LayoutAnimation } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { getCurrUser } from '../../actions';
 

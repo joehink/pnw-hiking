@@ -1,6 +1,5 @@
 import React from 'react';
 import DiscoverScreen from '../screens/DiscoverScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import DiscoverResults from '../screens/DiscoverResults';
 import TrailScreen from '../screens/TrailScreen';
 import FavoriteTrailsScreen from '../screens/FavoriteTrailsScreen';
@@ -64,26 +63,6 @@ export const DiscoverStack = createStackNavigator({
                 fontSize: 22,
             }
         })
-    },
-}, {
-    headerMode: 'screen',
-    cardStyle:{ backgroundColor:'#fff'}
-});
-  
-export const ProfileStack = createStackNavigator({
-    Profile: {
-        screen: ProfileScreen,
-        navigationOptions: ({navigation }) => ({
-            title: 'Profile',
-            headerStyle: {
-                backgroundColor: '#06AA5B'
-            },
-            headerRight: ( <HeaderButton navigation={navigation} /> ),
-            headerTitleStyle: {
-                color: '#fff',
-                fontSize: 22
-            }
-        }),
     },
 }, {
     headerMode: 'screen',

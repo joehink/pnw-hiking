@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, View, Text } from 'react-native';
 import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
 import { fetchCompletedTrails, getCurrUser } from '../../actions';
 import LogInRedirect from '../LogInRedirect';
-import { Page, Section } from '../reusable';
+import { Section } from '../reusable';
 
 
 class CompletedTrailsScreen extends Component {
@@ -64,7 +64,6 @@ class CompletedTrailsScreen extends Component {
                     </Section>
                 </View>
     }
-
     render() {
         return (
             <Card>

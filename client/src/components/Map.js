@@ -1,5 +1,6 @@
 import React from 'react';
-import MapView from 'react-native-maps';
+// import MapView from 'react-native-maps';
+import { MapView } from 'expo';
 const hiker = require('../images/hiker.png');
 
 class Map extends React.Component {

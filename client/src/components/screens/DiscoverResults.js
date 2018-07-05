@@ -3,7 +3,6 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { Card, TrailList } from '../reusable';
 import { connect } from 'react-redux';
 import { findTrails, getCurrUser } from '../../actions';
-
 import Map from '../Map';
 
 class DiscoverResults extends Component {
