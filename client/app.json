@@ -4,12 +4,18 @@
     "icon": "./logo.png",
     "description": "An easy-to-use app for finding hiking trails near you!",
     "sdkVersion": "27.0.0",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "ios": {
       "bundleIdentifier": "com.joehink.gohike"
     },
     "android": {
-      "package": "com.joehink.gohike"
+      "package": "com.joehink.gohike",
+      "versionCode": 3,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAu3QvGgF93ve0SUnoKR0z9ZNgZXqd5sVU"
+        }
+      }
     }
   }
 }
