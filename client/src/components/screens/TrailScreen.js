@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ScrollView, ImageBackground, ActivityIndicator, LayoutAnimation } from 'react-native';
+import { Text, View, ScrollView, ImageBackground, ActivityIndicator } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { isTrailInDB, addToDb, removeFromDb, toggle } from '../../actions';
@@ -22,33 +22,6 @@ class TrailScreen extends React.Component {
         });
         
     }
-    // renderActions() {
-    //     const { navigation, user, trailData } = this.props;
-    //     const trail = navigation.state.params;
-    //     if (user.user) {
-    //         const userID = user.user.uid;
-    //         return (
-    //             <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto'}}>
-    //                 <Icon 
-    //                     onPress={() => trailData.isFavorited ? this.props.removeFromDb(userID, trailData.favoritedTrail, 'favorites') : this.props.addToDb(userID, trail, 'favorites')}
-    //                     name="favorite" 
-    //                     color={trailData.isFavorited ? 'red' : 'gray'} 
-    //                     size={20} 
-    //                     reverse 
-    //                     raised
-    //                 />
-    //                 <Icon 
-    //                     onPress={() => trailData.isCompleted ? this.props.removeFromDb(userID, trailData.completedTrail, 'completed') : this.props.addToDb(userID, trail, 'completed')}
-    //                     name="check" 
-    //                     color={trailData.isCompleted ? 'green' : 'gray'} 
-    //                     size={20} 
-    //                     reverse 
-    //                     raised 
-    //                 />
-    //             </View>
-    //         )
-    //     }
-    // }
     renderFavorite() {
         const { navigation, user, trailData } = this.props;
         const trail = navigation.state.params;
@@ -99,6 +72,26 @@ class TrailScreen extends React.Component {
             }
         }
     }
+    renderConditionStatus() {
+        const { conditionStatus } = this.props.navigation.state.params;
+        if (conditionStatus && conditionStatus !== 'Unknown') {
+            return <View style={{ backgroundColor: '#06AA5B', padding: 10, marginTop: 15, elevation: 1, shadowOffset:{  width: 0,  height: 0 }, shadowColor: 'black', shadowOpacity: 0.15, shadowRadius: 5 }}>
+                        <Text style={{ padding: 10, borderColor: 'white', borderWidth: 2, color: 'white', textAlign: 'center' }}>
+                            {conditionStatus}
+                        </Text>
+                    </View>
+        }
+    }
+    renderConditionDetails() {
+        const { conditionDetails } = this.props.navigation.state.params;
+        if (conditionDetails && conditionDetails !== 'Unknown') {
+            return <View style={{ backgroundColor: '#06AA5B', padding: 10, marginTop: 15, elevation: 1, shadowOffset:{  width: 0,  height: 0 }, shadowColor: 'black', shadowOpacity: 0.15, shadowRadius: 5 }}>
+                        <Text style={{ padding: 10, borderColor: 'white', borderWidth: 2, color: 'white', textAlign: 'center' }}>
+                            {conditionDetails}
+                        </Text>
+                    </View>
+        }
+    }
     renderTrail() {
         const { navigation, trailData, userLocation } = this.props;
 
@@ -121,8 +114,8 @@ class TrailScreen extends React.Component {
                 <Page>
                     <ScrollView showsVerticalScrollIndicator={false} >
     
-                        <Section style={{ padding: 5, borderColor: '#046A38', borderWidth: 5, borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
-                            <ImageBackground source={{uri: imgMedium}} style={{width: '100%', height: 250}}>
+                        <Section style={{ padding: 5, marginTop: 15, borderColor: '#06AA5B', borderWidth: 5, borderRadius: 5, paddingTop: 5, paddingBottom: 5,elevation: 1, shadowOffset:{  width: 0,  height: 0 }, shadowColor: 'black', shadowOpacity: 0.25, shadowRadius: 10 }}>
+                            <ImageBackground source={{uri: imgMedium}} style={{width: '100%', height: 250, elevation: 1, shadowOffset:{  width: 0,  height: 0 }, shadowColor: 'black', shadowOpacity: 0.15, shadowRadius: 5 }}>
                                 <View style={{alignSelf: 'flex-end', flexDirection: 'row', marginTop: 'auto', justifyContent: 'space-around'}}>
                                     {this.renderFavorite()}
                                     {this.renderComplete()}
@@ -132,7 +125,9 @@ class TrailScreen extends React.Component {
     
                         <Section style={{paddingTop: 0}}>
                             <View style={{ flexDirection: 'column'}}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{name}</Text>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                                    {name || 'N/A'}
+                                </Text>
                                 <View style={{ flexDirection: 'row', paddingTop: 2.5 }}>
                                     <Icon name="location-on" size={20} />
                                     <Text>{location.length <= 2 ? 'N/A' : location}</Text>
@@ -141,49 +136,41 @@ class TrailScreen extends React.Component {
                         </Section>
     
                         <Section style={{ borderColor: 'black', borderTopWidth: 2}}>
-                            <Text>{ summary }</Text>
+                            <Text>{ summary || 'N/A'}</Text>
                         </Section>
     
                         <Section style={{ borderColor: 'black', borderTopWidth: 2, justifyContent: 'space-around', padding: 20 }}>
                             <View style={{ alignItems: 'center' }}>
                                 <Icon name="directions-walk" size={35}/>
-                                <Text>Length</Text>
-                                <Text>{length}</Text>
+                                <Text style={{ marginTop: 5, marginBottom: 5 }}>Length</Text>
+                                <Text>{length || 'N/A'}</Text>
                             </View>
                             <View style={{ alignItems: 'center' }}>
                                 <Icon name="thumbs-up-down" size={35}/>
-                                <Text>Difficulty</Text>
-                                <Text>{difficulty}</Text>
+                                <Text style={{ marginTop: 5, marginBottom: 5 }}>Difficulty</Text>
+                                <Text>{difficulty || 'N/A'}</Text>
                             </View>
                             <View style={{ alignItems: 'center' }}>
                                 <Icon name="trending-up" size={35}/>
-                                <Text>Ascent</Text>
-                                <Text>{ascent}</Text>
+                                <Text style={{ marginTop: 5, marginBottom: 5 }}>Ascent</Text>
+                                <Text>{ascent || 'N/A'}</Text>
                             </View>
                             <View style={{ alignItems: 'center' }}>
                                 <Icon name="filter-hdr" size={35}/>
-                                <Text>Highest Pt.</Text>
-                                <Text>{high}</Text>
+                                <Text style={{ marginTop: 5, marginBottom: 5 }}>Highest Pt.</Text>
+                                <Text>{high || 'N/A'}</Text>
                             </View>
                         </Section>
                         
                         <Button 
                             onPress={() => this.setState({ isVisible: true })}
-                            backgroundColor="#4a80f5"
+                            backgroundColor="#007AE5"
                             title="Get Directions"
-                            containerViewStyle={{ margin: 10, }}
+                            containerViewStyle={{ margin: 10, elevation: 1, borderRadius: 10, shadowOffset:{  width: 0,  height: 0 }, shadowColor: 'black', shadowOpacity: 0.15, shadowRadius: 5 }}
                         />
                         <Section style={{ flexDirection: 'column', borderColor: 'black', borderTopWidth: 2, paddingTop: 15 }}>
-                            <View style={{ backgroundColor: '#046A38', padding: 10, marginBottom: 10 }}>
-                                <Text style={{ padding: 10, borderColor: 'white', borderWidth: 2, color: 'white', textAlign: 'center' }}>
-                                    {conditionStatus}
-                                </Text>
-                            </View>
-                            <View style={{ backgroundColor: '#046A38', padding: 10 }}>
-                                <Text style={{ padding: 10, borderColor: 'white', borderWidth: 2, color: 'white', textAlign: 'center' }}>
-                                    {conditionDetails}
-                                </Text>
-                            </View>
+                            {this.renderConditionStatus()}
+                            {this.renderConditionDetails()}
                         </Section>
     
                         <Popup

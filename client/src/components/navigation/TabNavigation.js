@@ -3,7 +3,7 @@ import { createBottomTabNavigator, createSwitchNavigator } from 'react-navigatio
 import { Icon } from 'react-native-elements';
 import LogIn from '../LogIn';
 import SignUp from '../SignUp';
-import { DiscoverStack, ProfileStack, FavoriteStack, CompletedStack, StartScreenStack } from './NavigationStacks';
+import { DiscoverStack, FavoriteStack, CompletedStack, StartScreenStack } from './NavigationStacks';
 
 const TabNavigation =  createBottomTabNavigator(
     {
@@ -18,8 +18,6 @@ const TabNavigation =  createBottomTabNavigator(
                 let iconName;
                 if (routeName === 'Discover') {
                     iconName = `search${focused ? '' : ''}`;
-                } else if (routeName === 'Profile') {
-                    iconName = `account-circle${focused ? '' : ''}`;
                 } else if (routeName === 'Favorites') {
                     iconName = `favorite${focused ? '' : ''}`;
                 } else if (routeName === 'Completed') {
@@ -29,7 +27,7 @@ const TabNavigation =  createBottomTabNavigator(
             },
         }),
         tabBarOptions: {
-            activeTintColor: '#2cb42c',
+            activeTintColor: '#06AA5B',
             inactiveTintColor: 'gray',
         },
         swipeEnabled: true,

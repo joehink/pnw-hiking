@@ -54,13 +54,13 @@ class SignUp extends React.Component {
     }
     render() {
         return (
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
                 <TouchableOpacity style={{zIndex: 1000, position: 'absolute', top: 50, left: 15}} onPress={() => this.props.navigation.navigate('MainApp')}>
                     <Icon type='feather' name='x' size={30}/>
                 </TouchableOpacity>
                 <Text style={{ fontFamily: 'Righteous', fontSize: 70, marginBottom: 20, marginTop: 100 }}>Go Hike</Text>
                 {
-                    this.props.user  && this.props.user.error &&
+                    !!this.props.user  && !!this.props.user.error &&
                     <FormValidationMessage labelStyle={{textAlign: 'center'}}>{ this.props.user.error }</FormValidationMessage>
                 }
                 { !!this.state.validationError &&
@@ -100,14 +100,14 @@ class SignUp extends React.Component {
                     onPress={() => this.signUp()}
                     title="Sign Up"
                     rounded
-                    backgroundColor="#2cb42c"
+                    backgroundColor="#06AA5B"
                     buttonStyle={{ width: 200 }}
                     loading={this.props.user.authorizing}
                     containerViewStyle={{ margin: 25 }}
                 />
                 <Text style={{textAlign: 'center'}}>
                     Already have an account?
-                    <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("LogIn")}>Log In</Text>
+                    <Text style={{color: 'blue'}} onPress={() => this.props.navigation.navigate("LogIn")}> Log In</Text>
                 </Text>
             </View>
         );

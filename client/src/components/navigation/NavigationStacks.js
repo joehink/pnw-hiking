@@ -1,6 +1,5 @@
 import React from 'react';
 import DiscoverScreen from '../screens/DiscoverScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import DiscoverResults from '../screens/DiscoverResults';
 import TrailScreen from '../screens/TrailScreen';
 import FavoriteTrailsScreen from '../screens/FavoriteTrailsScreen';
@@ -26,7 +25,7 @@ export const DiscoverStack = createStackNavigator({
         navigationOptions: ({navigation}) => ({
             title: 'Discover',
             headerStyle: {
-                backgroundColor: '#2cb42c'
+                backgroundColor: '#06AA5B'
             },
             headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
@@ -41,7 +40,7 @@ export const DiscoverStack = createStackNavigator({
             title: 'Trails',
             headerTintColor: 'white',
             headerStyle: {
-                backgroundColor: '#2cb42c'
+                backgroundColor: '#06AA5B'
             },
             headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
@@ -56,7 +55,7 @@ export const DiscoverStack = createStackNavigator({
             title: `${navigation.state.params.name}`,
             headerTintColor: 'white',
             headerStyle: {
-                backgroundColor: '#2cb42c'
+                backgroundColor: '#06AA5B'
             },
             headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
@@ -69,26 +68,6 @@ export const DiscoverStack = createStackNavigator({
     headerMode: 'screen',
     cardStyle:{ backgroundColor:'#fff'}
 });
-  
-export const ProfileStack = createStackNavigator({
-    Profile: {
-        screen: ProfileScreen,
-        navigationOptions: ({navigation }) => ({
-            title: 'Profile',
-            headerStyle: {
-                backgroundColor: '#2cb42c'
-            },
-            headerRight: ( <HeaderButton navigation={navigation} /> ),
-            headerTitleStyle: {
-                color: '#fff',
-                fontSize: 22
-            }
-        }),
-    },
-}, {
-    headerMode: 'screen',
-    cardStyle:{ backgroundColor:'#fff'}
-});
 
 export const FavoriteStack = createStackNavigator({
     Favorites: {
@@ -96,7 +75,7 @@ export const FavoriteStack = createStackNavigator({
         navigationOptions: ({navigation }) => ({
             title: 'Favorites',
             headerStyle: {
-                backgroundColor: '#2cb42c'
+                backgroundColor: '#06AA5B'
             },
             headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
@@ -111,7 +90,7 @@ export const FavoriteStack = createStackNavigator({
             title: `${navigation.state.params.name}`,
             headerTintColor: 'white',
             headerStyle: {
-                backgroundColor: '#2cb42c'
+                backgroundColor: '#06AA5B'
             },
             headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
@@ -131,7 +110,7 @@ export const CompletedStack = createStackNavigator({
         navigationOptions: ({navigation }) => ({
             title: 'Completed Trails',
             headerStyle: {
-                backgroundColor: '#2cb42c'
+                backgroundColor: '#06AA5B'
             },
             headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
@@ -146,7 +125,7 @@ export const CompletedStack = createStackNavigator({
             title: `${navigation.state.params.name}`,
             headerTintColor: 'white',
             headerStyle: {
-                backgroundColor: '#2cb42c'
+                backgroundColor: '#06AA5B'
             },
             headerRight: ( <HeaderButton navigation={navigation} /> ),
             headerTitleStyle: {
